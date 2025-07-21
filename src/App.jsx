@@ -3,7 +3,7 @@ import Home from "./pages/Home/Home";
 import Message from "./pages/Message/Message";
 import Header from "./features/Header/Header";
 import Layout from "./pages/Layout";
-import Profile from "./pages/Profile";
+import Profile from "./pages/Profile/Profile";
 import ChatAllUsers from "./features/chat/ChatAllUsers/ChatAllUsers";
 import ChatSingleUser from "./features/chat/ChatSingleUser/ChatSingleUser";
 

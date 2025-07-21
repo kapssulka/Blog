@@ -1,10 +1,12 @@
 import cn from "classnames";
 
-export default function AvatarIcon({ className }) {
+export default function AvatarIcon({ className, classNameSize }) {
   return (
     <div
       className={cn(
-        "w-15 h-15 rounded-full relative overflow-hidden",
+        "rounded-full relative overflow-hidden",
+        !classNameSize && "w-15 h-15",
+        classNameSize,
         className
       )}
     >
