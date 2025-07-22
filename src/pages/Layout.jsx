@@ -1,17 +1,18 @@
 import { Outlet } from "react-router-dom";
 import Aside from "../features/Aside/Aside";
+import Header from "../features/Header/Header";
+import MainWrapper from "../components/layout/MainWrapper";
 
 export default function Layout() {
   return (
-    <main
-      className="mx-auto max-w-[1000px] w-full
-            flex flex-1  gap-x-10 
-           pt-10"
-    >
-      <section className="flex-1">
-        <Outlet />
-      </section>
-      <Aside />
-    </main>
+    <>
+      <Header />
+      <MainWrapper>
+        <section className="flex-1">
+          <Outlet />
+        </section>
+        <Aside />
+      </MainWrapper>
+    </>
   );
 }

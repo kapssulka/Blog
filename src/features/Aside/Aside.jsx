@@ -1,12 +1,13 @@
 import ItemList from "../../components/ItemList";
+import { ROUTES } from "../../constants/routes";
 
 export default function Aside() {
   const links = [
-    { text: "Главная", path: "/" },
-    { text: "Мой профиль", path: "/profile" },
-    { text: "Сообщения", path: "/message" },
-    { text: "Сохраненные посты", path: "/bookmarks" },
-    { text: "Понравившиеся посты", path: "/liked" },
+    { text: "Главная", path: ROUTES.HOME },
+    { text: "Мой профиль", path: ROUTES.PROFILE },
+    { text: "Сообщения", path: ROUTES.MESSAGE.INDEX },
+    { text: "Сохраненные посты", path: ROUTES.BOOKMARKS },
+    { text: "Понравившиеся посты", path: ROUTES.LIKED },
   ];
 
   return (
