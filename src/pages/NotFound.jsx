@@ -1,5 +1,5 @@
-import ButtonOrange from "../../components/ButtonOrange";
-import MainWrapper from "../../components/layout/MainWrapper";
+import ButtonOrange from "../components/ButtonOrange";
+import MainWrapper from "../components/layout/MainWrapper";
 
 export default function NotFound() {
   return (

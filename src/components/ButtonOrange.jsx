@@ -6,17 +6,19 @@ export default function ButtonOrange({
   to = "#",
   className = "",
   isLink = false,
+  isButton = false,
+  typeButton = "",
 }) {
   return (
     <>
-      {!isLink && (
+      {!isLink && !isButton && (
         <NavLink
           to={to}
           className={({ isActive }) =>
             cn(
               isActive
-                ? "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-1 border rounded-[10px] border-amber-400 hover:border-amber-400 transition-border durati"
-                : "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-1 border rounded-[10px] border-gray-600 hover:border-amber-400 transition-border durati",
+                ? "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-1 border rounded-[10px] border-amber-400 hover:border-amber-400 transition-border duration-300"
+                : "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-1 border rounded-[10px] border-gray-600 hover:border-amber-400 transition-border duration-300",
               className
             )
           }
@@ -29,12 +31,24 @@ export default function ButtonOrange({
         <Link
           to={to}
           className={cn(
-            "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-1 border rounded-[10px] border-gray-600 hover:border-amber-400 transition-border durati",
+            "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-2 border rounded-[10px] border-gray-600 hover:border-amber-400 transition-border duration-300",
             className
           )}
         >
           {text}
         </Link>
+      )}
+
+      {isButton && (
+        <button
+          type={typeButton}
+          className={cn(
+            "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-2 border rounded-[10px] border-gray-600 hover:border-amber-400 transition-border duration-300",
+            className
+          )}
+        >
+          {text}
+        </button>
       )}
     </>
   );
