@@ -1,7 +1,9 @@
 import { useForm } from "react-hook-form";
 import ButtonOrange from "../../components/ButtonOrange";
 import InputForm from "./components/InputForm";
-import { createValidationObj } from "../../utils/createValidationObj";
+
+import { yupResolver } from "@hookform/resolvers/yup";
+import { registerSchema } from "../../utils/validation";
 
 export default function RegisterForm() {
   const {
@@ -9,7 +11,7 @@ export default function RegisterForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({ resolver: yupResolver(registerSchema), mode: "onBlur" });
 
   const onSubmit = (data) => {
     console.log("Форма отправлена");
@@ -27,7 +29,6 @@ export default function RegisterForm() {
     >
       <div className="flex flex-col gap-y-10">
         <InputForm
-          validationObj={createValidationObj()}
           register={register}
           label="Имя"
           placeholder="Введите ваше имя..."
@@ -36,7 +37,6 @@ export default function RegisterForm() {
         />
 
         <InputForm
-          validationObj={createValidationObj()}
           register={register}
           label="Email"
           placeholder="Введите ваш email..."
@@ -45,7 +45,6 @@ export default function RegisterForm() {
         />
 
         <InputForm
-          validationObj={createValidationObj()}
           register={register}
           label="Пароль"
           placeholder="Придумайте пароль..."

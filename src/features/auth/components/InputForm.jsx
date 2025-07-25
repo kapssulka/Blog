@@ -7,7 +7,6 @@ export default function InputForm({
   placeholder = "",
   id,
   register,
-  validationObj,
   errors,
 }) {
   const inputId = id || name;
@@ -18,7 +17,7 @@ export default function InputForm({
         {label}
       </label>
       <input
-        {...register(name, validationObj)}
+        {...register(name)}
         name={name}
         id={inputId}
         type={type}
