@@ -13,9 +13,9 @@ const emailField = yup
 
 const passwordField = yup
   .string()
-  .required("Пароль обязателен")
-  .min(6, "Минимум 6 символов")
-  .max(50, "Максимум 50 символов");
+  .required("Пароль обязателен!")
+  .min(6, "Минимум 6 символов!")
+  .max(50, "Максимум 50 символов!");
 
 const createSchema = (includeName = true) => {
   const shape = {

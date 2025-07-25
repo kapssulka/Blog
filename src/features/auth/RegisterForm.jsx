@@ -4,6 +4,7 @@ import InputForm from "./components/InputForm";
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { registerSchema } from "../../utils/validation";
+import AuthRedirectMessage from "./components/AuthRedirectMessage";
 
 export default function RegisterForm() {
   const {
@@ -57,6 +58,13 @@ export default function RegisterForm() {
         isButton
         text="Зарегестрироваться"
         className="max-w-[500px] w-full self-center mt-12"
+      />
+
+      <AuthRedirectMessage
+        message="Уже есть аккаунт? Самое время"
+        textLink="войти!"
+        to="/login"
+        className="mt-10"
       />
     </form>
   );
