@@ -2,8 +2,8 @@ import * as yup from "yup";
 
 const nameField = yup
   .string()
-  .required("Имя обязательно!")
-  .min(2, "Минимум 2 символа!")
+  // .required("Имя обязательно!")
+  // .min(2, "Минимум 2 символа!")
   .max(50, "Максимум 50 символов!");
 
 const emailField = yup

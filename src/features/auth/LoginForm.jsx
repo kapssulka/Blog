@@ -5,6 +5,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../utils/validation";
 import AuthRedirectMessage from "./components/AuthRedirectMessage";
 
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../firebase/firebase";
+
 export default function LoginForm() {
   const {
     register,
@@ -13,9 +16,23 @@ export default function LoginForm() {
     formState: { errors },
   } = useForm({ resolver: yupResolver(loginSchema), mode: "onBlur" });
 
-  const onSubmit = (data) => {
-    console.log("Форма отправлена");
-    reset();
+  const onSubmit = async (data) => {
+    const email = data?.email;
+    const password = data?.password;
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      console.log("Вход выполнен успешно!");
+
+      reset();
+    } catch (error) {
+      console.error("Ошибка входа:", error.code, error.message);
+    }
   };
 
   return (
