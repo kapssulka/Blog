@@ -8,6 +8,7 @@ import AuthRedirectMessage from "./components/AuthRedirectMessage";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
+import { toast } from "sonner";
 
 export default function RegisterForm() {
   const {
@@ -28,10 +29,17 @@ export default function RegisterForm() {
         password
       );
 
-      console.log("Регистрация прошла успешно!");
+      setTimeout(() => {
+        toast.success("Регистрация прошла успешно!");
+      }, 600);
+
       reset();
     } catch (error) {
-      console.error("Ошибка регистрации:", error.code, error.message);
+      if (error.code === "auth/email-already-in-use") {
+        toast.error("Пользователь с таким email уже зарегистрирован");
+      } else {
+        toast.error("Ошибка регистрации: " + error.message);
+      }
     }
   };
 

@@ -7,6 +7,7 @@ import AuthRedirectMessage from "./components/AuthRedirectMessage";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
+import { toast } from "sonner";
 
 export default function LoginForm() {
   const {
@@ -26,12 +27,14 @@ export default function LoginForm() {
         email,
         password
       );
-
-      console.log("Вход выполнен успешно!");
+      setTimeout(() => {
+        toast.success("Добро пожайловать!");
+      }, 600);
 
       reset();
     } catch (error) {
-      console.error("Ошибка входа:", error.code, error.message);
+      toast.error("Неправильный логин или парль!");
+      reset();
     }
   };
 

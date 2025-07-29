@@ -12,10 +12,20 @@ import NotFound from "./pages/NotFound";
 import { ROUTES } from "./constants/routes";
 import PrivateRoute from "./components/routes/PrivateRoute";
 import PublicRoute from "./components/routes/PublicRoute";
+import { Toaster } from "sonner";
 
 export default function App() {
   return (
     <div className="flex flex-col min-h-screen  bg-zinc-950 text-zinc-100">
+      <Toaster
+        richColors
+        position="top-center"
+        toastOptions={{
+          style: {
+            fontSize: "12px",
+          },
+        }}
+      />
       <Routes>
         <Route
           path={ROUTES.HOME}
