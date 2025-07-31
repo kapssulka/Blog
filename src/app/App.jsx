@@ -1,17 +1,17 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Message from "./pages/Message/Message";
-import Layout from "./pages/Layout";
-import Profile from "./pages/Profile/Profile";
-import ChatAllUsers from "./features/chat/ChatAllUsers/ChatAllUsers";
-import ChatSingleUser from "./features/chat/ChatSingleUser/ChatSingleUser";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import NotFound from "./pages/NotFound";
+import Home from "../pages/Home";
+import Message from "../pages/Message/Message";
+import Layout from "../pages/Layout";
+import Profile from "../pages/Profile/Profile";
+import ChatAllUsers from "../features/chat/ChatAllUsers/ChatAllUsers";
+import ChatSingleUser from "../features/chat/ChatSingleUser/ChatSingleUser";
+import Register from "../pages/Register";
+import Login from "../pages/Login";
+import NotFound from "../pages/NotFound";
 
-import { ROUTES } from "./constants/routes";
-import PrivateRoute from "./components/routes/PrivateRoute";
-import PublicRoute from "./components/routes/PublicRoute";
+import { ROUTES } from "../constants/routes";
+import PrivateRoute from "../components/routes/PrivateRoute";
+import PublicRoute from "../components/routes/PublicRoute";
 import { Toaster } from "sonner";
 
 export default function App() {

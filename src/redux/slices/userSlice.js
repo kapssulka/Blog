@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { baseUrl, fetchHeaders } from "./../../supabase/supabase";
-import { data } from "react-router-dom";
 
 // GET
-export const fetchGetData = createAsyncThunk(
-  "users/fetchGetData",
-  async (_, { rejectWithValue }) => {
+export const fetchGetDataUser = createAsyncThunk(
+  "user/fetchGetDataUser",
+  async (uid, { rejectWithValue }) => {
     try {
-      const url = `${baseUrl}/users?select=*`;
+      const url = `${baseUrl}/users?userUid=eq.${uid}&select=*`;
       const response = await fetch(url, {
         headers: fetchHeaders,
       });
@@ -23,7 +22,7 @@ export const fetchGetData = createAsyncThunk(
 
 // POST
 export const fetchPostDataUsers = createAsyncThunk(
-  "users/fetchPostDataUsers",
+  "user/fetchPostDataUsers",
   async (arg, { rejectWithValue }) => {
     try {
       const response = await fetch(`${baseUrl}/users`, {
@@ -36,7 +35,6 @@ export const fetchPostDataUsers = createAsyncThunk(
       if (!response.ok) throw new Error("Ошибка c добавлением");
 
       return await response.json();
-      //   return data
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -44,22 +42,26 @@ export const fetchPostDataUsers = createAsyncThunk(
 );
 
 export const userSlice = createSlice({
-  name: "users",
+  name: "user",
   initialState: {
-    test: "Всё супер!",
+    userUid: "",
+    name: "",
+    bio: "",
+    created_at: "",
   },
   reducers: {},
   extraReducers: (buider) => {
     buider
-      .addCase(fetchGetData.pending, (state, action) => {})
-      .addCase(fetchGetData.fulfilled, (state, action) => {
-        console.log("Супер");
-        console.log(action.payload);
-      })
-      .addCase(fetchGetData.rejected, (state, action) => {
-        console.log("Ошибка");
+      .addCase(fetchGetDataUser.fulfilled, (state, action) => {
+        const { userUid, name, bio, created_at } = action.payload[0];
 
-        console.log(action.payload);
+        state.userUid = userUid;
+        state.name = name;
+        state.bio = bio;
+        state.created_at = created_at;
+      })
+      .addCase(fetchGetDataUser.rejected, (state, action) => {
+        console.log("ОШИБКА: ", action.payload);
       })
       .addCase(fetchPostDataUsers.pending, (state, action) => {})
       .addCase(fetchPostDataUsers.fulfilled, (state, action) => {
@@ -71,5 +73,5 @@ export const userSlice = createSlice({
       });
   },
 });
-
+export const { setUserUid } = userSlice.actions;
 export default userSlice.reducer;
