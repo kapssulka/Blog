@@ -8,11 +8,13 @@ export default function ButtonOrange({
   isLink = false,
   isButton = false,
   typeButton = "",
+  ...props
 }) {
   return (
     <>
       {!isLink && !isButton && (
         <NavLink
+          {...props}
           to={to}
           className={({ isActive }) =>
             cn(
@@ -29,6 +31,7 @@ export default function ButtonOrange({
 
       {isLink && (
         <Link
+          {...props}
           to={to}
           className={cn(
             "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-2 border rounded-[10px] border-gray-600 hover:border-amber-400 transition-border duration-300",
@@ -41,6 +44,7 @@ export default function ButtonOrange({
 
       {isButton && (
         <button
+          {...props}
           type={typeButton}
           className={cn(
             "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-2 border rounded-[10px] border-gray-600 hover:border-amber-400 transition-border duration-300",

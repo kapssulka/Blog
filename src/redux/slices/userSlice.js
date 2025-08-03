@@ -30,11 +30,36 @@ export const fetchPostDataUsers = createAsyncThunk(
         headers: fetchHeaders,
         body: JSON.stringify(arg),
       });
-      console.log("Код ответа: ", response);
 
       if (!response.ok) throw new Error("Ошибка c добавлением");
 
       return await response.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// PATCH
+
+export const fetchPatchDataUser = createAsyncThunk(
+  "user/fetchPatchDataUser",
+  async (obj, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `${baseUrl}/users?userUid=eq.${obj.userUid}`,
+        {
+          method: "PATCH",
+          headers: fetchHeaders,
+          body: JSON.stringify(obj.data),
+        }
+      );
+
+      if (!response.ok) throw new Error("Ошибка с обновлением данных!");
+
+      const data = await response.json();
+
+      return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -57,18 +82,22 @@ export const userSlice = createSlice({
 
         state.userUid = userUid;
         state.name = name;
-        state.bio = bio;
+        bio ? (state.bio = bio) : (state.bio = "");
         state.created_at = created_at;
       })
       .addCase(fetchGetDataUser.rejected, (state, action) => {
         console.log("ОШИБКА: ", action.payload);
       })
-      .addCase(fetchPostDataUsers.pending, (state, action) => {})
-      .addCase(fetchPostDataUsers.fulfilled, (state, action) => {
-        console.log("Имя добавлено");
+      .addCase(fetchPostDataUsers.fulfilled, (state, action) => {})
+      .addCase(fetchPostDataUsers.rejected, (state, action) => {
         console.log(action.payload);
       })
-      .addCase(fetchPostDataUsers.rejected, (state, action) => {
+      .addCase(fetchPatchDataUser.fulfilled, (state, action) => {
+        const { name, bio } = action.payload[0];
+        state.name = name;
+        state.bio = bio;
+      })
+      .addCase(fetchPatchDataUser.rejected, (state, action) => {
         console.log(action.payload);
       });
   },
