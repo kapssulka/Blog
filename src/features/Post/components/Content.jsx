@@ -1,32 +1,62 @@
-import cn from "classnames";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation, Pagination } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import { useRef } from "react";
 
-export default function Content({ className }) {
+export default function Content({
+  className = "",
+  srcList,
+  description = "Описание",
+}) {
+  const prevRef = useRef(null);
+  const nextRef = useRef(null);
   return (
-    <div>
-      <p className={cn(" border-black/40 rounded-sm p-3", className)}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius distinctio
-        pariatur, harum tempore soluta placeat necessitatibus quidem temporibus
-        quos beatae autem doloremque, accusantium itaque sapiente, et asperiores
-        omnis magni quo expedita! Maxime ratione delectus eum commodi quisquam,
-        sed saepe reprehenderit beatae nulla, modi quam veniam omnis possimus
-        optio iure earum distinctio officiis molestiae, ullam fugiat quaerat
-        repudiandae. Sunt minima ipsum totam temporibus cum impedit esse nulla
-        nam velit dolorem iure, perferendis nostrum. Necessitatibus voluptates
-        eos facere nesciunt nobis fugiat tenetur, unde natus sint dicta,
-        asperiores laudantium fugit quia quibusdam recusandae animi id.
-        Necessitatibus deserunt harum expedita dolorem! Nemo non cumque iusto
-        odio voluptatem est, labore deserunt inventore rem quam aspernatur
-        doloribus sapiente! Voluptate consectetur earum illum sequi doloribus
-        voluptatum ea, nesciunt aut beatae voluptatem perferendis, a id.
-        Voluptatum architecto minima iusto? Optio, ex soluta. Explicabo nesciunt
-        suscipit, voluptatem doloribus itaque sed numquam quibusdam eius alias
-        distinctio, libero non at dolorem sit rem nulla, corrupti tenetur
-        corporis dolores? Deleniti minus, asperiores, repudiandae eligendi error
-        numquam tempora ut nisi quo labore maxime sit cupiditate similique sunt
-        eaque deserunt optio temporibus ea provident veniam possimus earum
-        maiores officia. Alias laborum modi aperiam tempore! Explicabo quisquam
-        totam saepe consectetur, ab sed ipsam iusto doloremque.
-      </p>
+    <div className={`overflow-hidden ${className}  max-w-[630px]`}>
+      <Swiper
+        modules={[Pagination, Navigation]}
+        spaceBetween={10}
+        slidesPerView={1}
+        pagination={{ clickable: true }}
+        navigation={{
+          prevEl: prevRef.current,
+          nextEl: nextRef.current,
+        }}
+        onBeforeInit={(swiper) => {
+          swiper.params.navigation.prevEl = prevRef.current;
+          swiper.params.navigation.nextEl = nextRef.current;
+        }}
+        className=" aspect-[4/3] max-w"
+      >
+        {srcList.map((item) => (
+          <SwiperSlide key={item}>
+            <img
+              src={item}
+              alt={description}
+              className="w-full h-full max-w-full object-cover rounded-2xl"
+            />
+          </SwiperSlide>
+        ))}
+
+        {/* Кнопки навигации */}
+        <button
+          ref={prevRef}
+          className="cursor-pointer absolute top-1/2 left-2 -translate-y-1/2 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-black/70"
+        >
+          ‹
+        </button>
+        <button
+          ref={nextRef}
+          className="cursor-pointer absolute top-1/2 right-2 -translate-y-1/2 z-10 p-2 bg-black/50 text-white rounded-full hover:bg-black/70"
+        >
+          ›
+        </button>
+      </Swiper>
+
+      <div className="p-4">
+        <p className="text-base">{description}</p>
+      </div>
     </div>
   );
 }
