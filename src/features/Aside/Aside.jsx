@@ -3,6 +3,7 @@ import { ROUTES } from "../../constants/routes";
 
 export default function Aside() {
   const links = [
+    { text: "Добавить пост", path: ROUTES.NEW_POST },
     { text: "Главная", path: ROUTES.HOME },
     { text: "Мой профиль", path: ROUTES.PROFILE },
     { text: "Сообщения", path: ROUTES.MESSAGE.INDEX },

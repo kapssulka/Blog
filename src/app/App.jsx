@@ -13,6 +13,7 @@ import { ROUTES } from "../constants/routes";
 import PrivateRoute from "../components/routes/PrivateRoute";
 import PublicRoute from "../components/routes/PublicRoute";
 import { Toaster } from "sonner";
+import NewPost from "../pages/NewPost/NewPost";
 
 export default function App() {
   return (
@@ -42,6 +43,7 @@ export default function App() {
             <Route path=":id" element={<ChatSingleUser />} />
           </Route>
           <Route path={ROUTES.PROFILE} element={<Profile />} />
+          <Route path={ROUTES.NEW_POST} element={<NewPost />} />
         </Route>
 
         <Route

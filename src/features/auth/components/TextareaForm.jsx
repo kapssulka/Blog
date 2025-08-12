@@ -1,3 +1,4 @@
+import cn from "classnames";
 import FieldError from "./FieldError";
 
 export default function TextareaForm({
@@ -7,11 +8,12 @@ export default function TextareaForm({
   id,
   register,
   errors,
+  className,
 }) {
   const textareaId = id || name;
 
   return (
-    <div className="flex flex-col relative">
+    <div className={cn("flex flex-col", className)}>
       <label htmlFor={textareaId} className="text-2xl mb-2">
         {label}
       </label>
@@ -24,10 +26,7 @@ export default function TextareaForm({
       />
 
       {errors && (
-        <FieldError
-          message={errors?.message}
-          className="absolute left-0 top-[108%]"
-        />
+        <FieldError message={errors?.message} className="mt-5 self-start" />
       )}
     </div>
   );
