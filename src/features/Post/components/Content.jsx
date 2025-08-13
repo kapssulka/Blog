@@ -13,7 +13,7 @@ export default function Content({
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   return (
-    <div className={`overflow-hidden ${className}  max-w-[630px]`}>
+    <div className={`overflow-hidden ${className} max-w-[630px]`}>
       <Swiper
         modules={[Pagination, Navigation]}
         spaceBetween={10}
