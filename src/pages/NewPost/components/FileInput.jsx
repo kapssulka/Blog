@@ -16,8 +16,6 @@ export default function FileInput({ control, name, errors }) {
   }, []);
 
   const onDrop = (acceptedFiles) => {
-    console.log(errors);
-
     if (acceptedFiles.length > 0) {
       const newFiles = acceptedFiles.map((file) =>
         Object.assign(file, { preview: URL.createObjectURL(file) })

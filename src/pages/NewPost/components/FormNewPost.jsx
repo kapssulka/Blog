@@ -6,8 +6,15 @@ import FileInput from "./FileInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import * as yup from "yup";
+import { uploadToSupabaseStorage } from "../../../supabase/services/storageService";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost, uploadImages } from "../../../redux/slices/postsSlice";
+import { toast } from "sonner";
 
 export default function FormNewPost() {
+  const dispatch = useDispatch();
+  const { userUid } = useSelector((state) => state.user);
+
   const schema = yup.object().shape({
     file: yup
       .array()
@@ -22,12 +29,41 @@ export default function FormNewPost() {
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors },
   } = useForm({ resolver: yupResolver(schema), mode: "onBlur" });
 
-  const onSubmit = (data) => {
-    console.log(data);
-    console.log(errors);
+  const onSubmit = async (data) => {
+    try {
+      const text = data.description;
+      const files = data.file;
+
+      const urls = await uploadToSupabaseStorage(files);
+
+      const createPostResult = await dispatch(
+        createPost({ user_uid: userUid, text })
+      ).unwrap();
+
+      const postId = createPostResult[0].id;
+
+      for (let i = 0; i < urls.length; i++) {
+        const imageRow = {
+          post_id: postId,
+          image_url: urls[i],
+          position: i,
+          is_main: i === 0,
+        };
+
+        await dispatch(uploadImages(imageRow)).unwrap();
+      }
+
+      toast.success("Пост успешно добавлен!");
+    } catch (error) {
+      toast.error("Ошибка при создании поста:", error);
+
+      console.error("Ошибка при создании поста:", error);
+    }
+    reset();
   };
 
   return (
@@ -50,7 +86,7 @@ export default function FormNewPost() {
         <ButtonOrange
           isButton
           typeButton="submit"
-          text="Добавть пост"
+          text="Добавить пост"
           className="max-w-[400px] w-full self-center"
         />
       </form>
