@@ -2,12 +2,12 @@ import ProfilePreview from "../../components/Avatar/ProfilePreview";
 import ActivePanel from "./components/ActivePanel";
 import Content from "./components/Content";
 
-export default function Post({ src, description }) {
+export default function Post({ images = [], description }) {
   return (
     <div className="rounded-2xl p-5 bg-zinc-900 max-w-full">
       <ProfilePreview className="mb-5" />
 
-      <Content className="mb-5" srcList={src} description={description} />
+      <Content className="mb-5" images={images} description={description} />
 
       <ActivePanel />
     </div>

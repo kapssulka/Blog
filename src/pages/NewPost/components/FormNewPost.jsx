@@ -49,7 +49,7 @@ export default function FormNewPost() {
       for (let i = 0; i < urls.length; i++) {
         const imageRow = {
           post_id: postId,
-          image_url: urls[i],
+          url: urls[i],
           position: i,
           is_main: i === 0,
         };

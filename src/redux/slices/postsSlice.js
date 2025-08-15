@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { baseUrl, fetchHeaders } from "../../supabase/supabase";
 
+//  POST
 export const uploadImages = createAsyncThunk(
   "posts/uploadImages",
   async (files, { rejectWithValue }) => {
@@ -10,9 +11,6 @@ export const uploadImages = createAsyncThunk(
         headers: fetchHeaders,
         body: JSON.stringify(files),
       });
-      console.log("a");
-
-      console.log(response.statusText);
 
       if (!response.ok) {
         const text = await response.text();
@@ -30,8 +28,6 @@ export const createPost = createAsyncThunk(
   "posts/createPost",
   async (post, { rejectWithValue }) => {
     try {
-      console.log(`${baseUrl}/posts`);
-
       const response = await fetch(`${baseUrl}/posts`, {
         method: "POST",
         headers: fetchHeaders,
@@ -50,25 +46,56 @@ export const createPost = createAsyncThunk(
   }
 );
 
+// GET
+
+export const getPosts = createAsyncThunk(
+  "posts/getPosts",
+  async (uid = null, { rejectWithValue }) => {
+    try {
+      const urlPostDetails = uid
+        ? `${baseUrl}/posts?user_uid=eq.${uid}&select=*`
+        : `${baseUrl}/posts?select=*`;
+
+      const urlPostImages = `${baseUrl}/post_images?select=*`;
+
+      const [postsRes, imagesRes] = await Promise.all([
+        fetch(urlPostDetails, { headers: fetchHeaders }),
+        fetch(urlPostImages, { headers: fetchHeaders }),
+      ]);
+
+      if (!postsRes.ok) throw new Error("Failed to fetch posts");
+      if (!imagesRes.ok) throw new Error("Failed to fetch images");
+
+      const posts = await postsRes.json();
+      const images = await imagesRes.json();
+
+      const postsWithImages = posts.map((post) => ({
+        ...post,
+        images: images.filter((img) => img.post_id === post.id),
+      }));
+
+      return postsWithImages;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const postsSlice = createSlice({
   name: "posts",
-  initialState: {},
+  initialState: {
+    posts: [],
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(createPost.pending, () => {
-        console.log("pending");
+      .addCase(getPosts.fulfilled, (state, action) => {
+        state.posts = action.payload;
       })
-      .addCase(createPost.fulfilled, (action, payload) => {
-        console.log(payload);
+      .addCase(getPosts.rejected, (state, action) => {
+        console.log("Неудача: ", action);
       })
       .addCase(createPost.rejected, (state, action) => {
         console.log("Неудача: ", action);
-      })
-      .addCase(uploadImages.pending, () => {
-        console.log("pending");
-      })
-      .addCase(uploadImages.fulfilled, () => {
-        console.log("fulfilled");
       })
       .addCase(uploadImages.rejected, (state, action) => {
         console.log("Неудача: ", action);

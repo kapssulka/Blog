@@ -7,7 +7,7 @@ import { useRef } from "react";
 
 export default function Content({
   className = "",
-  srcList,
+  images = [],
   description = "Описание",
 }) {
   const prevRef = useRef(null);
@@ -29,11 +29,11 @@ export default function Content({
         }}
         className=" aspect-[4/3] max-w"
       >
-        {srcList.map((item) => (
-          <SwiperSlide key={item}>
+        {images.map((image) => (
+          <SwiperSlide key={image.id}>
             <img
-              src={item}
-              alt={description}
+              src={image.url}
+              alt={image.text}
               className="w-full h-full max-w-full object-cover rounded-2xl"
             />
           </SwiperSlide>
@@ -55,7 +55,7 @@ export default function Content({
       </Swiper>
 
       <div className="p-4">
-        <p className="text-base">{description}</p>
+        <p className="text-base whitespace-pre-wrap">{description}</p>
       </div>
     </div>
   );

@@ -15,11 +15,13 @@ export const uploadToSupabaseStorage = async (files) => {
 
     if (error) throw error;
 
-    const { data: publicUrlData } = supabase.storage
-      .from("posts")
-      .getPublicUrl(path);
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("posts").getPublicUrl(path);
 
-    urls.push(publicUrlData);
+    urls.push(publicUrl);
+
+    // console.log(publicUrlData);
   }
 
   return urls;

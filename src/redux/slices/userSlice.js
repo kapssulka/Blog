@@ -6,7 +6,7 @@ export const fetchGetDataUser = createAsyncThunk(
   "user/fetchGetDataUser",
   async (uid, { rejectWithValue }) => {
     try {
-      const url = `${baseUrl}/users?userUid=eq.${uid}&select=*`;
+      const url = `${baseUrl}/users?user_uid=eq.${uid}&select=*`;
       const response = await fetch(url, {
         headers: fetchHeaders,
       });
@@ -47,7 +47,7 @@ export const fetchPatchDataUser = createAsyncThunk(
   async (obj, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `${baseUrl}/users?userUid=eq.${obj.userUid}`,
+        `${baseUrl}/users?user_uid=eq.${obj.userUid}`,
         {
           method: "PATCH",
           headers: fetchHeaders,
@@ -78,9 +78,9 @@ export const userSlice = createSlice({
   extraReducers: (buider) => {
     buider
       .addCase(fetchGetDataUser.fulfilled, (state, action) => {
-        const { userUid, name, bio, created_at } = action.payload[0];
+        const { user_uid, name, bio, created_at } = action.payload[0];
 
-        state.userUid = userUid;
+        state.userUid = user_uid;
         state.name = name;
         bio ? (state.bio = bio) : (state.bio = "");
         state.created_at = created_at;
