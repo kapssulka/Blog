@@ -3,7 +3,7 @@ import { ROUTES } from "../../../constants/routes";
 
 export default function EmptyPosts() {
   return (
-    <div className="flex flex-col items-center gap-y-6 mt-16">
+    <div className="flex flex-col items-center gap-y-6 mt-5">
       <h2 className="text-2xl font-semibold text-gray-500 text-center">
         Похоже, тут пока нет постов 😔
       </h2>

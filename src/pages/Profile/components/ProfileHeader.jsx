@@ -9,7 +9,7 @@ export default function ProfileHeader() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="px-15">
+    <div className="px-15 ">
       <EditProfile isOpen={isOpen} setIsOpen={setIsOpen} />
 
       <div className="flex items-center justify-between">

@@ -1,16 +1,9 @@
 import { useSelector } from "react-redux";
 import Post from "../features/Post/Post";
+import VerticalPosts from "../components/VerticalPosts";
 
 export default function Home() {
   const posts = useSelector((state) => state.posts.posts);
 
-  return (
-    <div className="flex flex-col gap-10 flex-1">
-      {posts.map((post) => {
-        return (
-          <Post images={post.images} description={post.text} key={post.id} />
-        );
-      })}
-    </div>
-  );
+  return <VerticalPosts posts={posts} />;
 }
