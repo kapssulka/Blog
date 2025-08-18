@@ -74,7 +74,10 @@ export const getPosts = createAsyncThunk(
         images: images.filter((img) => img.post_id === post.id),
       }));
 
-      return postsWithImages;
+      const sortedPosts = postsWithImages.sort(
+        (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)
+      );
+      return sortedPosts;
     } catch (error) {
       return rejectWithValue(error.message);
     }

@@ -1,17 +1,27 @@
+import imageCompression from "browser-image-compression";
 import { supabase } from "../supabase";
 
 export const uploadToSupabaseStorage = async (files) => {
   const urls = [];
 
   for (const file of files) {
-    const ext = (file.name.split(".").pop() || "bin").toLowerCase();
+    const options = {
+      maxSizeMB: 1,
+      useWebWorker: true,
+      fileType: "image/webp",
+    };
 
-    const fileName = `${crypto.randomUUID()}.${ext}`;
+    console.log("Файл: ", file);
+
+    const compressedFile = await imageCompression(file, options);
+
+    const fileName = `${crypto.randomUUID()}.webp`;
+
     const path = `images/${fileName}`;
 
     const { data, error } = await supabase.storage
       .from("posts")
-      .upload(path, file);
+      .upload(path, compressedFile);
 
     if (error) throw error;
 
@@ -20,8 +30,6 @@ export const uploadToSupabaseStorage = async (files) => {
     } = supabase.storage.from("posts").getPublicUrl(path);
 
     urls.push(publicUrl);
-
-    // console.log(publicUrlData);
   }
 
   return urls;
