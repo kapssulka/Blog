@@ -1,17 +1,17 @@
 import imageCompression from "browser-image-compression";
 import { supabase } from "../supabase";
+import { decrement, increment } from "../../redux/slices/loadingSlice";
 
-export const uploadToSupabaseStorage = async (files) => {
+export const uploadToSupabaseStorage = async (files, dispatch) => {
+  dispatch(increment());
+
   const urls = [];
-
   for (const file of files) {
     const options = {
       maxSizeMB: 1,
       useWebWorker: true,
       fileType: "image/webp",
     };
-
-    console.log("Файл: ", file);
 
     const compressedFile = await imageCompression(file, options);
 
@@ -31,6 +31,7 @@ export const uploadToSupabaseStorage = async (files) => {
 
     urls.push(publicUrl);
   }
+  dispatch(decrement());
 
   return urls;
 };

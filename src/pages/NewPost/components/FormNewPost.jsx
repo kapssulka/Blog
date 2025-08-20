@@ -38,7 +38,7 @@ export default function FormNewPost() {
       const text = data.description;
       const files = data.file;
 
-      const urls = await uploadToSupabaseStorage(files);
+      const urls = await uploadToSupabaseStorage(files, dispatch);
       const createPostResult = await dispatch(
         createPost({ user_uid: userUid, text })
       ).unwrap();

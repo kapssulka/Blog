@@ -14,8 +14,12 @@ import PrivateRoute from "../components/routes/PrivateRoute";
 import PublicRoute from "../components/routes/PublicRoute";
 import { Toaster } from "sonner";
 import NewPost from "../pages/NewPost/NewPost";
+import { useSelector } from "react-redux";
+import Loader from "../components/Loader";
 
 export default function App() {
+  const { loadingCount } = useSelector((state) => state.loading);
+
   return (
     <div className="flex flex-col min-h-screen  bg-zinc-950 text-zinc-100">
       <Toaster
@@ -27,6 +31,8 @@ export default function App() {
           },
         }}
       />
+      {loadingCount > 0 && <Loader />}
+
       <Routes>
         <Route
           path={ROUTES.HOME}
