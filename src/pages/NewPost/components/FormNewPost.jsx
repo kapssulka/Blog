@@ -10,8 +10,10 @@ import { uploadToSupabaseStorage } from "../../../supabase/services/storageServi
 import { useDispatch, useSelector } from "react-redux";
 import { createPost, uploadImages } from "../../../redux/slices/postsSlice";
 import { toast } from "sonner";
+import { useState } from "react";
 
 export default function FormNewPost() {
+  const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
   const { userUid } = useSelector((state) => state.user);
 
@@ -63,6 +65,7 @@ export default function FormNewPost() {
       console.error("Ошибка при создании поста:", error);
     }
     reset();
+    setFiles([]);
   };
 
   return (
@@ -81,7 +84,13 @@ export default function FormNewPost() {
           name={"description"}
           errors={errors.description}
         />
-        <FileInput control={control} name="file" errors={errors.file} />
+        <FileInput
+          control={control}
+          name="file"
+          errors={errors.file}
+          files={files}
+          setFiles={setFiles}
+        />
         <ButtonOrange
           isButton
           typeButton="submit"

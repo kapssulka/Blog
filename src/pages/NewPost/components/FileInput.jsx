@@ -1,12 +1,10 @@
 import cn from "classnames";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useController } from "react-hook-form";
 import FieldError from "../../../features/auth/components/FieldError";
 
-export default function FileInput({ control, name, errors }) {
-  const [files, setFiles] = useState([]);
-
+export default function FileInput({ control, name, errors, files, setFiles }) {
   const {
     field: { onChange },
   } = useController({ name, control });
@@ -66,25 +64,22 @@ export default function FileInput({ control, name, errors }) {
       {files.length > 0 && (
         <div className="flex flex-wrap justify-center mt-5">
           <div className="grid grid-cols-4 gap-3 ">
-            {files.map((file, index) => {
-              const id = crypto.randomUUID();
-              return (
-                <div
-                  key={id}
-                  className="relative group cursor-pointer"
-                  onClick={() => handleRemoveImage(index)}
-                >
-                  <img
-                    src={file.preview}
-                    alt={`preview-${index}`}
-                    className="w-32 h-32 object-cover rounded-lg shadow-md transition-transform duration-200 group-hover:scale-105"
-                  />
-                  <div className="absolute top-0 right-0 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded-bl-lg opacity-0 group-hover:opacity-100 transition">
-                    Удалить
-                  </div>
+            {files.map((file, index) => (
+              <div
+                key={file.preview}
+                className="relative group cursor-pointer"
+                onClick={() => handleRemoveImage(index)}
+              >
+                <img
+                  src={file.preview}
+                  alt={`preview-${index}`}
+                  className="w-32 h-32 object-cover rounded-lg shadow-md transition-transform duration-200 group-hover:scale-105"
+                />
+                <div className="absolute top-0 right-0 bg-black bg-opacity-50 text-white text-xs px-2 py-1 rounded-bl-lg opacity-0 group-hover:opacity-100 transition">
+                  Удалить
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       )}
