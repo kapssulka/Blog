@@ -53,8 +53,8 @@ export const getPosts = createAsyncThunk(
   async (uid = null, { rejectWithValue }) => {
     try {
       const urlPostDetails = uid
-        ? `${baseUrl}/posts?user_uid=eq.${uid}&select=*`
-        : `${baseUrl}/posts?select=*`;
+        ? `${baseUrl}/posts?user_uid=eq.${uid}&select=*,users(*)`
+        : `${baseUrl}/posts?select=*,users(*)`;
 
       const urlPostImages = `${baseUrl}/post_images?select=*`;
 

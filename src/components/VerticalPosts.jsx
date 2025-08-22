@@ -1,11 +1,21 @@
 import Post from "../features/Post/Post";
+import { formatDate } from "../utils/date";
 
 export default function VerticalPosts({ posts }) {
   return (
     <div className="flex flex-col gap-10 flex-1">
       {posts.map((post) => {
+        const date = formatDate(post.created_at);
+
         return (
-          <Post images={post.images} description={post.text} key={post.id} />
+          <Post
+            images={post.images}
+            description={post.text}
+            key={post.id}
+            avtor={post.users.name}
+            userUid={post.users.user_uid}
+            create_at={date}
+          />
         );
       })}
     </div>
