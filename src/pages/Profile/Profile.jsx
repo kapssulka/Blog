@@ -20,7 +20,7 @@ export default function Profile() {
     <div className="flex flex-col gap-y-5  h-full  ">
       <div className="bg-zinc-900 px-5 py-10  rounded-2xl">
         <ProfileHeader />
-        {postCurrentUser.length > 1 && (
+        {postCurrentUser.length > 0 && (
           <ViewSwitcher
             activeView={activeBlock}
             onChange={onChangeActiveBlock}
@@ -28,10 +28,10 @@ export default function Profile() {
         )}
       </div>
 
-      {postCurrentUser.length > 1 && activeBlock === "grid" && (
+      {postCurrentUser.length > 0 && activeBlock === "grid" && (
         <GridPosts posts={postCurrentUser} userUid={userUid} />
       )}
-      {postCurrentUser.length > 1 && activeBlock === "list" && (
+      {postCurrentUser.length > 0 && activeBlock === "list" && (
         <VerticalPosts posts={postCurrentUser} />
       )}
 

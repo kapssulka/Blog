@@ -28,7 +28,7 @@ export const createPost = createAsyncThunk(
   "posts/createPost",
   async (post, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${baseUrl}/posts`, {
+      const response = await fetch(`${baseUrl}/posts?select=*,users(*)`, {
         method: "POST",
         headers: fetchHeaders,
         body: JSON.stringify(post),
@@ -88,6 +88,20 @@ export const postsSlice = createSlice({
   name: "posts",
   initialState: {
     posts: [],
+    lastAddedImages: [],
+    lastAddedPost: null,
+  },
+  reducers: {
+    addLastPost: (state) => {
+      const postsWithImages = {
+        ...state.lastAddedPost,
+        images: state.lastAddedImages,
+      };
+
+      state.posts.unshift(postsWithImages);
+      state.lastAddedImages = [];
+      state.lastAddedPost = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -97,13 +111,21 @@ export const postsSlice = createSlice({
       .addCase(getPosts.rejected, (state, action) => {
         console.log("Неудача: ", action);
       })
+      .addCase(createPost.fulfilled, (state, action) => {
+        // добавляем пост во временный ключ
+        state.lastAddedPost = action.payload[0];
+      })
       .addCase(createPost.rejected, (state, action) => {
         console.log("Неудача: ", action);
+      })
+      .addCase(uploadImages.fulfilled, (state, action) => {
+        // добавляем картинки во временный ключ
+        state.lastAddedImages.push(action.payload[0]);
       })
       .addCase(uploadImages.rejected, (state, action) => {
         console.log("Неудача: ", action);
       });
   },
 });
-
+export const { addLastPost } = postsSlice.actions;
 export default postsSlice.reducer;

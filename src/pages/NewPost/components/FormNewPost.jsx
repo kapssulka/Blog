@@ -8,7 +8,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { uploadToSupabaseStorage } from "../../../supabase/services/storageService";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost, uploadImages } from "../../../redux/slices/postsSlice";
+import {
+  addLastPost,
+  createPost,
+  uploadImages,
+} from "../../../redux/slices/postsSlice";
 import { toast } from "sonner";
 import { useState } from "react";
 
@@ -57,6 +61,7 @@ export default function FormNewPost() {
 
         await dispatch(uploadImages(imageRow)).unwrap();
       }
+      dispatch(addLastPost());
 
       toast.success("Пост успешно добавлен!");
     } catch (error) {
