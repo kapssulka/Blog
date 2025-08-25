@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { userSlice } from "./slices/userSlice";
+import { currentUserSlice } from "./slices/currentUserSlice";
 import { postsSlice } from "./slices/postsSlice";
 import { loadingSlice } from "./slices/loadingSlice";
-import userReducer from "./slices/userSlice";
-import postsReduser from "./slices/postsSlice";
-import loadingReduser from "./slices/loadingSlice";
+import userReducer from "./slices/currentUserSlice";
+import postsReducer from "./slices/postsSlice";
+import loadingReducer from "./slices/loadingSlice";
 
 const loadingMiddleware = (store) => (next) => (action) => {
   if (action.type.endsWith("/pending")) {
@@ -20,9 +20,9 @@ const loadingMiddleware = (store) => (next) => (action) => {
 
 export default configureStore({
   reducer: {
-    [userSlice.name]: userReducer,
-    [postsSlice.name]: postsReduser,
-    [loadingSlice.name]: loadingReduser,
+    [currentUserSlice.name]: userReducer,
+    [postsSlice.name]: postsReducer,
+    [loadingSlice.name]: loadingReducer,
   },
   middleware: (defaultMiddleware) =>
     defaultMiddleware().concat(loadingMiddleware),

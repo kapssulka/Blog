@@ -7,7 +7,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase/firebase";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
-import { fetchPostDataUsers } from "../../../redux/slices/userSlice";
+import { fetchPostDataUsers } from "../../../redux/slices/currentUserSlice";
 
 export const useRegisterForm = () => {
   const dispatch = useDispatch();
@@ -31,7 +31,7 @@ export const useRegisterForm = () => {
 
       const userUid = userCredential.user.uid;
 
-      dispatch(fetchPostDataUsers({ name, user_uid: userUid })).unwrap();
+      await dispatch(fetchPostDataUsers({ name, user_uid: userUid })).unwrap();
 
       setTimeout(() => {
         toast.success(`${name}, регистрация прошла успешно!`);

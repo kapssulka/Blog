@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
-import { fetchPatchDataUser } from "../../../../redux/slices/userSlice";
+import { fetchPatchDataUser } from "../../../../redux/slices/currentUserSlice";
 import { toast } from "sonner";
 
 export const useEditProfile = (isOpen, setIsOpen) => {

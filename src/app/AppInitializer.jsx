@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useAuthUser } from "../hooks/useAuthUser";
 import App from "./App";
-import { fetchGetDataUser } from "../redux/slices/userSlice";
+import { fetchGetDataUser } from "../redux/slices/currentUserSlice";
 import { useEffect } from "react";
 import { getPosts } from "../redux/slices/postsSlice";
 

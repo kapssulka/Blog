@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { baseUrl, fetchHeaders } from "./../../supabase/supabase";
+import { baseUrl, fetchHeaders } from "../../supabase/supabase";
 
 // GET
 export const fetchGetDataUser = createAsyncThunk(
@@ -66,7 +66,7 @@ export const fetchPatchDataUser = createAsyncThunk(
   }
 );
 
-export const userSlice = createSlice({
+export const currentUserSlice = createSlice({
   name: "user",
   initialState: {
     userUid: "",
@@ -78,6 +78,8 @@ export const userSlice = createSlice({
   extraReducers: (buider) => {
     buider
       .addCase(fetchGetDataUser.fulfilled, (state, action) => {
+        console.log(action.payload[0]);
+
         const { user_uid, name, bio, created_at } = action.payload[0];
 
         state.userUid = user_uid;
@@ -102,5 +104,5 @@ export const userSlice = createSlice({
       });
   },
 });
-export const { setUserUid } = userSlice.actions;
-export default userSlice.reducer;
+export const { setUserUid } = currentUserSlice.actions;
+export default currentUserSlice.reducer;
