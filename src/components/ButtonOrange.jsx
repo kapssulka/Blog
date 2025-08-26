@@ -14,6 +14,7 @@ export default function ButtonOrange({
     <>
       {!isLink && !isButton && (
         <NavLink
+          end={false}
           {...props}
           to={to}
           className={({ isActive }) =>
