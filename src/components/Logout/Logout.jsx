@@ -2,8 +2,14 @@ import { TbLogout } from "react-icons/tb";
 
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
+import { useDispatch } from "react-redux";
+import { resetDataUser } from "../../redux/slices/currentUserSlice";
 export default function Logout() {
-  const handleClick = () => signOut(auth);
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    signOut(auth);
+    dispatch(resetDataUser());
+  };
 
   return (
     <div className="flex items-center gap-x-1 cursor-pointer">

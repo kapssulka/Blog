@@ -73,8 +73,20 @@ export const currentUserSlice = createSlice({
     name: "",
     bio: "",
     created_at: "",
+    hasVisited: false,
   },
-  reducers: {},
+  reducers: {
+    setHasVisited: (state, action) => {
+      state.hasVisited = action.payload;
+    },
+
+    resetDataUser: (state, action) => {
+      state.userUid = "";
+      state.name = "";
+      state.bio = "";
+      state.created_at = "";
+    },
+  },
   extraReducers: (buider) => {
     buider
       .addCase(fetchGetDataUser.fulfilled, (state, action) => {
@@ -102,5 +114,5 @@ export const currentUserSlice = createSlice({
       });
   },
 });
-export const { setUserUid } = currentUserSlice.actions;
+export const { setHasVisited, resetDataUser } = currentUserSlice.actions;
 export default currentUserSlice.reducer;

@@ -12,14 +12,28 @@ import NotFound from "../pages/NotFound";
 import { ROUTES } from "../constants/routes";
 import PrivateRoute from "../components/routes/PrivateRoute";
 import PublicRoute from "../components/routes/PublicRoute";
-import { Toaster } from "sonner";
+import { toast, Toaster } from "sonner";
 import NewPost from "../pages/NewPost/NewPost";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
+import { useEffect } from "react";
+import { setHasVisited } from "../redux/slices/currentUserSlice";
 
 export default function App() {
   const { loadingCount } = useSelector((state) => state.loading);
-  const { userUid } = useSelector((state) => state.user);
+  const { userUid, name, hasVisited } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!hasVisited) return;
+
+    const timer = setTimeout(() => {
+      toast.success(`${name}, добро пожаловать!`);
+      dispatch(setHasVisited(false));
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [hasVisited, name, dispatch]);
 
   return (
     <div className="flex flex-col min-h-screen  bg-zinc-950 text-zinc-100">

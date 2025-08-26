@@ -8,8 +8,12 @@ import AuthRedirectMessage from "./components/AuthRedirectMessage";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 import { toast } from "sonner";
+import { useDispatch } from "react-redux";
+import { setHasVisited } from "../../redux/slices/currentUserSlice";
 
 export default function LoginForm() {
+  const dispatch = useDispatch();
+
   const {
     register,
     handleSubmit,
@@ -27,9 +31,8 @@ export default function LoginForm() {
         email,
         password
       );
-      setTimeout(() => {
-        toast.success("Добро пожайловать!");
-      }, 600);
+
+      dispatch(setHasVisited(true));
 
       reset();
     } catch (error) {
