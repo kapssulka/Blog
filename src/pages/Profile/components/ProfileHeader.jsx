@@ -4,9 +4,11 @@ import UserBio from "./UserBio/UserBio";
 import Button from "../../../components/Button/Button";
 import { useState } from "react";
 import EditProfile from "./EditProfile/EditProfile";
+import { useSelector } from "react-redux";
 
 export default function ProfileHeader() {
   const [isOpen, setIsOpen] = useState(false);
+  const { isCurrentUserProfile } = useSelector((state) => state.users);
 
   return (
     <div className="px-15 ">
@@ -19,12 +21,13 @@ export default function ProfileHeader() {
 
       <div className="mt-5 flex flex-col gap-y-5">
         <UserBio />
-
-        <Button
-          onClick={() => setIsOpen(true)}
-          className="self-center w-full"
-          text="Редактирвоать профиль"
-        />
+        {isCurrentUserProfile && (
+          <Button
+            onClick={() => setIsOpen(true)}
+            className="self-center w-full"
+            text="Редактирвоать профиль"
+          />
+        )}
       </div>
     </div>
   );

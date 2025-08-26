@@ -1,11 +1,13 @@
+import { useSelector } from "react-redux";
 import ItemList from "../../components/ItemList";
 import { ROUTES } from "../../constants/routes";
 
 export default function Aside() {
+  const { userUid } = useSelector((state) => state.user);
   const links = [
     { text: "Добавить пост", path: ROUTES.NEW_POST },
     { text: "Главная", path: ROUTES.HOME },
-    { text: "Мой профиль", path: ROUTES.PROFILE },
+    { text: "Мой профиль", path: `/profile/${userUid}` },
     { text: "Сообщения", path: ROUTES.MESSAGE.INDEX },
     { text: "Сохраненные посты", path: ROUTES.BOOKMARKS },
     { text: "Понравившиеся посты", path: ROUTES.LIKED },

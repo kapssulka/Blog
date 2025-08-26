@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Message from "../pages/Message/Message";
 import Layout from "../pages/Layout";
@@ -19,6 +19,7 @@ import Loader from "../components/Loader";
 
 export default function App() {
   const { loadingCount } = useSelector((state) => state.loading);
+  const { userUid } = useSelector((state) => state.user);
 
   return (
     <div className="flex flex-col min-h-screen  bg-zinc-950 text-zinc-100">
@@ -49,6 +50,11 @@ export default function App() {
             <Route path=":id" element={<ChatSingleUser />} />
           </Route>
           <Route path={ROUTES.PROFILE} element={<Profile />} />
+          <Route
+            path={"/profile"}
+            element={<Navigate to={`/profile/${userUid}`} />}
+          />
+
           <Route path={ROUTES.NEW_POST} element={<NewPost />} />
         </Route>
 

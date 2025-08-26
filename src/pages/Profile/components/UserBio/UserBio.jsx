@@ -2,7 +2,9 @@ import { useSelector } from "react-redux";
 import UserBioItem from "./components/UserBioItem";
 
 export default function UserBio() {
-  const { name, bio } = useSelector((state) => state.user);
+  const { users, activeProfileUid } = useSelector((state) => state.users);
+
+  const { name, bio } = users[activeProfileUid] ?? {};
 
   return (
     <div className="flex flex-col gap-y-3">

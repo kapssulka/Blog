@@ -2,9 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import { currentUserSlice } from "./slices/currentUserSlice";
 import { postsSlice } from "./slices/postsSlice";
 import { loadingSlice } from "./slices/loadingSlice";
+import { usersSlice } from "./slices/usersSlice";
 import userReducer from "./slices/currentUserSlice";
 import postsReducer from "./slices/postsSlice";
 import loadingReducer from "./slices/loadingSlice";
+import usersReducer from "./slices/usersSlice";
 
 const loadingMiddleware = (store) => (next) => (action) => {
   if (action.type.endsWith("/pending")) {
@@ -21,6 +23,7 @@ const loadingMiddleware = (store) => (next) => (action) => {
 export default configureStore({
   reducer: {
     [currentUserSlice.name]: userReducer,
+    [usersSlice.name]: usersReducer,
     [postsSlice.name]: postsReducer,
     [loadingSlice.name]: loadingReducer,
   },

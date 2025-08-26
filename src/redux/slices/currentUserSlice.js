@@ -78,8 +78,6 @@ export const currentUserSlice = createSlice({
   extraReducers: (buider) => {
     buider
       .addCase(fetchGetDataUser.fulfilled, (state, action) => {
-        console.log(action.payload[0]);
-
         const { user_uid, name, bio, created_at } = action.payload[0];
 
         state.userUid = user_uid;
