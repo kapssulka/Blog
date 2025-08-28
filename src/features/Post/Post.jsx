@@ -10,6 +10,7 @@ export default function Post({
   avtor,
   userUid,
   create_at,
+  postId,
 }) {
   const { userUid: currenUserUid } = useSelector((state) => state.user);
 
@@ -24,7 +25,13 @@ export default function Post({
         create_at={create_at}
       />
 
-      {isCurrentUser && <DropDownMenu className="top-5 right-5" />}
+      {isCurrentUser && (
+        <DropDownMenu
+          className="top-5 right-5"
+          postId={postId}
+          images={images}
+        />
+      )}
 
       <Content className="mb-5" images={images} description={description} />
 

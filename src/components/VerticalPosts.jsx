@@ -15,6 +15,7 @@ export default function VerticalPosts({ posts }) {
             avtor={post.users.name}
             userUid={post.users.user_uid}
             create_at={date}
+            postId={post.id}
           />
         );
       })}

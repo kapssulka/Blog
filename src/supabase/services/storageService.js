@@ -29,9 +29,13 @@ export const uploadToSupabaseStorage = async (files, dispatch) => {
       data: { publicUrl },
     } = supabase.storage.from("posts").getPublicUrl(path);
 
-    urls.push(publicUrl);
+    urls.push({ publicUrl, path });
   }
   dispatch(decrement());
 
   return urls;
+};
+
+export const removeFromSupabaseStorage = async (arrPath) => {
+  return supabase.storage.from("posts").remove(arrPath);
 };

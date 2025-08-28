@@ -14,7 +14,10 @@ export default function ProfilePreview({
   const wrapperProps = linkTo ? { to: linkTo } : {};
 
   return (
-    <Wrapper className={cn("flex items-center", className)} {...wrapperProps}>
+    <Wrapper
+      className={cn("inline-flex items-center", className)}
+      {...wrapperProps}
+    >
       <AvatarIcon className="mr-5" />
       {chatMessageEl || <AvatarText create_at={create_at} avtor={avtor} />}
     </Wrapper>

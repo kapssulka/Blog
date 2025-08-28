@@ -84,6 +84,38 @@ export const getPosts = createAsyncThunk(
   }
 );
 
+// REMOVE
+
+export const removePost = createAsyncThunk(
+  "posts/removePost",
+  async (postId, { rejectWithValue }) => {
+    try {
+      const responseImagesDelete = await fetch(
+        `${baseUrl}/post_images?post_id=eq.${postId}`,
+        {
+          method: "DELETE",
+          headers: fetchHeaders,
+        }
+      );
+
+      if (!responseImagesDelete.ok) throw new Error("Filled remove images");
+
+      const responsePostDelete = await fetch(
+        `${baseUrl}/posts?id=eq.${postId}`,
+        {
+          method: "DELETE",
+          headers: fetchHeaders,
+        }
+      );
+      if (!responsePostDelete.ok) throw new Error("Filled remove post");
+
+      return postId;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const postsSlice = createSlice({
   name: "posts",
   initialState: {
@@ -124,6 +156,12 @@ export const postsSlice = createSlice({
       })
       .addCase(uploadImages.rejected, (state, action) => {
         console.log("Неудача: ", action);
+      })
+      .addCase(removePost.fulfilled, (state, action) => {
+        state.posts = state.posts.filter((post) => post.id !== action.payload);
+      })
+      .addCase(removePost.rejected, (state, action) => {
+        console.log("Неудача: ", action.payload);
       });
   },
 });
