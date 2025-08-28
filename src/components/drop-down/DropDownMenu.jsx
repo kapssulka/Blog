@@ -8,25 +8,40 @@ import { removeFromSupabaseStorage } from "../../supabase/services/storageServic
 import { useDispatch } from "react-redux";
 import { removePost } from "../../redux/slices/postsSlice";
 import { toast } from "sonner";
+import ConfirmModal from "../ConfirmModal/ConfirmModal";
 
 export default function DropDownMenu({ className, postId, images = [] }) {
   const dispatch = useDispatch();
 
-  const [open, setOpen] = useState(false);
+  const [openDropDown, setOpenDropDown] = useState(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const dropMenu = useRef(null);
   const buttonRef = useRef(null);
 
   useEffect(() => {
-    if (!open) return;
+    if (!openDropDown) return;
     const handleClick = (e) => {
       if (!dropMenu.current || !buttonRef.current) return;
       if (buttonRef.current.contains(e.target)) return;
-      if (!dropMenu.current.contains(e.target)) setOpen(false);
+      if (!dropMenu.current.contains(e.target)) setOpenDropDown(false);
     };
 
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
-  }, [open]);
+  }, [openDropDown]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.code === "Escape") {
+        if (openDropDown) setOpenDropDown(false);
+        if (openConfirmModal) setOpenConfirmModal(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [openDropDown, openConfirmModal]);
 
   const handleRemovePost = async (postId, images) => {
     try {
@@ -49,19 +64,30 @@ export default function DropDownMenu({ className, postId, images = [] }) {
       <DropDownOpenButton
         ref={buttonRef}
         icon={<BsThreeDotsVertical size={20} />}
-        open={open}
-        setOpen={setOpen}
+        openDropDown={openDropDown}
+        setOpenDropDown={setOpenDropDown}
       />
 
-      {open && (
+      {openDropDown && (
         <DropDownList ref={dropMenu}>
           <DropDownItem
-            onClick={() => handleRemovePost(postId, images)}
+            onClick={() => {
+              setOpenConfirmModal(true);
+              setOpenDropDown(false);
+            }}
             icon={<MdOutlineDeleteSweep size={25} />}
             text="удалить"
             hoverColor={"red"}
           />
         </DropDownList>
+      )}
+
+      {openConfirmModal && (
+        <ConfirmModal
+          onClick={() => handleRemovePost(postId, images)}
+          setOpenConfirmModal={setOpenConfirmModal}
+          buttonRef={buttonRef}
+        />
       )}
     </div>
   );
