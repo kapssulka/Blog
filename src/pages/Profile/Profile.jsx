@@ -18,7 +18,7 @@ export default function Profile() {
   const dispatch = useDispatch();
   const { id } = useParams();
 
-  const { users } = useSelector((state) => state.users);
+  const { users, isCurrentUserProfile } = useSelector((state) => state.users);
 
   const { posts } = useSelector((state) => state.posts);
   const { userUid: currentUserUid } = useSelector((state) => state.user);
@@ -58,7 +58,9 @@ export default function Profile() {
         <VerticalPosts posts={postCurrentUser} />
       )}
 
-      {postCurrentUser.length < 1 && <EmptyPosts />}
+      {postCurrentUser.length < 1 && (
+        <EmptyPosts showCreatePost={isCurrentUserProfile} />
+      )}
     </div>
   );
 }
