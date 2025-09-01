@@ -4,6 +4,7 @@ import App from "./App";
 import { fetchGetDataUser } from "../redux/slices/currentUserSlice";
 import { useEffect } from "react";
 import { getPosts } from "../redux/slices/postsSlice";
+import { getLikes } from "../redux/slices/postLikesSlice";
 
 export default function AppInitializer() {
   const userUid = useAuthUser();
@@ -16,6 +17,8 @@ export default function AppInitializer() {
           dispatch(fetchGetDataUser(userUid)).unwrap(),
           dispatch(getPosts()).unwrap(),
         ]);
+
+        await dispatch(getLikes()).unwrap();
       };
 
       fetchData();

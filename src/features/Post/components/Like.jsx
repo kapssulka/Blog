@@ -1,28 +1,20 @@
 import { IoHeart } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa6";
-import { useState } from "react";
 
-export default function Like() {
-  const [isLike, setIsLike] = useState(false);
+export default function Like({ isLike, onClike, likeCount }) {
+  const Icon = isLike ? IoHeart : FaRegHeart;
 
   return (
-    <div>
-      {!isLike && (
-        <FaRegHeart
-          cursor="pointer"
-          opacity={0.8}
-          size={28}
-          onClick={() => setIsLike((prev) => !prev)}
-        />
-      )}
-      {isLike && (
-        <IoHeart
-          cursor="pointer"
-          className="text-red-500"
-          onClick={() => setIsLike((prev) => !prev)}
-          size={28}
-        />
-      )}
+    <div className="flex items-center  gap-1">
+      <Icon
+        className={`cursor-pointer transition-opacity duration-200 ${
+          isLike ? "text-red-500" : "opacity-80"
+        }`}
+        opacity={0.8}
+        size={28}
+        onClick={onClike}
+      />
+      {likeCount && <div>{likeCount}</div>}
     </div>
   );
 }

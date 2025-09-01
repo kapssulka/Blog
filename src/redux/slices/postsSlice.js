@@ -28,11 +28,14 @@ export const createPost = createAsyncThunk(
   "posts/createPost",
   async (post, { rejectWithValue }) => {
     try {
-      const response = await fetch(`${baseUrl}/posts?select=*,users(*)`, {
-        method: "POST",
-        headers: fetchHeaders,
-        body: JSON.stringify(post),
-      });
+      const response = await fetch(
+        `${baseUrl}/posts?select=*,users:users!posts_user_uid_fkey(*)`,
+        {
+          method: "POST",
+          headers: fetchHeaders,
+          body: JSON.stringify(post),
+        }
+      );
 
       if (!response.ok) {
         const text = await response.text();
@@ -53,8 +56,8 @@ export const getPosts = createAsyncThunk(
   async (uid = null, { rejectWithValue }) => {
     try {
       const urlPostDetails = uid
-        ? `${baseUrl}/posts?user_uid=eq.${uid}&select=*,users(*)`
-        : `${baseUrl}/posts?select=*,users(*)`;
+        ? `${baseUrl}/posts?user_uid=eq.${uid}&select=*,users:users!posts_user_uid_fkey(*)`
+        : `${baseUrl}/posts?select=*,users:users!posts_user_uid_fkey(*)`;
 
       const urlPostImages = `${baseUrl}/post_images?select=*`;
 

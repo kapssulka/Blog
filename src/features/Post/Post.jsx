@@ -13,6 +13,8 @@ export default function Post({
   postId,
 }) {
   const { userUid: currenUserUid } = useSelector((state) => state.user);
+  const { likes } = useSelector((state) => state.postLikes);
+  const currentLikesPost = likes?.[postId] || false;
 
   const isCurrentUser = userUid === currenUserUid;
 
@@ -35,7 +37,11 @@ export default function Post({
 
       <Content className="mb-5" images={images} description={description} />
 
-      <ActivePanel />
+      <ActivePanel
+        postId={postId}
+        isLikeDefault={currentLikesPost?.likedByCurrentUser}
+        likeCount={currentLikesPost?.likesCount}
+      />
     </div>
   );
 }
