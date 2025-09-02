@@ -44,6 +44,27 @@ export const deleteLike = createAsyncThunk(
   }
 );
 
+export const deleteAllLike = createAsyncThunk(
+  "postLikes/deleteAllLike",
+  async (post_id, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `${baseUrl}/post_likes?post_id=eq.${post_id}`,
+        {
+          method: "DELETE",
+          headers: fetchHeaders,
+        }
+      );
+
+      if (!response.ok) throw new Error("Ошибка с УДАЛЕНИЕМ лайков");
+
+      return await response.json();
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 // ADD LIKE
 export const addLike = createAsyncThunk(
   "postLikes/addLike",
@@ -140,6 +161,9 @@ export const postLikesSlice = createSlice({
             likesCount,
           };
         }
+      })
+      .addCase(deleteAllLike.fulfilled, (state, action) => {
+        console.log(action.payload);
       });
   },
 });

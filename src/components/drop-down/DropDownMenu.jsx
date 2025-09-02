@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { removePost } from "../../redux/slices/postsSlice";
 import { toast } from "sonner";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
+import { deleteAllLike } from "../../redux/slices/postLikesSlice";
 
 export default function DropDownMenu({ className, post_id, images = [] }) {
   const dispatch = useDispatch();
@@ -50,6 +51,7 @@ export default function DropDownMenu({ className, post_id, images = [] }) {
       const { data, error } = await removeFromSupabaseStorage(pathArr);
       if (error) throw new Error(`Ошибка: ${error}`);
 
+      await dispatch(deleteAllLike(post_id)).unwrap();
       await dispatch(removePost(post_id)).unwrap();
 
       toast.success("Пост успешно удалён!");
