@@ -2,25 +2,12 @@ import { useState } from "react";
 import { FaRegBookmark } from "react-icons/fa";
 import { FaBookmark } from "react-icons/fa";
 
-export default function BookMark() {
+export default function BookMark({ onClik, isActiveBookmark }) {
   const [isSave, setIsSave] = useState(false);
+
+  const Icon = isActiveBookmark ? FaBookmark : FaRegBookmark;
+
   return (
-    <div>
-      {!isSave && (
-        <FaRegBookmark
-          cursor="pointer"
-          size={26}
-          opacity={0.8}
-          onClick={() => setIsSave((prev) => !prev)}
-        />
-      )}
-      {isSave && (
-        <FaBookmark
-          cursor="pointer"
-          size={26}
-          onClick={() => setIsSave((prev) => !prev)}
-        />
-      )}
-    </div>
+    <Icon className="cursor-pointer opacity-80" size={26} onClick={onClik} />
   );
 }

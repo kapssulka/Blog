@@ -4,11 +4,13 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../firebase/firebase";
 import { useDispatch } from "react-redux";
 import { resetDataUser } from "../../redux/slices/currentUserSlice";
+import { resetAllBookmarks } from "../../redux/slices/postBookmarksSlice";
 export default function Logout() {
   const dispatch = useDispatch();
   const handleClick = () => {
     signOut(auth);
     dispatch(resetDataUser());
+    dispatch(resetAllBookmarks());
   };
 
   return (

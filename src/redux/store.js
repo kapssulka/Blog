@@ -4,11 +4,13 @@ import { postsSlice } from "./slices/postsSlice";
 import { loadingSlice } from "./slices/loadingSlice";
 import { usersSlice } from "./slices/usersSlice";
 import { postLikesSlice } from "./slices/postLikesSlice";
+import { postBookmarksSlice } from "./slices/postBookmarksSlice";
 import userReducer from "./slices/currentUserSlice";
 import postsReducer from "./slices/postsSlice";
 import loadingReducer from "./slices/loadingSlice";
 import usersReducer from "./slices/usersSlice";
 import postLikesReducer from "./slices/postLikesSlice";
+import postBookmarksReducer from "./slices/postBookmarksSlice";
 
 const loadingMiddleware = (store) => (next) => (action) => {
   if (action.type.endsWith("/pending")) {
@@ -29,6 +31,7 @@ export default configureStore({
     [postsSlice.name]: postsReducer,
     [loadingSlice.name]: loadingReducer,
     [postLikesSlice.name]: postLikesReducer,
+    [postBookmarksSlice.name]: postBookmarksReducer,
   },
   middleware: (defaultMiddleware) =>
     defaultMiddleware().concat(loadingMiddleware),

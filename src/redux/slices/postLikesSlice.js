@@ -161,9 +161,6 @@ export const postLikesSlice = createSlice({
             likesCount,
           };
         }
-      })
-      .addCase(deleteAllLike.fulfilled, (state, action) => {
-        console.log(action.payload);
       });
   },
 });

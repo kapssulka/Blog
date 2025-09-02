@@ -1,7 +1,7 @@
 import { IoHeart } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa6";
 
-export default function Like({ isLike, onClike, likeCount }) {
+export default function Like({ isLike, onClik, likeCount }) {
   const Icon = isLike ? IoHeart : FaRegHeart;
 
   return (
@@ -12,7 +12,7 @@ export default function Like({ isLike, onClike, likeCount }) {
         }`}
         opacity={0.8}
         size={28}
-        onClick={onClike}
+        onClick={onClik}
       />
       {likeCount && <div>{likeCount}</div>}
     </div>

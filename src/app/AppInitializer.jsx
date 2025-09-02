@@ -5,6 +5,7 @@ import { fetchGetDataUser } from "../redux/slices/currentUserSlice";
 import { useEffect } from "react";
 import { getPosts } from "../redux/slices/postsSlice";
 import { getLikes } from "../redux/slices/postLikesSlice";
+import { getBookmarks } from "../redux/slices/postBookmarksSlice";
 
 export default function AppInitializer() {
   const user_uid = useAuthUser();
@@ -19,6 +20,7 @@ export default function AppInitializer() {
         ]);
 
         await dispatch(getLikes()).unwrap();
+        await dispatch(getBookmarks(user_uid)).unwrap();
       };
 
       fetchData();
