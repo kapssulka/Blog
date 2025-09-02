@@ -21,7 +21,7 @@ export default function Profile() {
   const { users, isCurrentUserProfile } = useSelector((state) => state.users);
 
   const { posts } = useSelector((state) => state.posts);
-  const { userUid: currentUserUid } = useSelector((state) => state.user);
+  const { user_uid: currentUserUid } = useSelector((state) => state.user);
 
   const postCurrentUser = useMemo(
     () => posts.filter((post) => post.user_uid === id),
@@ -52,7 +52,7 @@ export default function Profile() {
       </div>
 
       {postCurrentUser.length > 0 && activeBlock === "grid" && (
-        <GridPosts posts={postCurrentUser} userUid={id} />
+        <GridPosts posts={postCurrentUser} />
       )}
       {postCurrentUser.length > 0 && activeBlock === "list" && (
         <VerticalPosts posts={postCurrentUser} />

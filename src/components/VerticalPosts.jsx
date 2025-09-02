@@ -11,11 +11,11 @@ export default function VerticalPosts({ posts }) {
           <Post
             images={post.images}
             description={post.text}
-            key={post.id}
+            key={post.post_id}
             avtor={post.users.name}
-            userUid={post.users.user_uid}
+            user_uid={post.users.user_uid}
             create_at={date}
-            postId={post.id}
+            post_id={post.post_id}
           />
         );
       })}

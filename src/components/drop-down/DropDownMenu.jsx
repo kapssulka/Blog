@@ -10,7 +10,7 @@ import { removePost } from "../../redux/slices/postsSlice";
 import { toast } from "sonner";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 
-export default function DropDownMenu({ className, postId, images = [] }) {
+export default function DropDownMenu({ className, post_id, images = [] }) {
   const dispatch = useDispatch();
 
   const [openDropDown, setOpenDropDown] = useState(false);
@@ -43,14 +43,14 @@ export default function DropDownMenu({ className, postId, images = [] }) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [openDropDown, openConfirmModal]);
 
-  const handleRemovePost = async (postId, images) => {
+  const handleRemovePost = async (post_id, images) => {
     try {
       const pathArr = images.map((item) => item.path);
 
       const { data, error } = await removeFromSupabaseStorage(pathArr);
       if (error) throw new Error(`Ошибка: ${error}`);
 
-      await dispatch(removePost(postId)).unwrap();
+      await dispatch(removePost(post_id)).unwrap();
 
       toast.success("Пост успешно удалён!");
     } catch (error) {
@@ -84,7 +84,7 @@ export default function DropDownMenu({ className, postId, images = [] }) {
 
       {openConfirmModal && (
         <ConfirmModal
-          onClick={() => handleRemovePost(postId, images)}
+          onClick={() => handleRemovePost(post_id, images)}
           setOpenConfirmModal={setOpenConfirmModal}
           buttonRef={buttonRef}
         />

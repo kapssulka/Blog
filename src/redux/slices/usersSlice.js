@@ -11,8 +11,9 @@ export const fetchUserById = createAsyncThunk(
       });
 
       if (!response.ok) throw new Error("Error getting user");
+      const data = await response.json();
 
-      return await response.json();
+      return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -33,6 +34,11 @@ export const usersSlice = createSlice({
     setIsCurrentUserProfile: (state, action) => {
       state.isCurrentUserProfile = action.payload;
     },
+    setNewBioLocal: (state, action) => {
+      const { user_uid, data } = action.payload;
+
+      state.users[user_uid] = { ...state.users[user_uid], ...data };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserById.fulfilled, (state, action) => {
@@ -41,6 +47,6 @@ export const usersSlice = createSlice({
     });
   },
 });
-export const { setActiveProfileUid, setIsCurrentUserProfile } =
+export const { setActiveProfileUid, setIsCurrentUserProfile, setNewBioLocal } =
   usersSlice.actions;
 export default usersSlice.reducer;

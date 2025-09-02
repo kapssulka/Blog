@@ -19,7 +19,7 @@ import { useState } from "react";
 export default function FormNewPost() {
   const [files, setFiles] = useState([]);
   const dispatch = useDispatch();
-  const { userUid } = useSelector((state) => state.user);
+  const { user_uid } = useSelector((state) => state.user);
 
   const schema = yup.object().shape({
     file: yup
@@ -46,14 +46,14 @@ export default function FormNewPost() {
 
       const urls = await uploadToSupabaseStorage(files, dispatch);
       const createPostResult = await dispatch(
-        createPost({ user_uid: userUid, text })
+        createPost({ user_uid, text })
       ).unwrap();
 
-      const postId = createPostResult[0].id;
+      const post_id = createPostResult[0].post_id;
 
       for (let i = 0; i < urls.length; i++) {
         const imageRow = {
-          post_id: postId,
+          post_id: post_id,
           url: urls[i].publicUrl,
           path: urls[i].path,
           position: i,

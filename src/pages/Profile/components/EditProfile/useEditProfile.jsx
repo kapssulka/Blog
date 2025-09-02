@@ -5,6 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
 import { fetchPatchDataUser } from "../../../../redux/slices/currentUserSlice";
 import { toast } from "sonner";
+import { setNewBioLocal } from "../../../../redux/slices/usersSlice";
 
 export const useEditProfile = (isOpen, setIsOpen) => {
   const dispatch = useDispatch();
@@ -12,7 +13,7 @@ export const useEditProfile = (isOpen, setIsOpen) => {
   const {
     name: currentUserName,
     bio: currentUserBio,
-    userUid,
+    user_uid,
   } = useSelector((state) => state.user);
 
   const schema = yup.object().shape({
@@ -57,7 +58,7 @@ export const useEditProfile = (isOpen, setIsOpen) => {
       return;
     }
 
-    dispatch(fetchPatchDataUser({ userUid, data: updates }))
+    dispatch(fetchPatchDataUser({ user_uid, data: updates }))
       .unwrap()
       .then(() => {
         toast.success("Данные успешно обновлены!");
@@ -66,6 +67,8 @@ export const useEditProfile = (isOpen, setIsOpen) => {
       .catch(() => {
         toast.error("Ошибка при обновлении данных");
       });
+
+    dispatch(setNewBioLocal({ user_uid, data: updates }));
   };
 
   return { register, onSubmit, handleSubmit, errors };

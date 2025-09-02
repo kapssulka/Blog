@@ -7,7 +7,7 @@ export const checkLike = createAsyncThunk(
   async (likeObj, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `${baseUrl}/post_likes?id=eq.${likeObj.id}&user_uid=eq.${likeObj.user_uid}`,
+        `${baseUrl}/post_likes?post_id=eq.${likeObj.post_id}&user_uid=eq.${likeObj.user_uid}`,
         {
           headers: fetchHeaders,
         }
@@ -28,7 +28,7 @@ export const deleteLike = createAsyncThunk(
   async (likeObj, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `${baseUrl}/post_likes?id=eq.${likeObj.id}&user_uid=eq.${likeObj.user_uid}`,
+        `${baseUrl}/post_likes?post_id=eq.${likeObj.post_id}&user_uid=eq.${likeObj.user_uid}`,
         {
           method: "DELETE",
           headers: fetchHeaders,
@@ -37,7 +37,7 @@ export const deleteLike = createAsyncThunk(
 
       if (!response.ok) throw new Error("Ошибка с УДАЛЕНИЕМ лайков");
 
-      return { id: likeObj.id, likedByCurrentUser: false };
+      return { post_id: likeObj.post_id, likedByCurrentUser: false };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -57,7 +57,7 @@ export const addLike = createAsyncThunk(
 
       if (!response.ok) throw new Error("Ошибка с ДОБАВЛЕНИЕМ лайков");
 
-      return { id: likeObj.id, likedByCurrentUser: true };
+      return { post_id: likeObj.post_id, likedByCurrentUser: true };
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -67,10 +67,10 @@ export const addLike = createAsyncThunk(
 // GET ALL
 export const getLikes = createAsyncThunk(
   "postLikes/getLikes",
-  async (userUid, { rejectWithValue, getState }) => {
+  async (user_uid, { rejectWithValue, getState }) => {
     try {
-      const url = userUid
-        ? `${baseUrl}/post_likes?user_uid=eq.${userUid}`
+      const url = user_uid
+        ? `${baseUrl}/post_likes?user_uid=eq.${user_uid}`
         : `${baseUrl}/post_likes`;
       const response = await fetch(url, {
         headers: fetchHeaders,
@@ -81,21 +81,21 @@ export const getLikes = createAsyncThunk(
       const data = await response.json();
 
       const state = getState();
-      const currentUser = state.user.userUid;
+      const currentUser = state.user.user_uid;
 
       const postsLikes = data.reduce((acc, item) => {
-        const { user_uid, id } = item;
+        const { user_uid, post_id } = item;
 
-        if (!acc[id]) {
-          acc[item.id] = {
+        if (!acc[post_id]) {
+          acc[post_id] = {
             likesCount: 0,
             likedByCurrentUser: false,
           };
         }
-        acc[id].likesCount += 1;
+        acc[post_id].likesCount += 1;
 
         if (user_uid === currentUser) {
-          acc[id].likedByCurrentUser = true;
+          acc[post_id].likedByCurrentUser = true;
         }
 
         return acc;
@@ -119,23 +119,23 @@ export const postLikesSlice = createSlice({
         state.likes = { ...state.likes, ...action.payload };
       })
       .addCase(addLike.fulfilled, (state, action) => {
-        const current = state.likes[action.payload.id];
+        const current = state.likes[action.payload.post_id];
 
         let likesCount = current ? current.likesCount + 1 : 1;
 
-        state.likes[action.payload.id] = {
+        state.likes[action.payload.post_id] = {
           likedByCurrentUser: true,
           likesCount,
         };
       })
       .addCase(deleteLike.fulfilled, (state, action) => {
-        const current = state.likes[action.payload.id];
+        const current = state.likes[action.payload.post_id];
 
         if (current.likesCount === 1) {
-          delete state.likes[action.payload.id];
+          delete state.likes[action.payload.post_id];
         } else {
           let likesCount = current.likesCount - 1;
-          state.likes[action.payload.id] = {
+          state.likes[action.payload.post_id] = {
             likedByCurrentUser: false,
             likesCount,
           };

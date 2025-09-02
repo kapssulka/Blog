@@ -8,14 +8,14 @@ import {
   deleteLike,
 } from "../../../redux/slices/postLikesSlice";
 
-export default function ActivePanel({ postId, isLikeDefault, likeCount }) {
+export default function ActivePanel({ post_id, isLikeDefault, likeCount }) {
   const dispatch = useDispatch();
-  const { userUid } = useSelector((state) => state.user);
+  const { user_uid } = useSelector((state) => state.user);
 
   const onLikeClike = async (e) => {
-    const likeObj = { id: postId, user_uid: userUid };
-    await dispatch(checkLike(likeObj)).unwrap();
+    const likeObj = { post_id, user_uid };
 
+    const res = await dispatch(checkLike(likeObj)).unwrap();
     await dispatch(
       res.length > 0 ? deleteLike(likeObj) : addLike(likeObj)
     ).unwrap();

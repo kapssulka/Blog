@@ -29,9 +29,9 @@ export const useRegisterForm = () => {
         password
       );
 
-      const userUid = userCredential.user.uid;
+      const user_uid = userCredential.user.uid;
 
-      await dispatch(fetchPostDataUsers({ name, user_uid: userUid })).unwrap();
+      await dispatch(fetchPostDataUsers({ name, user_uid })).unwrap();
 
       setTimeout(() => {
         toast.success(`${name}, регистрация прошла успешно!`);

@@ -7,14 +7,14 @@ import { getPosts } from "../redux/slices/postsSlice";
 import { getLikes } from "../redux/slices/postLikesSlice";
 
 export default function AppInitializer() {
-  const userUid = useAuthUser();
+  const user_uid = useAuthUser();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (userUid) {
+    if (user_uid) {
       const fetchData = async () => {
         await Promise.all([
-          dispatch(fetchGetDataUser(userUid)).unwrap(),
+          dispatch(fetchGetDataUser(user_uid)).unwrap(),
           dispatch(getPosts()).unwrap(),
         ]);
 
@@ -23,7 +23,7 @@ export default function AppInitializer() {
 
       fetchData();
     }
-  }, [userUid, dispatch]);
+  }, [user_uid, dispatch]);
 
   return <App />;
 }

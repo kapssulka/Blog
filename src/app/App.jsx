@@ -21,18 +21,19 @@ import { setHasVisited } from "../redux/slices/currentUserSlice";
 
 export default function App() {
   const { loadingCount } = useSelector((state) => state.loading);
-  const { userUid, name, hasVisited } = useSelector((state) => state.user);
+  const { user_uid, name, hasVisited } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!hasVisited) return;
+    if (user_uid && name) {
+      const timer = setTimeout(() => {
+        toast.success(`${name}, добро пожаловать!`);
+        dispatch(setHasVisited(false));
+      }, 300);
 
-    const timer = setTimeout(() => {
-      toast.success(`${name}, добро пожаловать!`);
-      dispatch(setHasVisited(false));
-    }, 300);
-
-    return () => clearTimeout(timer);
+      return () => clearTimeout(timer);
+    }
   }, [hasVisited, name, dispatch]);
 
   return (
@@ -66,7 +67,7 @@ export default function App() {
           <Route path={ROUTES.PROFILE} element={<Profile />} />
           <Route
             path={"/profile"}
-            element={<Navigate to={`/profile/${userUid}`} />}
+            element={<Navigate to={`/profile/${user_uid}`} />}
           />
 
           <Route path={ROUTES.NEW_POST} element={<NewPost />} />

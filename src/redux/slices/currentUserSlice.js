@@ -12,8 +12,9 @@ export const fetchGetDataUser = createAsyncThunk(
       });
 
       if (!response.ok) throw new Error("Ошибка с запросом");
+      const data = await response.json();
 
-      return await response.json();
+      return data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -47,7 +48,7 @@ export const fetchPatchDataUser = createAsyncThunk(
   async (obj, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `${baseUrl}/users?user_uid=eq.${obj.userUid}`,
+        `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
         {
           method: "PATCH",
           headers: fetchHeaders,
@@ -69,7 +70,7 @@ export const fetchPatchDataUser = createAsyncThunk(
 export const currentUserSlice = createSlice({
   name: "user",
   initialState: {
-    userUid: "",
+    user_uid: "",
     name: "",
     bio: "",
     created_at: "",
@@ -81,7 +82,7 @@ export const currentUserSlice = createSlice({
     },
 
     resetDataUser: (state, action) => {
-      state.userUid = "";
+      state.user_uid = "";
       state.name = "";
       state.bio = "";
       state.created_at = "";
@@ -92,7 +93,7 @@ export const currentUserSlice = createSlice({
       .addCase(fetchGetDataUser.fulfilled, (state, action) => {
         const { user_uid, name, bio, created_at } = action.payload[0];
 
-        state.userUid = user_uid;
+        state.user_uid = user_uid;
         state.name = name;
         bio ? (state.bio = bio) : (state.bio = "");
         state.created_at = created_at;
@@ -100,12 +101,13 @@ export const currentUserSlice = createSlice({
       .addCase(fetchGetDataUser.rejected, (state, action) => {
         console.log("ОШИБКА: ", action.payload);
       })
-      .addCase(fetchPostDataUsers.fulfilled, (state, action) => {})
-      .addCase(fetchPostDataUsers.rejected, (state, action) => {
+      .addCase(fetchPostDataUsers.fulfilled, (state, action) => {
         console.log(action.payload);
       })
+      .addCase(fetchPostDataUsers.rejected, (state, action) => {})
       .addCase(fetchPatchDataUser.fulfilled, (state, action) => {
         const { name, bio } = action.payload[0];
+
         state.name = name;
         state.bio = bio;
       })

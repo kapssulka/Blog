@@ -6,7 +6,7 @@ export default function GridPosts({ posts }) {
     <div className="grid grid-cols-3 gap-3">
       {posts.map((post) => {
         const mainImage = returnMainImage(post.images);
-        return <GridPostsItem key={post.id} src={mainImage} />;
+        return <GridPostsItem key={post.post_id} src={mainImage} />;
       })}
     </div>
   );

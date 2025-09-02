@@ -8,29 +8,29 @@ export default function Post({
   images = [],
   description,
   avtor,
-  userUid,
+  user_uid,
   create_at,
-  postId,
+  post_id,
 }) {
-  const { userUid: currenUserUid } = useSelector((state) => state.user);
+  const { user_uid: currenUserUid } = useSelector((state) => state.user);
   const { likes } = useSelector((state) => state.postLikes);
-  const currentLikesPost = likes?.[postId] || false;
+  const currentLikesPost = likes?.[post_id] || false;
 
-  const isCurrentUser = userUid === currenUserUid;
+  const isCurrentUser = user_uid === currenUserUid;
 
   return (
     <div className="relative rounded-2xl p-5 bg-zinc-900 max-w-full">
       <ProfilePreview
         className="mb-5"
         avtor={avtor}
-        linkTo={`/profile/${userUid}`}
+        linkTo={`/profile/${user_uid}`}
         create_at={create_at}
       />
 
       {isCurrentUser && (
         <DropDownMenu
           className="top-5 right-5"
-          postId={postId}
+          post_id={post_id}
           images={images}
         />
       )}
@@ -38,7 +38,7 @@ export default function Post({
       <Content className="mb-5" images={images} description={description} />
 
       <ActivePanel
-        postId={postId}
+        post_id={post_id}
         isLikeDefault={currentLikesPost?.likedByCurrentUser}
         likeCount={currentLikesPost?.likesCount}
       />
