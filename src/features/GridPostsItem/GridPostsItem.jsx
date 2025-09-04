@@ -1,6 +1,7 @@
-export default function Post({ src, lengthImages }) {
+export default function Post({ src, lengthImages, onClick }) {
   return (
     <div
+      onClick={onClick}
       className="relative rounded-2xl overflow-hidden border border-zinc-600 aspect-square cursor-pointer 
                     transition-transform transform  duration-500"
     >

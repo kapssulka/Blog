@@ -1,7 +1,7 @@
 import GridPostsItem from "./../GridPostsItem/GridPostsItem";
 import { returnMainImage } from "../../utils/imagesUtils";
 
-export default function GridPosts({ posts }) {
+export default function GridPosts({ posts, scrollToPost }) {
   return (
     <div className="grid grid-cols-3 gap-3">
       {posts.map((post) => {
@@ -9,6 +9,7 @@ export default function GridPosts({ posts }) {
 
         return (
           <GridPostsItem
+            onClick={() => scrollToPost(post.post_id)}
             key={post.post_id}
             src={mainImage}
             lengthImages={post.images.length}

@@ -1,20 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
-import GridPosts from "../../features/GridPosts/GridPosts";
 import ProfileHeader from "./components/ProfileHeader";
-import ViewSwitcher from "./components/ViewSwitcher";
-import VerticalPosts from "../../components/VerticalPosts";
 import { useDispatch, useSelector } from "react-redux";
-import EmptyPosts from "../../components/EmptyPosts";
 import { useParams } from "react-router-dom";
 import {
   fetchUserById,
   setActiveProfileUid,
   setIsCurrentUserProfile,
 } from "../../redux/slices/usersSlice";
+import PostsSwitcher from "../../components/PostsSwitcher";
 
 export default function Profile() {
-  const [activeBlock, setActiveBlock] = useState("grid");
-
   const dispatch = useDispatch();
   const { id } = useParams();
 
@@ -28,8 +23,6 @@ export default function Profile() {
     [posts, id]
   );
 
-  const onChangeActiveBlock = (variant) => setActiveBlock(variant);
-
   useEffect(() => {
     dispatch(setActiveProfileUid(id));
 
@@ -41,26 +34,11 @@ export default function Profile() {
 
   return (
     <div className="flex flex-col gap-y-5  h-full  ">
-      <div className="bg-zinc-900 px-5 py-6  rounded-2xl">
-        <ProfileHeader />
-        {postCurrentUser.length > 0 && (
-          <ViewSwitcher
-            activeView={activeBlock}
-            onChange={onChangeActiveBlock}
-          />
-        )}
-      </div>
-
-      {postCurrentUser.length > 0 && activeBlock === "grid" && (
-        <GridPosts posts={postCurrentUser} />
-      )}
-      {postCurrentUser.length > 0 && activeBlock === "list" && (
-        <VerticalPosts posts={postCurrentUser} />
-      )}
-
-      {postCurrentUser.length < 1 && (
-        <EmptyPosts showCreatePost={isCurrentUserProfile} />
-      )}
+      <PostsSwitcher
+        posts={postCurrentUser}
+        topContent={<ProfileHeader />}
+        showCreatePost={isCurrentUserProfile}
+      />
     </div>
   );
 }

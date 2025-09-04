@@ -3,15 +3,18 @@ import ProfilePreview from "../../components/Avatar/ProfilePreview";
 import DropDownMenu from "../../components/drop-down/DropDownMenu";
 import ActivePanel from "./components/ActivePanel";
 import Content from "./components/Content";
+import { forwardRef } from "react";
 
-export default function Post({
-  images = [],
-  description,
-  avtor,
-  user_uid,
-  create_at,
-  post_id,
-}) {
+export default forwardRef(function Post(props, ref) {
+  const {
+    images = [],
+    description,
+    avtor,
+    user_uid,
+    create_at,
+    post_id,
+  } = props;
+
   const { user_uid: currenUserUid } = useSelector((state) => state.user);
   const { likes } = useSelector((state) => state.postLikes);
   const currentLikesPost = likes?.[post_id] || false;
@@ -19,7 +22,7 @@ export default function Post({
   const isCurrentUser = user_uid === currenUserUid;
 
   return (
-    <div className="relative rounded-2xl p-5 bg-zinc-900 max-w-full">
+    <div ref={ref} className="relative rounded-2xl p-5 bg-zinc-900 max-w-full">
       <ProfilePreview
         className="mb-5"
         avtor={avtor}
@@ -44,4 +47,4 @@ export default function Post({
       />
     </div>
   );
-}
+});
