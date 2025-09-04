@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import { ROUTES } from "../../../constants/routes";
-import TitleMessage from "../../../components/TitleMessage";
+import { ROUTES } from "../constants/routes";
+import TitleMessage from "./TitleMessage";
 
 export default function EmptyPosts({
   showCreatePost = false,

@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import { useEffect } from "react";
 import { setHasVisited } from "../redux/slices/currentUserSlice";
+import LikedPosts from "../pages/LikedPosts";
 
 export default function App() {
   const { loadingCount } = useSelector((state) => state.loading);
@@ -71,6 +72,7 @@ export default function App() {
           />
 
           <Route path={ROUTES.NEW_POST} element={<NewPost />} />
+          <Route path={ROUTES.LIKED} element={<LikedPosts />} />
         </Route>
 
         <Route

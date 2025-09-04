@@ -4,7 +4,7 @@ import ProfileHeader from "./components/ProfileHeader";
 import ViewSwitcher from "./components/ViewSwitcher";
 import VerticalPosts from "../../components/VerticalPosts";
 import { useDispatch, useSelector } from "react-redux";
-import EmptyPosts from "./components/EmptyPosts";
+import EmptyPosts from "../../components/EmptyPosts";
 import { useParams } from "react-router-dom";
 import {
   fetchUserById,
@@ -41,7 +41,7 @@ export default function Profile() {
 
   return (
     <div className="flex flex-col gap-y-5  h-full  ">
-      <div className="bg-zinc-900 px-5 py-10  rounded-2xl">
+      <div className="bg-zinc-900 px-5 py-6  rounded-2xl">
         <ProfileHeader />
         {postCurrentUser.length > 0 && (
           <ViewSwitcher
