@@ -19,6 +19,7 @@ import Loader from "../components/Loader";
 import { useEffect } from "react";
 import { setHasVisited } from "../redux/slices/currentUserSlice";
 import LikedPosts from "../pages/LikedPosts";
+import BookmarksPosts from "../pages/BookmarksPosts";
 
 export default function App() {
   const { loadingCount } = useSelector((state) => state.loading);
@@ -73,6 +74,7 @@ export default function App() {
 
           <Route path={ROUTES.NEW_POST} element={<NewPost />} />
           <Route path={ROUTES.LIKED} element={<LikedPosts />} />
+          <Route path={ROUTES.BOOKMARKS} element={<BookmarksPosts />} />
         </Route>
 
         <Route

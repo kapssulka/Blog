@@ -43,8 +43,6 @@ export const addBookmark = createAsyncThunk(
   "bookmarks/addBookmark",
   async (bookmarksObj, { rejectWithValue }) => {
     try {
-      console.log(bookmarksObj);
-
       const response = await fetch(`${baseUrl}/post_bookmarks`, {
         method: "POST",
         headers: fetchHeaders,
