@@ -1,19 +1,26 @@
 import cn from "classnames";
 
-export default function AvatarIcon({ className, classNameSize }) {
+export default function AvatarIcon({
+  className,
+  classNameSize,
+  src = "/images/avatars/avatar.jpg",
+  alt = "User avatar",
+}) {
   return (
     <div
       className={cn(
-        "rounded-full relative overflow-hidden",
+        "relative overflow-hidden rounded-full",
         !classNameSize && "w-15 h-15",
         classNameSize,
         className
       )}
     >
       <img
-        className="w-full h-full absolute left-0 top-0"
-        src="./../../../../images/avatars/avatar-cat.jpg"
+        className="absolute inset-0 w-full h-full object-cover"
+        src={src}
+        alt={alt}
       />
+      <span className="absolute inset-0 bg-zinc-900/20" />
     </div>
   );
 }

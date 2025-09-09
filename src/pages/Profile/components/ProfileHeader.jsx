@@ -5,6 +5,7 @@ import Button from "../../../components/Button/Button";
 import { useState } from "react";
 import EditProfile from "./EditProfile/EditProfile";
 import { useSelector } from "react-redux";
+import EditAvatar from "../../../components/Avatar/EditAvatar";
 
 export default function ProfileHeader() {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,7 +16,7 @@ export default function ProfileHeader() {
       <EditProfile isOpen={isOpen} setIsOpen={setIsOpen} />
 
       <div className="flex items-center justify-between">
-        <AvatarIcon classNameSize="h-30 w-30" />
+        <EditAvatar />
         <StatsPanel />
       </div>
 
