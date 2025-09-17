@@ -3,9 +3,12 @@ import cn from "classnames";
 export default function AvatarIcon({
   className,
   classNameSize,
-  src = "/images/avatars/avatar.jpg",
+  src,
   alt = "User avatar",
 }) {
+  const emptyAvatarUrl = "/images/avatars/avatar.jpg";
+  const urlAvatar = src || emptyAvatarUrl;
+
   return (
     <div
       className={cn(
@@ -17,7 +20,7 @@ export default function AvatarIcon({
     >
       <img
         className="absolute inset-0 w-full h-full object-cover"
-        src={src}
+        src={urlAvatar}
         alt={alt}
       />
       <span className="absolute inset-0 bg-zinc-900/20" />

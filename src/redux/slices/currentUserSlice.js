@@ -67,6 +67,32 @@ export const fetchPatchDataUser = createAsyncThunk(
   }
 );
 
+// UPLOAD AVATAR
+
+export const fetchUploadAvatar = createAsyncThunk(
+  "user/fetchUploadAvatar",
+  async (obj, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
+        {
+          method: "PATCH",
+          headers: fetchHeaders,
+          body: JSON.stringify(obj.data),
+        }
+      );
+
+      if (!response.ok) throw new Error("Ошибка с обновлением аватарки!");
+
+      const data = await response.json();
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const currentUserSlice = createSlice({
   name: "user",
   initialState: {
@@ -75,6 +101,7 @@ export const currentUserSlice = createSlice({
     bio: "",
     created_at: "",
     hasVisited: false,
+    user_avatar: "",
   },
   reducers: {
     setHasVisited: (state, action) => {
@@ -86,16 +113,22 @@ export const currentUserSlice = createSlice({
       state.name = "";
       state.bio = "";
       state.created_at = "";
+      state.hasVisited = false;
+      state.user_avatar = {};
     },
   },
   extraReducers: (buider) => {
     buider
       .addCase(fetchGetDataUser.fulfilled, (state, action) => {
-        const { user_uid, name, bio, created_at } = action.payload[0];
+        const { user_uid, name, bio, created_at, avatar_url, avatar_path } =
+          action.payload[0];
 
         state.user_uid = user_uid;
         state.name = name;
         bio ? (state.bio = bio) : (state.bio = "");
+        avatar_url && avatar_path
+          ? (state.user_avatar = { avatar_url, avatar_path })
+          : (state.user_avatar = {});
         state.created_at = created_at;
       })
       .addCase(fetchGetDataUser.rejected, (state, action) => {
@@ -111,8 +144,10 @@ export const currentUserSlice = createSlice({
         state.name = name;
         state.bio = bio;
       })
-      .addCase(fetchPatchDataUser.rejected, (state, action) => {
-        console.log(action.payload);
+      .addCase(fetchUploadAvatar.fulfilled, (state, action) => {
+        const { avatar_path, avatar_url } = action.payload;
+
+        state.user_avatar = { avatar_path, avatar_url };
       });
   },
 });

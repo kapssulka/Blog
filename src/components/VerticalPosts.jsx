@@ -21,6 +21,7 @@ export default function VerticalPosts({ posts, refPosts }) {
             user_uid={post.users.user_uid}
             create_at={date}
             post_id={post.post_id}
+            avatar_url={post.users.avatar_url}
           />
         );
       })}

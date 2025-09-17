@@ -15,9 +15,11 @@ export default function ConfirmModal({ setOpenConfirmModal, onClick }) {
         </div>
 
         <div className="flex justify-between gap-4 mt-5">
-          <ConfirmButton onClick={() => onClick()} isRed text="Удалить" />
+          <ConfirmButton onClick={onClick} isRed text="Удалить" />
           <ConfirmButton
-            onClick={() => setOpenConfirmModal(false)}
+            onClick={() => {
+              setOpenConfirmModal(false);
+            }}
             text="Отмена"
           />
         </div>

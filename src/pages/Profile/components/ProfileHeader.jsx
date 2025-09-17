@@ -1,4 +1,3 @@
-import AvatarIcon from "./../../../components/Avatar/AvatarIcon";
 import StatsPanel from "../../../features/StatsPanel/StatsPanel";
 import UserBio from "./UserBio/UserBio";
 import Button from "../../../components/Button/Button";

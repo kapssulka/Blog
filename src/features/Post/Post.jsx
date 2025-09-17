@@ -13,6 +13,7 @@ export default forwardRef(function Post(props, ref) {
     user_uid,
     create_at,
     post_id,
+    avatar_url,
   } = props;
 
   const { user_uid: currenUserUid } = useSelector((state) => state.user);
@@ -28,6 +29,7 @@ export default forwardRef(function Post(props, ref) {
         avtor={avtor}
         linkTo={`/profile/${user_uid}`}
         create_at={create_at}
+        avatar_url={avatar_url}
       />
 
       {isCurrentUser && (
