@@ -19,7 +19,7 @@ export default function Profile() {
   const { user_uid: currentUserUid } = useSelector((state) => state.user);
 
   const postCurrentUser = useMemo(
-    () => posts.filter((post) => post.user_uid === id),
+    () => posts.filter((post) => post?.user_uid === id),
     [posts, id]
   );
 

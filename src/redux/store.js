@@ -11,6 +11,7 @@ import loadingReducer from "./slices/loadingSlice";
 import usersReducer from "./slices/usersSlice";
 import postLikesReducer from "./slices/postLikesSlice";
 import postBookmarksReducer from "./slices/postBookmarksSlice";
+import { listenerMiddleware } from "./listeners";
 
 const loadingMiddleware = (store) => (next) => (action) => {
   if (action.type.endsWith("/pending")) {
@@ -34,5 +35,8 @@ export default configureStore({
     [postBookmarksSlice.name]: postBookmarksReducer,
   },
   middleware: (defaultMiddleware) =>
-    defaultMiddleware().concat(loadingMiddleware),
+    defaultMiddleware().concat(
+      loadingMiddleware,
+      listenerMiddleware.middleware
+    ),
 });

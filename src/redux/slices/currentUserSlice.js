@@ -98,10 +98,10 @@ export const currentUserSlice = createSlice({
   initialState: {
     user_uid: "",
     name: "",
-    bio: "",
-    created_at: "",
+    // bio: "",
+    // created_at: "",
     hasVisited: false,
-    user_avatar: "",
+    // user_avatar: "",
   },
   reducers: {
     setHasVisited: (state, action) => {
@@ -111,10 +111,10 @@ export const currentUserSlice = createSlice({
     resetDataUser: (state, action) => {
       state.user_uid = "";
       state.name = "";
-      state.bio = "";
-      state.created_at = "";
+      // state.bio = "";
+      // state.created_at = "";
       state.hasVisited = false;
-      state.user_avatar = {};
+      // state.user_avatar = {};
     },
   },
   extraReducers: (buider) => {
@@ -125,11 +125,11 @@ export const currentUserSlice = createSlice({
 
         state.user_uid = user_uid;
         state.name = name;
-        bio ? (state.bio = bio) : (state.bio = "");
-        avatar_url && avatar_path
-          ? (state.user_avatar = { avatar_url, avatar_path })
-          : (state.user_avatar = {});
-        state.created_at = created_at;
+        // bio ? (state.bio = bio) : (state.bio = "");
+        // avatar_url && avatar_path
+        //   ? (state.user_avatar = { avatar_url, avatar_path })
+        //   : (state.user_avatar = {});
+        // state.created_at = created_at;
       })
       .addCase(fetchGetDataUser.rejected, (state, action) => {
         console.log("ОШИБКА: ", action.payload);
@@ -146,8 +146,6 @@ export const currentUserSlice = createSlice({
       })
       .addCase(fetchUploadAvatar.fulfilled, (state, action) => {
         const { avatar_path, avatar_url } = action.payload;
-
-        state.user_avatar = { avatar_path, avatar_url };
       });
   },
 });

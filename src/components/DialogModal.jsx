@@ -12,7 +12,7 @@ export default function DialogModal({
     <Dialog
       open={isOpen}
       onClose={() => setIsOpen?.(false)}
-      className="relative z-50 "
+      className="relative z-40 "
     >
       <DialogBackdrop className="fixed inset-0 bg-zinc-900/70" />
       <DialogPanel

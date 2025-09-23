@@ -137,6 +137,20 @@ export const postsSlice = createSlice({
       state.lastAddedImages = [];
       state.lastAddedPost = null;
     },
+
+    // обновление аватарки в постах, при обновлении аватарки
+    uploadAvatarForPosts: (state, action) => {
+      const changedUserObj = action.payload;
+      const { user_uid, avatar_url, avatar_path } = changedUserObj;
+
+      state.posts = state.posts.map((post) => {
+        if (post.user_uid === user_uid) {
+          post.users = { ...post.users, avatar_url, avatar_path };
+        }
+
+        return post;
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -170,5 +184,5 @@ export const postsSlice = createSlice({
       });
   },
 });
-export const { addLastPost } = postsSlice.actions;
+export const { addLastPost, uploadAvatarForPosts } = postsSlice.actions;
 export default postsSlice.reducer;
