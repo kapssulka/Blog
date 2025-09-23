@@ -16,6 +16,8 @@ export default function EditAvatar() {
 
   const [avatarPreview, setAvatarPreview] = useState(false);
 
+  const avatarUrl = users[activeProfileUid]?.avatar_url || null;
+
   const handleClick = () => {
     fileInputRef.current?.click();
   };
@@ -39,12 +41,9 @@ export default function EditAvatar() {
   };
   return (
     <div className="relative ">
-      <AvatarIcon
-        classNameSize="h-30 w-30"
-        src={users[activeProfileUid]?.avatar_url}
-      />
+      <AvatarIcon classNameSize="h-30 w-30" src={avatarUrl} />
 
-      {isCurrentUserProfile && (
+      {isCurrentUserProfile && !avatarUrl && (
         <EditAvatarButton
           ref={fileInputRef}
           icon={<IoMdAdd className="w-5 h-5 text-black" />}
@@ -52,13 +51,14 @@ export default function EditAvatar() {
           handleFileChange={handleFileChange}
         />
       )}
-
-      {/* <EditAvatarButton
-        ref={fileInputRef}
-        icon={<MdModeEdit className="text-black" />}
-        handleClick={handleClick}
-        handleFileChange={handleFileChange}
-      /> */}
+      {isCurrentUserProfile && avatarUrl && (
+        <EditAvatarButton
+          ref={fileInputRef}
+          icon={<MdModeEdit className="w-5 h-5 text-black" />}
+          handleClick={handleClick}
+          handleFileChange={handleFileChange}
+        />
+      )}
 
       <DialogModal isOpen={Boolean(avatarPreview)} widthCss="max-w-[50%]">
         {avatarPreview && (

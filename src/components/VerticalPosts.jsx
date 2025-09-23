@@ -17,11 +17,11 @@ export default function VerticalPosts({ posts, refPosts }) {
             images={post.images}
             description={post.text}
             key={post.post_id}
-            avtor={post.users.name}
-            user_uid={post.users.user_uid}
+            avtor={post.author.name}
+            user_uid={post.author.user_uid}
             create_at={date}
             post_id={post.post_id}
-            avatar_url={post.users.avatar_url}
+            avatar_url={post.author.avatar_url}
           />
         );
       })}

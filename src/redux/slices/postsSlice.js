@@ -29,7 +29,7 @@ export const createPost = createAsyncThunk(
   async (post, { rejectWithValue }) => {
     try {
       const response = await fetch(
-        `${baseUrl}/posts?select=*,users:users!posts_user_uid_fkey(*)`,
+        `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*)`,
         {
           method: "POST",
           headers: fetchHeaders,
@@ -56,8 +56,8 @@ export const getPosts = createAsyncThunk(
   async (uid = null, { rejectWithValue }) => {
     try {
       const urlPostDetails = uid
-        ? `${baseUrl}/posts?user_uid=eq.${uid}&select=*,users:users!posts_user_uid_fkey(*)`
-        : `${baseUrl}/posts?select=*,users:users!posts_user_uid_fkey(*)`;
+        ? `${baseUrl}/posts?user_uid=eq.${uid}&select=*,author:users!posts_user_uid_fkey(*)`
+        : `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*)`;
 
       const urlPostImages = `${baseUrl}/post_images?select=*`;
 
@@ -145,7 +145,7 @@ export const postsSlice = createSlice({
 
       state.posts = state.posts.map((post) => {
         if (post.user_uid === user_uid) {
-          post.users = { ...post.users, avatar_url, avatar_path };
+          post.author = { ...post.author, avatar_url, avatar_path };
         }
 
         return post;
