@@ -49,6 +49,16 @@ export const usersSlice = createSlice({
         avatar_path,
       };
     },
+    changeBioAndName: (state, action) => {
+      const changedUserObj = action.payload;
+      const { user_uid, bio, name } = changedUserObj;
+
+      state.users[user_uid] = {
+        ...state.users[user_uid],
+        bio,
+        name,
+      };
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserById.fulfilled, (state, action) => {
@@ -62,5 +72,6 @@ export const {
   setIsCurrentUserProfile,
   setNewBioLocal,
   uploadAvatarForUsers,
+  changeBioAndName,
 } = usersSlice.actions;
 export default usersSlice.reducer;

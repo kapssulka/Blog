@@ -151,6 +151,18 @@ export const postsSlice = createSlice({
         return post;
       });
     },
+    changeBioAndNameForPosts: (state, action) => {
+      const changedUserObj = action.payload;
+      const { user_uid, bio, name } = changedUserObj;
+
+      state.posts = state.posts.map((post) => {
+        if (post.user_uid === user_uid) {
+          post.author = { ...post.author, bio, name };
+        }
+
+        return post;
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -184,5 +196,6 @@ export const postsSlice = createSlice({
       });
   },
 });
-export const { addLastPost, uploadAvatarForPosts } = postsSlice.actions;
+export const { addLastPost, uploadAvatarForPosts, changeBioAndNameForPosts } =
+  postsSlice.actions;
 export default postsSlice.reducer;

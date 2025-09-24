@@ -68,7 +68,7 @@ export const useEditProfile = (isOpen, setIsOpen) => {
         toast.error("Ошибка при обновлении данных");
       });
 
-    dispatch(setNewBioLocal({ user_uid, data: updates }));
+    // dispatch(setNewBioLocal({ user_uid, data: updates }));
   };
 
   return { register, onSubmit, handleSubmit, errors };
