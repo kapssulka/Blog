@@ -58,6 +58,14 @@ export async function uploadAvatarToSupabaseStorage(file, dispatch) {
   return { publicUrl, path };
 }
 
-export const removeFromSupabaseStorage = async (arrPath) => {
-  return supabase.storage.from("posts").remove(arrPath);
+export const removeFromSupabaseStorage = async (
+  arrPath,
+  bucket = null,
+  folder = "images"
+) => {
+  if (!bucket) throw new Error("Укажите имя 'bucket'");
+
+  const paths = Array.isArray(arrPath) ? arrPath : [arrPath];
+
+  return supabase.storage.from(bucket).remove(paths);
 };

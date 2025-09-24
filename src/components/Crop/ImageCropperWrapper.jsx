@@ -52,7 +52,7 @@ export default function ImageCropperWrapper({ image, closeCropImage }) {
           data: { avatar_url: publicUrl, avatar_path: path },
         })
       ).unwrap();
-      toast.success("Аватарка успещно добавлена!");
+      toast.success("Аватарка успешно добавлена!");
       closeCropImage();
     } catch (error) {
       toast.error("Непредвиденная ошибка с загрузкой аватарки!");

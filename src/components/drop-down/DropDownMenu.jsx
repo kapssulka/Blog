@@ -50,7 +50,7 @@ export default function DropDownMenu({ className, post_id, images = [] }) {
     try {
       const pathArr = images.map((item) => item.path);
 
-      const { data, error } = await removeFromSupabaseStorage(pathArr);
+      const { data, error } = await removeFromSupabaseStorage(pathArr, "posts");
       if (error) throw new Error(`Ошибка: ${error}`);
 
       await dispatch(deleteAllLike(post_id)).unwrap();

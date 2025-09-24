@@ -10,6 +10,8 @@ import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import ConfirmButton from "../ConfirmModal/ConfirmButton";
 import CloseButton from "../CloseButton";
 import { fetchDeleteAvatar } from "../../redux/slices/currentUserSlice";
+import { toast } from "sonner";
+import { removeFromSupabaseStorage } from "../../supabase/services/storageService";
 
 export default function EditAvatar() {
   const fileInputRef = useRef(null);
@@ -54,8 +56,22 @@ export default function EditAvatar() {
       user_uid: activeProfileUid,
       data: { avatar_url: null, avatar_path: null },
     };
+
+    const avatar_path = users[activeProfileUid]?.avatar_path;
+    if (!avatar_path) {
+      toast.error("Ошибка с удалением!");
+      return;
+    }
+
+    const { data, error } = await removeFromSupabaseStorage(
+      avatar_path,
+      "avatars"
+    );
+    if (error) throw new Error(`Ошибка: ${error}`);
+
     await dispatch(fetchDeleteAvatar(obj)).unwrap();
     setOpenConfirmModal(false);
+    toast.success("Аватарка успешно удалена!");
   };
 
   return (
