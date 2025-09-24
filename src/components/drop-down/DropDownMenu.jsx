@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import { deleteAllLike } from "../../redux/slices/postLikesSlice";
 import { deleteAllBookmarks } from "../../redux/slices/postBookmarksSlice";
+import ConfirmButton from "../ConfirmModal/ConfirmButton";
 
 export default function DropDownMenu({ className, post_id, images = [] }) {
   const dispatch = useDispatch();
@@ -88,10 +89,19 @@ export default function DropDownMenu({ className, post_id, images = [] }) {
 
       {openConfirmModal && (
         <ConfirmModal
-          onClick={() => handleRemovePost(post_id, images)}
           setOpenConfirmModal={setOpenConfirmModal}
-          buttonRef={buttonRef}
-        />
+          confirmText="Вы действительно хотите удалить пост?"
+        >
+          <ConfirmButton
+            onClick={() => handleRemovePost(post_id, images)}
+            isRed
+            text="Удалить"
+          />
+          <ConfirmButton
+            onClick={() => setOpenConfirmModal(false)}
+            text="Отмена"
+          />
+        </ConfirmModal>
       )}
     </div>
   );
