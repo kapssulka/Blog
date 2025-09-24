@@ -5,13 +5,15 @@ import AvatarIcon from "./AvatarIcon";
 import EditAvatarButton from "./EditAvatarButton";
 import DialogModal from "../DialogModal";
 import ImageCropperWrapper from "../Crop/ImageCropperWrapper";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import ConfirmModal from "../ConfirmModal/ConfirmModal";
 import ConfirmButton from "../ConfirmModal/ConfirmButton";
 import CloseButton from "../CloseButton";
+import { fetchDeleteAvatar } from "../../redux/slices/currentUserSlice";
 
 export default function EditAvatar() {
   const fileInputRef = useRef(null);
+  const dispatch = useDispatch();
 
   const { activeProfileUid, users, isCurrentUserProfile } = useSelector(
     (state) => state.users
@@ -43,6 +45,17 @@ export default function EditAvatar() {
 
     URL.revokeObjectURL(avatarPreview);
     setAvatarPreview(false);
+  };
+
+  // логика удаления аватарки
+
+  const handleDeleteAvatar = async () => {
+    const obj = {
+      user_uid: activeProfileUid,
+      data: { avatar_url: null, avatar_path: null },
+    };
+    await dispatch(fetchDeleteAvatar(obj)).unwrap();
+    setOpenConfirmModal(false);
   };
 
   return (
@@ -77,7 +90,11 @@ export default function EditAvatar() {
               text="Добавить новую"
               onClick={() => handleAddAvatar(true)}
             />
-            <ConfirmButton isRed text="Удалить аватарку" />
+            <ConfirmButton
+              isRed
+              text="Удалить аватарку"
+              onClick={() => handleDeleteAvatar()}
+            />
           </div>
 
           <CloseButton

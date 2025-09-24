@@ -93,6 +93,30 @@ export const fetchUploadAvatar = createAsyncThunk(
   }
 );
 
+export const fetchDeleteAvatar = createAsyncThunk(
+  "user/fetchDeleteAvatar",
+  async (obj, { rejectWithValue }) => {
+    try {
+      const response = await fetch(
+        `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
+        {
+          method: "PATCH",
+          headers: fetchHeaders,
+          body: JSON.stringify(obj.data),
+        }
+      );
+
+      if (!response.ok) throw new Error("Ошибка с обновлением аватарки!");
+
+      const data = await response.json();
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const currentUserSlice = createSlice({
   name: "user",
   initialState: {
@@ -145,6 +169,9 @@ export const currentUserSlice = createSlice({
         state.bio = bio;
       })
       .addCase(fetchUploadAvatar.fulfilled, (state, action) => {
+        const { avatar_path, avatar_url } = action.payload;
+      })
+      .addCase(fetchDeleteAvatar.fulfilled, (state, action) => {
         const { avatar_path, avatar_url } = action.payload;
       });
   },
