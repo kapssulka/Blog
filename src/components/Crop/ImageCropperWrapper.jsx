@@ -5,19 +5,22 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 import { getCroppedImage } from "../../utils/cropImage";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadAvatarToSupabaseStorage } from "../../supabase/services/storageService";
+import {
+  removeFromSupabaseStorage,
+  uploadAvatarToSupabaseStorage,
+} from "../../supabase/services/storageService";
 import { fetchUploadAvatar } from "../../redux/slices/currentUserSlice";
 
 export default function ImageCropperWrapper({ image, closeCropImage }) {
   const contentRef = useRef(null);
 
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
   const { user_uid } = useSelector((state) => state.user);
+  const { users } = useSelector((state) => state.users);
 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [url, setUrl] = useState(null);
 
   useEffect(() => {
     const handleClick = (e) => {
@@ -41,17 +44,32 @@ export default function ImageCropperWrapper({ image, closeCropImage }) {
     // если кроп был, то с помощью Canvas (getCroppedImage) обрезаем и создаем изображение
     try {
       const file = await getCroppedImage(image, croppedAreaPixels);
+      const currentAvatarPath = users[user_uid].avatar_path;
 
+      // Загрузка нового файла
       const { path, publicUrl } = await uploadAvatarToSupabaseStorage(
         file,
-        dispath
+        dispatch
       );
-      await dispath(
-        fetchUploadAvatar({
-          user_uid,
-          data: { avatar_url: publicUrl, avatar_path: path },
-        })
-      ).unwrap();
+      // Удаление старого файла
+      if (currentAvatarPath) {
+        const { data, error } = await removeFromSupabaseStorage(
+          currentAvatarPath,
+          "avatars"
+        );
+        if (error) {
+          console.warn("Ошибка удаления старой аватарки:", error);
+        }
+      }
+      // Загрузка нового url и path в БД
+
+      const newObj = {
+        user_uid,
+        data: { avatar_url: publicUrl, avatar_path: path },
+      };
+
+      await dispatch(fetchUploadAvatar(newObj)).unwrap();
+
       toast.success("Аватарка успешно добавлена!");
       closeCropImage();
     } catch (error) {
