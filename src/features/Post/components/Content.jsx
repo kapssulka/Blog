@@ -13,7 +13,7 @@ export default function Content({
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   return (
-    <div className={`overflow-hidden ${className} max-w-[630px]`}>
+    <div className={className}>
       <Swiper
         modules={[Pagination, Navigation]}
         spaceBetween={10}
@@ -27,7 +27,7 @@ export default function Content({
           swiper.params.navigation.prevEl = prevRef.current;
           swiper.params.navigation.nextEl = nextRef.current;
         }}
-        className=" aspect-[4/3] max-w"
+        className=" aspect-[4/3]"
       >
         {images.map((image) => (
           <SwiperSlide key={image.id}>

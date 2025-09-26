@@ -10,6 +10,10 @@ export default function ButtonOrange({
   typeButton = "",
   ...props
 }) {
+  const baseStyleActive =
+    "flex text-center items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-1 border rounded-[10px] border-amber-400 hover:border-amber-400 transition-border duration-300";
+  const baseStyle =
+    "flex text-center items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-1 border rounded-[10px] border-gray-600 hover:border-amber-400 transition-border duration-300";
   return (
     <>
       {!isLink && !isButton && (
@@ -18,27 +22,14 @@ export default function ButtonOrange({
           {...props}
           to={to}
           className={({ isActive }) =>
-            cn(
-              isActive
-                ? "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-1 border rounded-[10px] border-amber-400 hover:border-amber-400 transition-border duration-300"
-                : "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-1 border rounded-[10px] border-gray-600 hover:border-amber-400 transition-border duration-300",
-              className
-            )
+            cn(isActive ? baseStyleActive : baseStyle, className)
           }
         >
           {text}
         </NavLink>
       )}
-
       {isLink && (
-        <Link
-          {...props}
-          to={to}
-          className={cn(
-            "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-2 border rounded-[10px] border-gray-600 hover:border-amber-400 transition-border duration-300",
-            className
-          )}
-        >
+        <Link {...props} to={to} className={cn(baseStyle, className)}>
           {text}
         </Link>
       )}
@@ -47,10 +38,7 @@ export default function ButtonOrange({
         <button
           {...props}
           type={typeButton}
-          className={cn(
-            "flex items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-2 border rounded-[10px] border-gray-600 hover:border-amber-400 transition-border duration-300",
-            className
-          )}
+          className={cn(baseStyle, className)}
         >
           {text}
         </button>

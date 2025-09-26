@@ -3,7 +3,7 @@ import { formatDate } from "../utils/date";
 
 export default function VerticalPosts({ posts, refPosts }) {
   return (
-    <div className="flex flex-col gap-10 flex-1">
+    <div className="flex flex-col gap-10 ">
       {posts.map((post) => {
         const date = formatDate(post.created_at);
 
