@@ -7,10 +7,8 @@ export default function Layout() {
   return (
     <>
       <Header />
-      <MainWrapper>
-        <section className="flex-1">
-          <Outlet />
-        </section>
+      <MainWrapper isTwoColums>
+        <Outlet />
         <Aside />
       </MainWrapper>
     </>

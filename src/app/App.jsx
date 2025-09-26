@@ -39,7 +39,8 @@ export default function App() {
   }, [hasVisited, name, dispatch]);
 
   return (
-    <div className="flex flex-col min-h-screen  bg-zinc-950 text-zinc-100">
+    // <div className="flex flex-col min-h-screen  bg-zinc-950 text-zinc-100">
+    <div className=" min-h-screen  bg-zinc-950 text-zinc-100">
       <Toaster
         richColors
         position="top-center"
@@ -62,10 +63,11 @@ export default function App() {
         >
           <Route index element={<Home />} />
 
-          <Route path={ROUTES.MESSAGE.INDEX} element={<Message />}>
+          {/* <Route path={ROUTES.MESSAGE.INDEX} element={<Message />}>
             <Route index element={<ChatAllUsers />} />
             <Route path=":id" element={<ChatSingleUser />} />
-          </Route>
+          </Route> */}
+
           <Route path={ROUTES.PROFILE} element={<Profile />} />
           <Route
             path={"/profile"}
