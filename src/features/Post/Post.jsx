@@ -32,7 +32,13 @@ export default forwardRef(function Post(props, ref) {
         avatar_url={avatar_url}
       />
 
-      {isCurrentUser && <DropDownMenu post_id={post_id} images={images} />}
+      {isCurrentUser && (
+        <DropDownMenu
+          post_id={post_id}
+          images={images}
+          className="top-5 right-5"
+        />
+      )}
 
       <Content className="mb-5" images={images} description={description} />
 

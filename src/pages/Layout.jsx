@@ -7,7 +7,8 @@ export default function Layout() {
   return (
     <>
       <Header />
-      <MainWrapper>
+
+      <MainWrapper isTwoColums>
         <Outlet />
         <Aside />
       </MainWrapper>
