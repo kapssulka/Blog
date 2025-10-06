@@ -1,4 +1,4 @@
-import Logout from "../../components/Logout/Logout";
+import Logout from "../../components/Logout/Logout.js";
 
 export default function Header() {
   return (
