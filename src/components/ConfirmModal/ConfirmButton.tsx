@@ -1,5 +1,13 @@
 import cn from "classnames";
 
+interface ConfirmButtonProps extends React.ComponentPropsWithoutRef<"button"> {
+  text: string;
+  isRed?: boolean;
+  isGreen?: boolean;
+  className?: string;
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+}
+
 export default function ConfirmButton({
   text = "Кнопка",
   isRed,
@@ -7,7 +15,7 @@ export default function ConfirmButton({
   className,
   onClick,
   ...props
-}) {
+}: ConfirmButtonProps) {
   return (
     <button
       {...props}

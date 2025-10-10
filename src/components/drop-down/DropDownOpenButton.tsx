@@ -1,7 +1,18 @@
 import { forwardRef } from "react";
+import type { SetState } from "../../types/utils.types.js";
+interface DropDownOpenButton {
+  openDropDown: boolean;
+  setOpenDropDown: SetState<boolean>;
+  icon: React.ReactNode;
+}
+type RefType = React.ForwardedRef<HTMLButtonElement>;
 
-export default forwardRef(function DropDownOpenButton(props, ref) {
+export default forwardRef(function DropDownOpenButton(
+  props: DropDownOpenButton,
+  ref: RefType
+) {
   const { openDropDown, setOpenDropDown, icon } = props;
+
   return (
     <button
       ref={ref}

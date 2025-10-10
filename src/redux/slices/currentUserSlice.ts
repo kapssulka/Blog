@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { baseUrl, fetchHeaders } from "../../supabase/supabase";
+// @ts-ignore
+import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
 
 // GET
 export const fetchGetDataUser = createAsyncThunk(
@@ -16,6 +17,8 @@ export const fetchGetDataUser = createAsyncThunk(
 
       return data;
     } catch (error) {
+      // @ts-ignore
+
       return rejectWithValue(error.message);
     }
   }
@@ -36,6 +39,7 @@ export const fetchPostDataUsers = createAsyncThunk(
 
       return await response.json();
     } catch (error) {
+      // @ts-ignore
       return rejectWithValue(error.message);
     }
   }
@@ -48,10 +52,12 @@ export const fetchPatchDataUser = createAsyncThunk(
   async (obj, { rejectWithValue }) => {
     try {
       const response = await fetch(
+        // @ts-ignore
         `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
         {
           method: "PATCH",
           headers: fetchHeaders,
+          // @ts-ignore
           body: JSON.stringify(obj.data),
         }
       );
@@ -62,6 +68,7 @@ export const fetchPatchDataUser = createAsyncThunk(
 
       return data;
     } catch (error) {
+      // @ts-ignore
       return rejectWithValue(error.message);
     }
   }
@@ -74,10 +81,12 @@ export const fetchUploadAvatar = createAsyncThunk(
   async (obj, { rejectWithValue }) => {
     try {
       const response = await fetch(
+        // @ts-ignore
         `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
         {
           method: "PATCH",
           headers: fetchHeaders,
+          // @ts-ignore
           body: JSON.stringify(obj.data),
         }
       );
@@ -88,6 +97,7 @@ export const fetchUploadAvatar = createAsyncThunk(
 
       return data;
     } catch (error) {
+      // @ts-ignore
       return rejectWithValue(error.message);
     }
   }
@@ -98,10 +108,12 @@ export const fetchDeleteAvatar = createAsyncThunk(
   async (obj, { rejectWithValue }) => {
     try {
       const response = await fetch(
+        // @ts-ignore
         `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
         {
           method: "PATCH",
           headers: fetchHeaders,
+          // @ts-ignore
           body: JSON.stringify(obj.data),
         }
       );
@@ -112,6 +124,7 @@ export const fetchDeleteAvatar = createAsyncThunk(
 
       return data;
     } catch (error) {
+      // @ts-ignore
       return rejectWithValue(error.message);
     }
   }
@@ -166,6 +179,7 @@ export const currentUserSlice = createSlice({
         const { name, bio } = action.payload[0];
 
         state.name = name;
+        // @ts-ignore
         state.bio = bio;
       })
       .addCase(fetchUploadAvatar.fulfilled, (state, action) => {

@@ -1,13 +1,20 @@
 import cn from "classnames";
 
+interface AvatarIconProps {
+  className?: string;
+  classNameSize?: string;
+  src: string;
+  alt?: string;
+}
+
 export default function AvatarIcon({
   className,
   classNameSize,
   src,
   alt = "User avatar",
-}) {
+}: AvatarIconProps) {
   const emptyAvatarUrl = "/images/avatars/avatar.jpg";
-  const urlAvatar = src || emptyAvatarUrl;
+  const urlAvatar: string = src || emptyAvatarUrl;
 
   return (
     <div

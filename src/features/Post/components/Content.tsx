@@ -4,12 +4,19 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useRef } from "react";
+import type { ImageData } from "../../../types/models/data.js";
+
+interface ContentProps {
+  className?: string;
+  images: ImageData[];
+  description: string;
+}
 
 export default function Content({
-  className = "",
+  className,
   images = [],
-  description = "Описание",
-}) {
+  description,
+}: ContentProps) {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   return (
@@ -24,8 +31,13 @@ export default function Content({
           nextEl: nextRef.current,
         }}
         onBeforeInit={(swiper) => {
-          swiper.params.navigation.prevEl = prevRef.current;
-          swiper.params.navigation.nextEl = nextRef.current;
+          if (
+            swiper.params.navigation &&
+            typeof swiper.params.navigation !== "boolean"
+          ) {
+            swiper.params.navigation.prevEl = prevRef.current!;
+            swiper.params.navigation.nextEl = nextRef.current!;
+          }
         }}
         className=" aspect-[4/3]"
       >
@@ -33,7 +45,6 @@ export default function Content({
           <SwiperSlide key={image.id}>
             <img
               src={image.url}
-              alt={image.text}
               className="w-full h-full max-w-full object-cover rounded-2xl"
             />
           </SwiperSlide>

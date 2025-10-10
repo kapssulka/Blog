@@ -1,15 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+export interface LoadingState {
+  loadingCount: number;
+}
+
+const initialState: LoadingState = {
+  loadingCount: 0,
+};
+
 export const loadingSlice = createSlice({
   name: "loading",
-  initialState: {
-    loadingCount: 0,
-  },
+  initialState,
   reducers: {
-    increment: (state, action) => {
+    increment: (state) => {
       state.loadingCount++;
     },
-    decrement: (state, action) => {
+    decrement: (state) => {
       state.loadingCount--;
     },
   },

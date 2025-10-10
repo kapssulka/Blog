@@ -1,17 +1,29 @@
 import { Link } from "react-router-dom";
-import AvatarIcon from "./AvatarIcon";
-import AvatarText from "./AvatarText";
+import AvatarIcon from "./AvatarIcon.js";
+
+import AvatarText from "./AvatarText.js";
+
 import cn from "classnames";
+import type { ElementType } from "react";
+
+interface ProfilePreviewProps {
+  className: string;
+  chatMessageEl?: React.ReactNode;
+  linkTo?: string;
+  avtor: string;
+  create_at: string;
+  avatar_url: string;
+}
 
 export default function ProfilePreview({
   className,
   chatMessageEl = false,
-  linkTo = false,
+  linkTo,
   avtor,
   create_at,
   avatar_url,
-}) {
-  const Wrapper = linkTo ? Link : "div"; // динамический контейнер
+}: ProfilePreviewProps) {
+  const Wrapper = (linkTo ? Link : "div") as ElementType;
   const wrapperProps = linkTo ? { to: linkTo } : {};
 
   return (

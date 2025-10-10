@@ -1,8 +1,17 @@
 import imageCompression from "browser-image-compression";
-import { supabase } from "../supabase";
-import { decrement, increment } from "../../redux/slices/loadingSlice";
+import { supabase } from "../supabase.js";
+import { decrement, increment } from "../../redux/slices/loadingSlice.js";
+import type { AppDispatch } from "../../redux/store.js";
 
-export const uploadToSupabaseStorage = async (files, dispatch) => {
+interface ReturnUrl {
+  path: string;
+  publicUrl: string;
+}
+
+export const uploadToSupabaseStorage = async (
+  files: File[],
+  dispatch: AppDispatch
+): Promise<ReturnUrl[]> => {
   dispatch(increment());
 
   const urls = [];
@@ -13,6 +22,7 @@ export const uploadToSupabaseStorage = async (files, dispatch) => {
       fileType: "image/webp",
     };
 
+    // @ts-ignore
     const compressedFile = await imageCompression(file, options);
 
     const fileName = `${crypto.randomUUID()}.webp`;
@@ -36,7 +46,10 @@ export const uploadToSupabaseStorage = async (files, dispatch) => {
   return urls;
 };
 
-export async function uploadAvatarToSupabaseStorage(file, dispatch) {
+export async function uploadAvatarToSupabaseStorage(
+  file: File,
+  dispatch: AppDispatch
+): Promise<ReturnUrl> {
   dispatch(increment());
 
   const fileName = `${crypto.randomUUID()}.webp`;
@@ -59,13 +72,13 @@ export async function uploadAvatarToSupabaseStorage(file, dispatch) {
 }
 
 export const removeFromSupabaseStorage = async (
-  arrPath,
-  bucket = null,
-  folder = "images"
+  arrPath: string[],
+  bucket: string | null = null,
+  folder: string = "images"
 ) => {
   if (!bucket) throw new Error("Укажите имя 'bucket'");
 
   const paths = Array.isArray(arrPath) ? arrPath : [arrPath];
 
-  return supabase.storage.from(bucket).remove(paths);
+  return await supabase.storage.from(bucket).remove(paths);
 };

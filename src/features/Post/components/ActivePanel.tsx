@@ -1,26 +1,37 @@
-import Like from "./Like";
-import Comment from "./Comment";
-import BookMark from "./BookMark";
-import { useDispatch, useSelector } from "react-redux";
+import Like from "./Like.js";
+import Comment from "./Comment.js";
+import BookMark from "./BookMark.js";
+
 import {
   addLike,
   checkLike,
   deleteLike,
-} from "../../../redux/slices/postLikesSlice";
+} from "../../../redux/slices/postLikesSlice.js";
 import {
   addBookmark,
   deleteBookmark,
   getBookmark,
-} from "../../../redux/slices/postBookmarksSlice";
+} from "../../../redux/slices/postBookmarksSlice.js";
+import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks.js";
 
-export default function ActivePanel({ post_id, isLikeDefault, likeCount }) {
-  const dispatch = useDispatch();
-  const { user_uid } = useSelector((state) => state.user);
-  const { bookmarks } = useSelector((state) => state.bookmarks);
+interface ActivePanelProps {
+  post_id: number;
+  isLikeDefault: any;
+  likeCount: any;
+}
+
+export default function ActivePanel({
+  post_id,
+  isLikeDefault,
+  likeCount,
+}: ActivePanelProps) {
+  const dispatch = useAppDispatch();
+  const { user_uid } = useAppSelector((state) => state.user);
+  const { bookmarks } = useAppSelector((state) => state.bookmarks);
 
   const isBookMarks = bookmarks.includes(Number(post_id));
 
-  const onLikeClik = async (e) => {
+  const onLikeClik = async (e: React.MouseEvent<SVGElement>) => {
     const likeObj = { post_id, user_uid };
 
     const res = await dispatch(checkLike(likeObj)).unwrap();
@@ -29,7 +40,7 @@ export default function ActivePanel({ post_id, isLikeDefault, likeCount }) {
     ).unwrap();
   };
 
-  const onBoolmarkClik = async (e) => {
+  const onBoolmarkClik = async (e: React.MouseEvent<SVGElement>) => {
     const bookmarkObj = { post_id, user_uid };
 
     const res = await dispatch(getBookmark(bookmarkObj)).unwrap();

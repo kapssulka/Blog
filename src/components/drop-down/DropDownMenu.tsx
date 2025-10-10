@@ -1,32 +1,44 @@
 import { useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { MdOutlineDeleteSweep } from "react-icons/md";
-import DropDownList from "./DropDownList";
-import DropDownItem from "./DropDownItem";
-import DropDownOpenButton from "./DropDownOpenButton";
-import { removeFromSupabaseStorage } from "../../supabase/services/storageService";
-import { useDispatch } from "react-redux";
-import { removePost } from "../../redux/slices/postsSlice";
+import DropDownList from "./DropDownList.js";
+import DropDownItem from "./DropDownItem.js";
+import DropDownOpenButton from "./DropDownOpenButton.js";
+import { removeFromSupabaseStorage } from "../../supabase/services/storageService.js";
+import { removePost } from "../../redux/slices/postsSlice.js";
 import { toast } from "sonner";
-import ConfirmModal from "../ConfirmModal/ConfirmModal";
-import { deleteAllLike } from "../../redux/slices/postLikesSlice";
-import { deleteAllBookmarks } from "../../redux/slices/postBookmarksSlice";
-import ConfirmButton from "../ConfirmModal/ConfirmButton";
+import ConfirmModal from "../ConfirmModal/ConfirmModal.js";
+import { deleteAllLike } from "../../redux/slices/postLikesSlice.js";
+import { deleteAllBookmarks } from "../../redux/slices/postBookmarksSlice.js";
+import ConfirmButton from "../ConfirmModal/ConfirmButton.js";
+import type { ImageData } from "../../types/models/data.js";
+import { useAppDispatch } from "../../hooks/reduxHooks.js";
 
-export default function DropDownMenu({ className, post_id, images = [] }) {
-  const dispatch = useDispatch();
+interface DropDownMenuProps {
+  className: string;
+  post_id: number;
+  images: ImageData[];
+}
+
+export default function DropDownMenu({
+  className,
+  post_id,
+  images = [],
+}: DropDownMenuProps) {
+  const dispatch = useAppDispatch();
 
   const [openDropDown, setOpenDropDown] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
-  const dropMenu = useRef(null);
-  const buttonRef = useRef(null);
+  const dropMenu = useRef<HTMLUListElement | null>(null);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     if (!openDropDown) return;
-    const handleClick = (e) => {
+    const handleClick = (e: MouseEvent) => {
       if (!dropMenu.current || !buttonRef.current) return;
-      if (buttonRef.current.contains(e.target)) return;
-      if (!dropMenu.current.contains(e.target)) setOpenDropDown(false);
+      if (buttonRef.current.contains(e.target as Node)) return;
+
+      if (!dropMenu.current.contains(e.target as Node)) setOpenDropDown(false);
     };
 
     document.addEventListener("click", handleClick);
@@ -34,7 +46,7 @@ export default function DropDownMenu({ className, post_id, images = [] }) {
   }, [openDropDown]);
 
   useEffect(() => {
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Escape") {
         if (openDropDown) setOpenDropDown(false);
         if (openConfirmModal) setOpenConfirmModal(false);
@@ -46,7 +58,7 @@ export default function DropDownMenu({ className, post_id, images = [] }) {
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [openDropDown, openConfirmModal]);
 
-  const handleRemovePost = async (post_id, images) => {
+  const handleRemovePost = async (post_id: number, images: ImageData[]) => {
     try {
       const pathArr = images.map((item) => item.path);
 
@@ -60,7 +72,9 @@ export default function DropDownMenu({ className, post_id, images = [] }) {
       toast.success("Пост успешно удалён!");
     } catch (error) {
       toast.error("Ошибка с удалением поста!");
-      console.error(error.message);
+      if (error instanceof Error) {
+        console.error(error.message);
+      }
     }
   };
 

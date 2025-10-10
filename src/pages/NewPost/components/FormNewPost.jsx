@@ -6,7 +6,7 @@ import FileInput from "./FileInput";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 import * as yup from "yup";
-import { uploadToSupabaseStorage } from "../../../supabase/services/storageService";
+import { uploadToSupabaseStorage } from "../../../supabase/services/storageService.ts";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addLastPost,

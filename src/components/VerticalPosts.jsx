@@ -1,4 +1,4 @@
-import Post from "../features/Post/Post";
+import Post from "../features/Post/Post.tsx";
 import { formatDate } from "../utils/date";
 
 export default function VerticalPosts({ posts, refPosts }) {

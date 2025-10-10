@@ -1,5 +1,15 @@
 import { forwardRef } from "react";
-export default forwardRef(function DropDownList(props, ref) {
+
+interface DropDownListProps {
+  children: React.ReactNode;
+}
+
+type RefType = React.ForwardedRef<HTMLUListElement>;
+
+export default forwardRef(function DropDownList(
+  props: DropDownListProps,
+  ref: RefType
+) {
   const { children } = props;
 
   return (

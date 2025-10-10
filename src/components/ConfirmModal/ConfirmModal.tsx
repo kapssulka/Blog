@@ -1,13 +1,24 @@
 import { createPortal } from "react-dom";
+import type { SetState } from "../../types/utils.types.js";
+
+interface ConfirmModalProps {
+  setOpenConfirmModal: SetState<boolean>;
+  confirmText: string;
+  children: React.ReactNode;
+}
 
 export default function ConfirmModal({
   setOpenConfirmModal,
   confirmText = "Текст...",
   children,
-}) {
-  const handleClick = (e) => {
+}: ConfirmModalProps) {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) setOpenConfirmModal(false);
   };
+
+  const modalComtainer = document.getElementById("modal");
+  if (!modalComtainer) return;
+
   return createPortal(
     <div
       onClick={handleClick}
@@ -19,6 +30,6 @@ export default function ConfirmModal({
         <div className="flex justify-between gap-4 mt-5">{children}</div>
       </div>
     </div>,
-    document.getElementById("modal")
+    modalComtainer
   );
 }

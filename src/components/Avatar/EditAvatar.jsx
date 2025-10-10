@@ -1,13 +1,13 @@
 import { useRef, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { MdModeEdit } from "react-icons/md";
-import AvatarIcon from "./AvatarIcon";
+import AvatarIcon from "./AvatarIcon.tsx";
 import EditAvatarButton from "./EditAvatarButton";
 import DialogModal from "../DialogModal";
 import ImageCropperWrapper from "../Crop/ImageCropperWrapper";
 import { useDispatch, useSelector } from "react-redux";
-import ConfirmModal from "../ConfirmModal/ConfirmModal";
-import ConfirmButton from "../ConfirmModal/ConfirmButton";
+import ConfirmModal from "../ConfirmModal/ConfirmModal.tsx";
+import ConfirmButton from "../ConfirmModal/ConfirmButton.tsx";
 import CloseButton from "../CloseButton";
 import { fetchDeleteAvatar } from "../../redux/slices/currentUserSlice";
 import { toast } from "sonner";

@@ -1,8 +1,14 @@
 import { IoHeart } from "react-icons/io5";
 import { FaRegHeart } from "react-icons/fa6";
+import type { IconType } from "react-icons/lib";
 
-export default function Like({ isLike, onClik, likeCount }) {
-  const Icon = isLike ? IoHeart : FaRegHeart;
+interface LikeProps {
+  isLike: boolean;
+  onClik?: React.MouseEventHandler<SVGElement>;
+  likeCount: number;
+}
+export default function Like({ isLike, onClik, likeCount }: LikeProps) {
+  const Icon: IconType = isLike ? IoHeart : FaRegHeart;
 
   return (
     <div className="flex items-center  gap-1">
