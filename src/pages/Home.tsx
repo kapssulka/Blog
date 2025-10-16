@@ -1,10 +1,10 @@
-import { useSelector } from "react-redux";
-import VerticalPosts from "../components/VerticalPosts";
-import EmptyPosts from "../components/EmptyPosts";
+import VerticalPosts from "../components/VerticalPosts.js";
+import EmptyPosts from "../components/EmptyPosts.js";
+import { useAppSelector } from "../hooks/reduxHooks.js";
 
 export default function Home() {
-  const posts = useSelector((state) => state.posts.posts);
-  const { loadingCount } = useSelector((state) => state.loading);
+  const posts = useAppSelector((state) => state.posts.posts);
+  const { loadingCount } = useAppSelector((state) => state.loading);
   return (
     <>
       {loadingCount === 0 && posts.length < 1 && (

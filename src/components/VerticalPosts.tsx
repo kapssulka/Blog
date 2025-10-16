@@ -1,7 +1,12 @@
-import Post from "../features/Post/Post.tsx";
-import { formatDate } from "../utils/date";
+import Post from "../features/Post/Post.js";
+import type { PostData } from "../types/models/data.js";
+import { formatDate } from "../utils/date.js";
 
-export default function VerticalPosts({ posts, refPosts }) {
+interface VerticalPostsProps {
+  posts: PostData[];
+  refPosts?: React.RefObject<Record<string, HTMLDivElement | null>>;
+}
+export default function VerticalPosts({ posts, refPosts }: VerticalPostsProps) {
   return (
     <div className="flex flex-col gap-10 ">
       {posts.map((post) => {

@@ -1,12 +1,18 @@
 import { Link } from "react-router-dom";
-import { ROUTES } from "../constants/routes";
-import TitleMessage from "./TitleMessage";
+import { ROUTES } from "../constants/routes.js";
+import TitleMessage from "./TitleMessage.js";
+
+interface EmptyPostsProps {
+  showCreatePost?: boolean;
+  title?: string;
+  buttonText?: string;
+}
 
 export default function EmptyPosts({
   showCreatePost = false,
   title = "Похоже, тут пока нет постов 😔",
   buttonText = "Создать пост",
-}) {
+}: EmptyPostsProps) {
   return (
     <div className="flex flex-col items-center gap-y-6 mt-5">
       <TitleMessage title={title} />

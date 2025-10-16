@@ -2,7 +2,7 @@ export const ROUTES = {
   HOME: "/",
   MESSAGE: {
     INDEX: "/message",
-    CHAT_WITH_USER: (id) => `/message/${id}`,
+    CHAT_WITH_USER: (id: string): string => `/message/${id}`,
   },
   PROFILE: "/profile/:id",
   NEW_POST: "/new_post",
