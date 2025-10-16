@@ -1,4 +1,4 @@
-import MainWrapper from "../components/layout/MainWrapper";
+import MainWrapper from "../components/layout/MainWrapper.js";
 import LoginForm from "../features/auth/LoginForm";
 
 export default function Login() {

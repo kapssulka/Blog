@@ -1,6 +1,6 @@
 import InputForm from "../../../../features/auth/components/InputForm";
 import TextareaForm from "../../../../features/auth/components/TextareaForm";
-import ButtonOrange from "../../../../components/ButtonOrange";
+import ButtonOrange from "../../../../components/ButtonOrange.js";
 import DialogModal from "../../../../components/DialogModal";
 
 export default function EditProfileUI({

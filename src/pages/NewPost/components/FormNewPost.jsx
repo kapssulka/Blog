@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import ButtonOrange from "../../../components/ButtonOrange";
+import ButtonOrange from "../../../components/ButtonOrange.js";
 import TitlePage from "../../../components/TitlePage";
 import TextareaForm from "../../../features/auth/components/TextareaForm";
 import FileInput from "./FileInput";

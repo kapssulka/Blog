@@ -1,6 +1,15 @@
 import { Link, NavLink } from "react-router-dom";
 import cn from "classnames";
 
+interface ButtonOrangeProps {
+  text: string;
+  to: string;
+  className: string;
+  isLink: boolean;
+  isButton: boolean;
+  typeButton: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
+}
+
 export default function ButtonOrange({
   text = "",
   to = "#",
@@ -9,7 +18,7 @@ export default function ButtonOrange({
   isButton = false,
   typeButton = "",
   ...props
-}) {
+}: ButtonOrangeProps) {
   const baseStyleActive =
     "flex text-center items-center justify-center cursor-pointer font-medium opacity-80 px-2 py-1 border rounded-[10px] border-amber-400 hover:border-amber-400 transition-border duration-300";
   const baseStyle =

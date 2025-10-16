@@ -1,4 +1,4 @@
-import ButtonOrange from "../../../components/ButtonOrange";
+import ButtonOrange from "../../../components/ButtonOrange.js";
 import InputForm from "../components/InputForm";
 
 import AuthRedirectMessage from "../components/AuthRedirectMessage";

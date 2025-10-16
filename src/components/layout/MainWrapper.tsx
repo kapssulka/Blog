@@ -1,6 +1,16 @@
 import cn from "classnames";
 
-export default function MainWrapper({ children, className, isTwoColums }) {
+interface MainWrapperProps {
+  children: React.ReactNode;
+  className?: string;
+  isTwoColums?: boolean;
+}
+
+export default function MainWrapper({
+  children,
+  className,
+  isTwoColums,
+}: MainWrapperProps) {
   return (
     <main
       className={cn("mx-auto max-w-[1000px] pt-10", className, {

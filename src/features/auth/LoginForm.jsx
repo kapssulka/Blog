@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import ButtonOrange from "../../components/ButtonOrange";
+import ButtonOrange from "../../components/ButtonOrange.js";
 import InputForm from "./components/InputForm";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { loginSchema } from "../../utils/validation";

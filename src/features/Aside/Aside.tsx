@@ -1,9 +1,9 @@
-import { useSelector } from "react-redux";
-import ItemList from "../../components/ItemList";
-import { ROUTES } from "../../constants/routes";
+import ItemList from "../../components/ItemList.js";
+import { ROUTES } from "../../constants/routes.js";
+import { useAppSelector } from "../../hooks/reduxHooks.js";
 
 export default function Aside() {
-  const { user_uid } = useSelector((state) => state.user);
+  const { user_uid } = useAppSelector((state) => state.user);
   const links = [
     { text: "Добавить пост", path: ROUTES.NEW_POST },
     { text: "Главная", path: ROUTES.HOME },
