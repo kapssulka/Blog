@@ -7,7 +7,7 @@ import {
   setActiveProfileUid,
   setIsCurrentUserProfile,
 } from "../../redux/slices/usersSlice";
-import PostsSwitcher from "../../components/PostsSwitcher";
+import PostsSwitcher from "../../components/PostsSwitcher.js";
 
 export default function Profile() {
   const dispatch = useDispatch();

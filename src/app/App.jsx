@@ -18,8 +18,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import { useEffect } from "react";
 import { setHasVisited } from "../redux/slices/currentUserSlice";
-import LikedPosts from "../pages/LikedPosts";
-import BookmarksPosts from "../pages/BookmarksPosts";
+import LikedPosts from "../pages/LikedPosts.js";
+import BookmarksPosts from "../pages/BookmarksPosts.js";
 
 export default function App() {
   const { loadingCount } = useSelector((state) => state.loading);

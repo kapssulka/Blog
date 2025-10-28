@@ -1,3 +1,8 @@
+interface TitleDot {
+  title: string;
+  dotColor?: string;
+}
+
 export default function TitleDot({
   title = "Заголовок",
   dotColor = "bg-purple-500",

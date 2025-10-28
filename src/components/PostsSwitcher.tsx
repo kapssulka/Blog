@@ -1,25 +1,34 @@
 import { useRef, useState } from "react";
-import ViewSwitcher from "../pages/Profile/components/ViewSwitcher";
-import GridPosts from "../features/GridPosts/GridPosts";
-import VerticalPosts from "./VerticalPosts";
-import EmptyPosts from "./EmptyPosts";
+import ViewSwitcher from "../pages/Profile/components/ViewSwitcher.js";
+import GridPosts from "../features/GridPosts/GridPosts.js";
+import VerticalPosts from "./VerticalPosts.js";
+import EmptyPosts from "./EmptyPosts.js";
+import type { PostData } from "../types/models/data.js";
+import type { PostsViewMode } from "../types/ui/view.js";
+
+interface PostsSwitcherProps {
+  posts: PostData[];
+  topContent: React.ReactNode;
+  showCreatePost?: boolean;
+}
 
 export default function PostsSwitcher({
   posts,
   topContent,
   showCreatePost = false,
-}) {
-  const [activeBlock, setActiveBlock] = useState("grid");
+}: PostsSwitcherProps) {
+  const [activeBlock, setActiveBlock] = useState<PostsViewMode>("grid");
 
-  const refPosts = useRef({});
+  const refPosts = useRef<{ [key: number]: HTMLDivElement | null }>({});
 
-  const onChangeActiveBlock = (variant) => setActiveBlock(variant);
+  const onChangeActiveBlock = (variant: PostsViewMode) =>
+    setActiveBlock(variant);
 
-  const scrollToPost = (index) => {
+  const scrollToPost = (index: number) => {
     onChangeActiveBlock("list");
 
     setTimeout(() => {
-      refPosts.current[index]?.scrollIntoView({ behavior: "smooth" });
+      refPosts?.current[index]?.scrollIntoView({ behavior: "smooth" });
     }, 0);
   };
 

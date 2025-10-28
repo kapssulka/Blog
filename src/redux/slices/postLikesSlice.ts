@@ -151,7 +151,7 @@ export const getLikes = createAsyncThunk<
   }
 });
 
-interface LikesObject {
+export interface LikesObject {
   likesCount: number;
   likedByCurrentUser: boolean;
 }

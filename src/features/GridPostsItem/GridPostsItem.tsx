@@ -1,4 +1,14 @@
-export default function Post({ src, lengthImages, onClick }) {
+interface GridPostsItem {
+  src: string;
+  lengthImages?: number;
+  onClick: React.MouseEventHandler<HTMLDivElement>;
+}
+
+export default function GridPostsItem({
+  src,
+  lengthImages,
+  onClick,
+}: GridPostsItem) {
   return (
     <div
       onClick={onClick}
@@ -7,7 +17,7 @@ export default function Post({ src, lengthImages, onClick }) {
     >
       <img src={src} className="w-full h-full object-cover rounded-2xl" />
 
-      {lengthImages > 1 && (
+      {lengthImages && lengthImages > 1 && (
         <div className="absolute top-2 right-2 bg-black/60  text-white text-xs px-2 py-1 rounded">
           1/{lengthImages}
         </div>

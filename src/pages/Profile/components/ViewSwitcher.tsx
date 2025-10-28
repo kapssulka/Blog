@@ -1,11 +1,29 @@
 import { FaTh, FaList } from "react-icons/fa";
+import type { IconType } from "react-icons/lib";
+import type { PostsViewMode } from "../../../types/ui/view.js";
 
-const views = [
+interface viewsObject {
+  id: PostsViewMode;
+  label: string;
+  icon: IconType;
+}
+
+const views: viewsObject[] = [
   { id: "grid", label: "Сетка", icon: FaTh },
   { id: "list", label: "Лента", icon: FaList },
 ];
 
-export default function ViewSwitcher({ activeView, onChange, className = "" }) {
+interface ViewSwitcherProps {
+  activeView: PostsViewMode;
+  onChange: (id: PostsViewMode) => void;
+  className?: string;
+}
+
+export default function ViewSwitcher({
+  activeView,
+  onChange,
+  className,
+}: ViewSwitcherProps) {
   return (
     <div className={`flex justify-center items-center gap-4 mt-4 ${className}`}>
       {views.map(({ id, label, icon: Icon }) => (
