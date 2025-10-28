@@ -3,7 +3,7 @@ import cn from "classnames";
 interface ButtonOrangeProps extends React.HTMLProps<HTMLButtonElement> {
   text: string;
   className: string;
-  typeButton: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
+  typeButton?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
 }
 
 export default function ButtonOrange({

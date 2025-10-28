@@ -1,15 +1,15 @@
 import { useForm } from "react-hook-form";
-import ButtonOrange from "../../components/ButtonOrange.js";
-import InputForm from "./components/InputForm";
+import InputForm from "./components/InputForm.js";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema } from "../../utils/validation";
-import AuthRedirectMessage from "./components/AuthRedirectMessage";
+import { loginSchema, type LoginFormInput } from "../../utils/validation.js";
+import AuthRedirectMessage from "./components/AuthRedirectMessage.js";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../firebase/firebase";
+import { auth } from "../../firebase/firebase.js";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
-import { setHasVisited } from "../../redux/slices/currentUserSlice";
+import { setHasVisited } from "../../redux/slices/currentUserSlice.js";
+import ButtonOrange from "../../components/orangeButton/ButtonOrange.js";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -19,9 +19,12 @@ export default function LoginForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm({ resolver: yupResolver(loginSchema), mode: "onBlur" });
+  } = useForm<LoginFormInput>({
+    resolver: yupResolver(loginSchema),
+    mode: "onBlur",
+  });
 
-  const onSubmit = async (data) => {
+  const onSubmit = async (data: LoginFormInput) => {
     const email = data?.email;
     const password = data?.password;
 
@@ -68,9 +71,9 @@ export default function LoginForm() {
       </div>
 
       <ButtonOrange
-        isButton
         text="Войти"
         className="max-w-[500px] w-full self-center mt-12"
+        typeButton="submit"
       />
 
       <AuthRedirectMessage

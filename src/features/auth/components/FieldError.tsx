@@ -1,6 +1,11 @@
 import cn from "classnames";
 
-export default function FieldError({ message = "", className = "" }) {
+interface FieldErrorProps {
+  message: string;
+  className?: string;
+}
+
+export default function FieldError({ message, className }: FieldErrorProps) {
   return (
     <p
       className={cn(

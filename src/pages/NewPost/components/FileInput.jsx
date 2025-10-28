@@ -2,7 +2,7 @@ import cn from "classnames";
 import { useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { useController } from "react-hook-form";
-import FieldError from "../../../features/auth/components/FieldError";
+import FieldError from "../../../features/auth/components/FieldError.js";
 
 export default function FileInput({ control, name, errors, files, setFiles }) {
   const {

@@ -1,5 +1,5 @@
 import cn from "classnames";
-import FieldError from "./FieldError";
+import FieldError from "./FieldError.js";
 
 export default function TextareaForm({
   label,

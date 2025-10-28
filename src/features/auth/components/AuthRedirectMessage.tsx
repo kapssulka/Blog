@@ -1,12 +1,19 @@
 import { Link } from "react-router-dom";
 import cn from "classnames";
 
+interface AuthRedirectMessageProps {
+  message: string;
+  textLink: string;
+  to: string;
+  className?: string;
+}
+
 export default function AuthRedirectMessage({
   message,
   textLink,
   to,
   className,
-}) {
+}: AuthRedirectMessageProps) {
   return (
     <div className={cn("flex items-center justify-center", className)}>
       <p>{message}&nbsp;</p>

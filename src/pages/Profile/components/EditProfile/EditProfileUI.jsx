@@ -1,4 +1,4 @@
-import InputForm from "../../../../features/auth/components/InputForm";
+import InputForm from "../../../../features/auth/components/InputForm.js";
 import TextareaForm from "../../../../features/auth/components/TextareaForm";
 import ButtonOrange from "../../../../components/ButtonOrange.js";
 import DialogModal from "../../../../components/DialogModal";

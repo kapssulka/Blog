@@ -6,7 +6,7 @@ import Profile from "../pages/Profile/Profile";
 import ChatAllUsers from "../features/chat/ChatAllUsers/ChatAllUsers";
 import ChatSingleUser from "../features/chat/ChatSingleUser/ChatSingleUser";
 import Register from "../pages/Register";
-import Login from "../pages/Login";
+import Login from "../pages/Login.js";
 import NotFound from "../pages/NotFound";
 
 import { ROUTES } from "../constants/routes";

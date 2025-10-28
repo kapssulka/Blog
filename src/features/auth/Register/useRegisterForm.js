@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registerSchema } from "../../../utils/validation";
+import { registerSchema } from "../../../utils/validation.js";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase/firebase";

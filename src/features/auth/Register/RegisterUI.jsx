@@ -1,7 +1,7 @@
 import ButtonOrange from "../../../components/ButtonOrange.js";
-import InputForm from "../components/InputForm";
+import InputForm from "../components/InputForm.js";
 
-import AuthRedirectMessage from "../components/AuthRedirectMessage";
+import AuthRedirectMessage from "../components/AuthRedirectMessage.js";
 
 export default function RegisterUI({ onSubmit, register, errors }) {
   return (
