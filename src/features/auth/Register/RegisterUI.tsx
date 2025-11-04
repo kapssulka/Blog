@@ -2,6 +2,7 @@ import InputForm from "../components/InputForm.js";
 
 import AuthRedirectMessage from "../components/AuthRedirectMessage.js";
 import ButtonOrange from "../../../components/orangeButton/ButtonOrange.js";
+import type { RegisterFormInput } from "../../../utils/validation.js";
 
 interface RegisterUIProps {
   onSubmit: any;
@@ -24,7 +25,7 @@ export default function RegisterUI({
     "
     >
       <div className="flex flex-col gap-y-10">
-        <InputForm
+        <InputForm<RegisterFormInput>
           register={register}
           label="Имя"
           placeholder="Введите ваше имя..."
@@ -32,7 +33,7 @@ export default function RegisterUI({
           errors={errors?.name}
         />
 
-        <InputForm
+        <InputForm<RegisterFormInput>
           register={register}
           label="Email"
           placeholder="Введите ваш email..."
@@ -40,7 +41,7 @@ export default function RegisterUI({
           errors={errors?.email}
         />
 
-        <InputForm
+        <InputForm<RegisterFormInput>
           register={register}
           label="Пароль"
           placeholder="Придумайте пароль..."

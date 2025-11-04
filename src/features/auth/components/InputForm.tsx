@@ -1,21 +1,23 @@
 import type { LoginFormInput } from "../../../utils/validation.js";
 import FieldError from "./FieldError.js";
 import type {
+  FieldValues,
+  Path,
   FieldError as RHFFieldError,
   UseFormRegister,
 } from "react-hook-form";
 
-interface InputFormProps {
+interface InputFormProps<T extends FieldValues> {
   label: string;
-  name: "email" | "password";
+  name: Path<T>;
   placeholder: string;
   type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
   id?: string;
   errors: RHFFieldError | undefined;
-  register: UseFormRegister<LoginFormInput>;
+  register: UseFormRegister<T>;
 }
 
-export default function InputForm({
+export default function InputForm<T extends FieldValues>({
   label,
   name,
   type = "text",
@@ -23,7 +25,7 @@ export default function InputForm({
   id,
   register,
   errors,
-}: InputFormProps) {
+}: InputFormProps<T>) {
   const inputId = id || name;
 
   return (

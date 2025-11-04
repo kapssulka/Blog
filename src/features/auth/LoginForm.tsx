@@ -54,14 +54,14 @@ export default function LoginForm() {
     "
     >
       <div className="flex flex-col gap-y-10">
-        <InputForm
+        <InputForm<LoginFormInput>
           label="Email"
           placeholder="Введите ваш email..."
           name="email"
           register={register}
           errors={errors?.email}
         />
-        <InputForm
+        <InputForm<LoginFormInput>
           label="Пароль"
           placeholder="Введите ваш пароль..."
           name="password"
