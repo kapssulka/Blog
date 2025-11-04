@@ -1,5 +1,5 @@
-import RegisterUI from "./RegisterUI";
-import { useRegisterForm } from "./useRegisterForm";
+import RegisterUI from "./RegisterUI.js";
+import { useRegisterForm } from "./useRegisterForm.js";
 
 export default function RegisterForm() {
   const { register, errors, handleSubmit, onSubmit } = useRegisterForm();

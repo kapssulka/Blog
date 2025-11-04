@@ -2,9 +2,14 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // @ts-ignore
 import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
 import type { UserData } from "../../types/models/data.js";
+import type {
+  CurrentUserArgs,
+  DataChangeAvatar,
+  DataChangeBio,
+} from "../types/currentUserSlice.type.js";
 
 // GET
-export const fetchGetDataUser = createAsyncThunk(
+export const fetchGetDataUser = createAsyncThunk<UserData, string>(
   "user/fetchGetDataUser",
   async (uid, { rejectWithValue }) => {
     try {
@@ -15,13 +20,12 @@ export const fetchGetDataUser = createAsyncThunk(
 
       if (!response.ok) throw new Error("Ошибка с запросом");
       const data = await response.json();
-      console.log("fetchGetDataUser", data);
 
-      return data;
-    } catch (error) {
-      // @ts-ignore
-
-      return rejectWithValue(error.message);
+      return data[0];
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
     }
   }
 );
@@ -46,7 +50,6 @@ export const fetchPostDataUsers = createAsyncThunk<
     if (!response.ok) throw new Error("Ошибка c добавлением");
 
     const data = await response.json();
-    console.log("fetchPostDataUsers", data);
 
     return data;
   } catch (error: unknown) {
@@ -58,88 +61,85 @@ export const fetchPostDataUsers = createAsyncThunk<
 
 // PATCH
 
-export const fetchPatchDataUser = createAsyncThunk(
-  "user/fetchPatchDataUser",
-  async (obj, { rejectWithValue }) => {
-    try {
-      const response = await fetch(
-        // @ts-ignore
-        `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
-        {
-          method: "PATCH",
-          headers: fetchHeaders,
-          // @ts-ignore
-          body: JSON.stringify(obj.data),
-        }
-      );
+export const fetchPatchDataUser = createAsyncThunk<
+  UserData,
+  CurrentUserArgs<DataChangeBio>
+>("user/fetchPatchDataUser", async (obj, { rejectWithValue }) => {
+  try {
+    const response = await fetch(
+      `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
+      {
+        method: "PATCH",
+        headers: fetchHeaders,
+        body: JSON.stringify(obj.data),
+      }
+    );
 
-      if (!response.ok) throw new Error("Ошибка с обновлением данных!");
+    if (!response.ok) throw new Error("Ошибка с обновлением данных!");
 
-      const data = await response.json();
+    const data = await response.json();
 
-      return data;
-    } catch (error) {
-      // @ts-ignore
+    return data[0];
+  } catch (error: unknown) {
+    if (error instanceof Error) {
       return rejectWithValue(error.message);
     }
   }
-);
+});
 
 // UPLOAD AVATAR
 
-export const fetchUploadAvatar = createAsyncThunk(
-  "user/fetchUploadAvatar",
-  async (obj, { rejectWithValue }) => {
-    try {
-      const response = await fetch(
-        // @ts-ignore
-        `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
-        {
-          method: "PATCH",
-          headers: fetchHeaders,
-          // @ts-ignore
-          body: JSON.stringify(obj.data),
-        }
-      );
+export const fetchUploadAvatar = createAsyncThunk<
+  UserData,
+  CurrentUserArgs<DataChangeAvatar>
+>("user/fetchUploadAvatar", async (obj, { rejectWithValue }) => {
+  try {
+    const response = await fetch(
+      `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
+      {
+        method: "PATCH",
+        headers: fetchHeaders,
+        body: JSON.stringify(obj.data),
+      }
+    );
 
-      if (!response.ok) throw new Error("Ошибка с обновлением аватарки!");
+    if (!response.ok) throw new Error("Ошибка с обновлением аватарки!");
 
-      const data = await response.json();
+    const data = await response.json();
 
-      return data;
-    } catch (error) {
-      // @ts-ignore
+    return data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
       return rejectWithValue(error.message);
     }
   }
-);
+});
 
-export const fetchDeleteAvatar = createAsyncThunk(
-  "user/fetchDeleteAvatar",
-  async (obj, { rejectWithValue }) => {
-    try {
-      const response = await fetch(
-        // @ts-ignore
-        `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
-        {
-          method: "PATCH",
-          headers: fetchHeaders,
-          // @ts-ignore
-          body: JSON.stringify(obj.data),
-        }
-      );
+export const fetchDeleteAvatar = createAsyncThunk<
+  UserData,
+  CurrentUserArgs<DataChangeAvatar>
+>("user/fetchDeleteAvatar", async (obj, { rejectWithValue }) => {
+  try {
+    const response = await fetch(
+      `${baseUrl}/users?user_uid=eq.${obj.user_uid}`,
+      {
+        method: "PATCH",
+        headers: fetchHeaders,
+        body: JSON.stringify(obj.data),
+      }
+    );
 
-      if (!response.ok) throw new Error("Ошибка с обновлением аватарки!");
+    if (!response.ok) throw new Error("Ошибка с обновлением аватарки!");
 
-      const data = await response.json();
+    const data = await response.json();
 
-      return data;
-    } catch (error) {
-      // @ts-ignore
+    return data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
       return rejectWithValue(error.message);
     }
   }
-);
+});
 
 export const currentUserSlice = createSlice({
   name: "user",
@@ -169,7 +169,7 @@ export const currentUserSlice = createSlice({
     buider
       .addCase(fetchGetDataUser.fulfilled, (state, action) => {
         const { user_uid, name, bio, created_at, avatar_url, avatar_path } =
-          action.payload[0];
+          action.payload;
 
         state.user_uid = user_uid;
         state.name = name;
@@ -187,7 +187,7 @@ export const currentUserSlice = createSlice({
       })
       .addCase(fetchPostDataUsers.rejected, (state, action) => {})
       .addCase(fetchPatchDataUser.fulfilled, (state, action) => {
-        const { name, bio } = action.payload[0];
+        const { name, bio } = action.payload;
 
         state.name = name;
         // @ts-ignore

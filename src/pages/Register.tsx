@@ -1,5 +1,5 @@
 import MainWrapper from "../components/layout/MainWrapper.js";
-import RegisterForm from "../features/auth/Register/RegisterForm";
+import RegisterForm from "../features/auth/Register/RegisterForm.js";
 
 export default function Register() {
   return (
