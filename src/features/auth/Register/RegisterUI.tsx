@@ -1,9 +1,19 @@
-import ButtonOrange from "../../../components/ButtonOrange.js";
 import InputForm from "../components/InputForm.js";
 
 import AuthRedirectMessage from "../components/AuthRedirectMessage.js";
+import ButtonOrange from "../../../components/orangeButton/ButtonOrange.js";
 
-export default function RegisterUI({ onSubmit, register, errors }) {
+interface RegisterUIProps {
+  onSubmit: any;
+  register: any;
+  errors: any;
+}
+
+export default function RegisterUI({
+  onSubmit,
+  register,
+  errors,
+}: RegisterUIProps) {
   return (
     <form
       onSubmit={onSubmit}
@@ -40,7 +50,6 @@ export default function RegisterUI({ onSubmit, register, errors }) {
       </div>
 
       <ButtonOrange
-        isButton
         typeButton="submit"
         text="Зарегестрироваться"
         className="max-w-[500px] w-full self-center mt-12"

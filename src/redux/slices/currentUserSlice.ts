@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 // @ts-ignore
 import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
+import type { UserData } from "../../types/models/data.js";
 
 // GET
 export const fetchGetDataUser = createAsyncThunk(
@@ -14,6 +15,7 @@ export const fetchGetDataUser = createAsyncThunk(
 
       if (!response.ok) throw new Error("Ошибка с запросом");
       const data = await response.json();
+      console.log("fetchGetDataUser", data);
 
       return data;
     } catch (error) {
@@ -25,25 +27,34 @@ export const fetchGetDataUser = createAsyncThunk(
 );
 
 // POST
-export const fetchPostDataUsers = createAsyncThunk(
-  "user/fetchPostDataUsers",
-  async (arg, { rejectWithValue }) => {
-    try {
-      const response = await fetch(`${baseUrl}/users`, {
-        method: "POST",
-        headers: fetchHeaders,
-        body: JSON.stringify(arg),
-      });
+interface fetchPostDataUsers {
+  name: string;
+  user_uid: string;
+}
 
-      if (!response.ok) throw new Error("Ошибка c добавлением");
+export const fetchPostDataUsers = createAsyncThunk<
+  UserData,
+  fetchPostDataUsers
+>("user/fetchPostDataUsers", async (arg, { rejectWithValue }) => {
+  try {
+    const response = await fetch(`${baseUrl}/users`, {
+      method: "POST",
+      headers: fetchHeaders,
+      body: JSON.stringify(arg),
+    });
 
-      return await response.json();
-    } catch (error) {
-      // @ts-ignore
+    if (!response.ok) throw new Error("Ошибка c добавлением");
+
+    const data = await response.json();
+    console.log("fetchPostDataUsers", data);
+
+    return data;
+  } catch (error: unknown) {
+    if (error instanceof Error) {
       return rejectWithValue(error.message);
     }
   }
-);
+});
 
 // PATCH
 
