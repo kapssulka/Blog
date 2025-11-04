@@ -17,7 +17,7 @@ listenerMiddleware.startListening({
     isFulfilled(fetchUploadAvatar)(action) ||
     isFulfilled(fetchDeleteAvatar)(action),
   effect: async (action, { dispatch }) => {
-    const payload = action.payload[0];
+    const payload = action.payload;
     dispatch(uploadAvatarForPosts(payload));
     dispatch(uploadAvatarForUsers(payload));
   },
@@ -26,7 +26,7 @@ listenerMiddleware.startListening({
 listenerMiddleware.startListening({
   matcher: isFulfilled(fetchPatchDataUser),
   effect: async (action, { dispatch }) => {
-    const payload = action.payload[0];
+    const payload = action.payload;
 
     dispatch(changeBioAndName(payload));
     dispatch(changeBioAndNameForPosts(payload));

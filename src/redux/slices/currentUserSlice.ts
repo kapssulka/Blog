@@ -146,7 +146,7 @@ export const currentUserSlice = createSlice({
   initialState: {
     user_uid: "",
     name: "",
-    // bio: "",
+    bio: "",
     // created_at: "",
     hasVisited: false,
     // user_avatar: "",
@@ -173,7 +173,7 @@ export const currentUserSlice = createSlice({
 
         state.user_uid = user_uid;
         state.name = name;
-        // bio ? (state.bio = bio) : (state.bio = "");
+        bio ? (state.bio = bio) : (state.bio = "");
         // avatar_url && avatar_path
         //   ? (state.user_avatar = { avatar_url, avatar_path })
         //   : (state.user_avatar = {});

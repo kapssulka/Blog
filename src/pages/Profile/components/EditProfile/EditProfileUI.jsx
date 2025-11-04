@@ -26,7 +26,6 @@ export default function EditProfileUI({
           placeholder="Введите ваше описание профиля..."
           name="bio"
         />
-
         <div className="flex justify-center  w-full">
           <ButtonOrange
             isButton

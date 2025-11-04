@@ -41,6 +41,7 @@ export const usersSlice = createSlice({
     },
     uploadAvatarForUsers: (state, action) => {
       const changedUserObj = action.payload;
+
       const { user_uid, avatar_url, avatar_path } = changedUserObj;
 
       state.users[user_uid] = {
@@ -51,6 +52,7 @@ export const usersSlice = createSlice({
     },
     changeBioAndName: (state, action) => {
       const changedUserObj = action.payload;
+
       const { user_uid, bio, name } = changedUserObj;
 
       state.users[user_uid] = {
