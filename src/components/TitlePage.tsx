@@ -1,14 +1,20 @@
 import { isValidElement } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
+interface TitlePageProps {
+  text: string;
+  iconComponent?: React.ReactElement;
+  linkTo?: string;
+}
+
 export default function TitlePage({
   text,
-  iconComponent = false,
-  linkTo = false,
-}) {
+  iconComponent,
+  linkTo,
+}: TitlePageProps) {
   const navigate = useNavigate();
   const goToBack = () => {
-    if (typeof linkTo === "boolean" && linkTo) {
+    if (!linkTo) {
       navigate(-1);
     } else navigate(linkTo);
   };

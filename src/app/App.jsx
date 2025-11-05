@@ -13,7 +13,7 @@ import { ROUTES } from "../constants/routes";
 import PrivateRoute from "../components/routes/PrivateRoute";
 import PublicRoute from "../components/routes/PublicRoute";
 import { toast, Toaster } from "sonner";
-import NewPost from "../pages/NewPost/NewPost";
+import NewPost from "../pages/NewPost/NewPost.js";
 import { useDispatch, useSelector } from "react-redux";
 import Loader from "../components/Loader";
 import { useEffect } from "react";

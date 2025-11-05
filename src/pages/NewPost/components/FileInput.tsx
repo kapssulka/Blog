@@ -1,13 +1,36 @@
 import cn from "classnames";
 import { useEffect } from "react";
 import { useDropzone } from "react-dropzone";
-import { useController } from "react-hook-form";
+import {
+  useController,
+  type Control,
+  type FieldError as RHFFieldError,
+} from "react-hook-form";
 import FieldError from "../../../features/auth/components/FieldError.js";
+import type { SetState } from "../../../types/utils.types.js";
 
-export default function FileInput({ control, name, errors, files, setFiles }) {
+interface FileInputProps {
+  control: Control<FormData>;
+  // пока статическая типизация
+  name: "file";
+  errors: RHFFieldError | undefined;
+  // пока просто any
+  files: any;
+  // пока просто массив
+  setFiles: SetState<[]>;
+}
+
+export default function FileInput({
+  control,
+  name,
+  errors,
+  files,
+  setFiles,
+}: FileInputProps) {
   const {
     field: { onChange },
   } = useController({ name, control });
+  console.log(errors);
 
   useEffect(() => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));

@@ -1,6 +1,16 @@
 import cn from "classnames";
 import FieldError from "./FieldError.js";
 
+interface TextareaFormProps {
+  label: string;
+  name: any; // заменить
+  placeholder: string;
+  id: string;
+  register: any; // заменить
+  errors: any; // заменить
+  className: string;
+}
+
 export default function TextareaForm({
   label,
   name,
@@ -9,7 +19,7 @@ export default function TextareaForm({
   register,
   errors,
   className,
-}) {
+}: TextareaFormProps) {
   const textareaId = id || name;
 
   return (
