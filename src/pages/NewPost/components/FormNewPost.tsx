@@ -1,12 +1,10 @@
-import { useForm, type SubmitHandler } from "react-hook-form";
+import { useForm, type FieldError, type SubmitHandler } from "react-hook-form";
 import TitlePage from "../../../components/TitlePage.js";
 import TextareaForm from "../../../features/auth/components/TextareaForm.js";
 import ButtonOrange from "../../../components/orangeButton/ButtonOrange.js";
-// @ts-ignore
 import FileInput from "./FileInput.js";
 import { yupResolver } from "@hookform/resolvers/yup";
 
-import * as yup from "yup";
 import { uploadToSupabaseStorage } from "../../../supabase/services/storageService.js";
 import {
   addLastPost,
@@ -16,21 +14,14 @@ import {
 import { toast } from "sonner";
 import { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks.js";
-
-const schema = yup.object().shape({
-  file: yup
-    .array()
-    .min(1, "Добавьте хотя бы одно фото")
-    .max(5, "Можно загрузить не более 5 фото")
-    .required("Это поле обязательно"),
-
-  description: yup.string().required("Описание не может быть пустым"),
-});
-
-type FormData = yup.InferType<typeof schema>;
+import type { FileWithPreview } from "../types.js";
+import {
+  schemaNewPost,
+  type NewPostFormData,
+} from "../../../utils/validation.js";
 
 export default function FormNewPost() {
-  const [files, setFiles] = useState([]);
+  const [files, setFiles] = useState<FileWithPreview[]>([]);
   const dispatch = useAppDispatch();
   const { user_uid } = useAppSelector((state) => state.user);
 
@@ -40,9 +31,12 @@ export default function FormNewPost() {
     control,
     reset,
     formState: { errors },
-  } = useForm<FormData>({ resolver: yupResolver(schema), mode: "onBlur" });
+  } = useForm<NewPostFormData>({
+    resolver: yupResolver(schemaNewPost),
+    mode: "onBlur",
+  });
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const onSubmit: SubmitHandler<NewPostFormData> = async (data) => {
     try {
       const text = data.description;
       const files = data.file;
@@ -66,16 +60,16 @@ export default function FormNewPost() {
           position: i,
           is_main: i === 0,
         };
-        // @ts-ignore
         await dispatch(uploadImages(imageRow)).unwrap();
       }
       dispatch(addLastPost());
 
       toast.success("Пост успешно добавлен!");
     } catch (error) {
-      // @ts-ignore
-      toast.error("Ошибка при создании поста:", error);
+      const message =
+        error instanceof Error ? error.message : "Неизвестная ошибка";
 
+      toast.error(`Ошибка при создании поста: ${message}`);
       console.error("Ошибка при создании поста:", error);
     }
     reset();
@@ -91,7 +85,6 @@ export default function FormNewPost() {
         action=""
         className="flex flex-col mt-5"
       >
-        {/* @ts-ignore */}
         <TextareaForm
           placeholder="Введите описание..."
           className="mb-3"
@@ -102,7 +95,7 @@ export default function FormNewPost() {
         <FileInput
           control={control}
           name="file"
-          errors={errors.file}
+          errors={errors.file as FieldError | undefined}
           files={files}
           setFiles={setFiles}
         />

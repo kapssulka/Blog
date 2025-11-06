@@ -1,13 +1,19 @@
 import cn from "classnames";
 import FieldError from "./FieldError.js";
+import type {
+  Path,
+  FieldError as RHFFieldError,
+  UseFormRegister,
+} from "react-hook-form";
+import type { NewPostFormData } from "../../../utils/validation.js";
 
 interface TextareaFormProps {
-  label: string;
-  name: any; // заменить
+  label?: string;
+  name: Path<NewPostFormData>;
   placeholder: string;
-  id: string;
-  register: any; // заменить
-  errors: any; // заменить
+  id?: string;
+  register: UseFormRegister<NewPostFormData>;
+  errors: RHFFieldError | undefined;
   className: string;
 }
 
@@ -35,7 +41,7 @@ export default function TextareaForm({
         className="border border-gray-600 p-3 rounded-[5px] resize-none"
       />
 
-      {errors && (
+      {errors?.message && (
         <FieldError message={errors?.message} className="mt-5 self-start" />
       )}
     </div>

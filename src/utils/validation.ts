@@ -35,7 +35,17 @@ const createSchema = <T extends boolean = true>(includeName: T = true as T) => {
 // схемы
 export const registerSchema = createSchema(true);
 export const loginSchema = createSchema(false);
+export const schemaNewPost = yup.object().shape({
+  file: yup
+    .array()
+    .min(1, "Добавьте хотя бы одно фото")
+    .max(5, "Можно загрузить не более 5 фото")
+    .required("Это поле обязательно"),
+
+  description: yup.string().required("Описание не может быть пустым"),
+});
 
 // типы форм
-export type RegisterFormInput = yup.InferType<typeof registerSchema>;
-export type LoginFormInput = yup.InferType<typeof loginSchema>;
+export type RegisterFormData = yup.InferType<typeof registerSchema>;
+export type LoginFormData = yup.InferType<typeof loginSchema>;
+export type NewPostFormData = yup.InferType<typeof schemaNewPost>;

@@ -1,32 +1,37 @@
-import { createAsyncThunk, createSlice, original } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  current,
+  original,
+} from "@reduxjs/toolkit";
 import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
 import type { ImageData, PostData } from "../../types/models/data.js";
 
 //  POST
-export const uploadImages = createAsyncThunk<ImageData[], ImageData>(
-  "posts/uploadImages",
-  async (files, { rejectWithValue }) => {
-    try {
-      const response = await fetch(`${baseUrl}/post_images`, {
-        method: "POST",
-        headers: fetchHeaders,
-        body: JSON.stringify(files),
-      });
+export const uploadImages = createAsyncThunk<
+  ImageData[],
+  Omit<ImageData, "id">
+>("posts/uploadImages", async (files, { rejectWithValue }) => {
+  try {
+    const response = await fetch(`${baseUrl}/post_images`, {
+      method: "POST",
+      headers: fetchHeaders,
+      body: JSON.stringify(files),
+    });
 
-      if (!response.ok) {
-        const text = await response.text();
-        throw new Error(text);
-      }
-
-      return await response.json();
-    } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      }
-      return rejectWithValue("Ошибка с загрузкой изображения");
+    if (!response.ok) {
+      const text = await response.text();
+      throw new Error(text);
     }
+
+    return await response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      return rejectWithValue(error.message);
+    }
+    return rejectWithValue("Ошибка с загрузкой изображения");
   }
-);
+});
 
 interface CreatePostArgs {
   text: string;

@@ -3,7 +3,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   registerSchema,
-  type RegisterFormInput,
+  type RegisterFormData,
 } from "../../../utils/validation.js";
 
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -21,12 +21,12 @@ export const useRegisterForm = () => {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<RegisterFormInput>({
+  } = useForm<RegisterFormData>({
     resolver: yupResolver(registerSchema),
     mode: "onBlur",
   });
 
-  const onSubmit: SubmitHandler<RegisterFormInput> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
     const { email, password, name } = data;
 
     try {

@@ -1,4 +1,3 @@
-import type { LoginFormInput } from "../../../utils/validation.js";
 import FieldError from "./FieldError.js";
 import type {
   FieldValues,

@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import InputForm from "./components/InputForm.js";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { loginSchema, type LoginFormInput } from "../../utils/validation.js";
+import { loginSchema, type LoginFormData } from "../../utils/validation.js";
 import AuthRedirectMessage from "./components/AuthRedirectMessage.js";
 
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -19,12 +19,12 @@ export default function LoginForm() {
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<LoginFormInput>({
+  } = useForm<LoginFormData>({
     resolver: yupResolver(loginSchema),
     mode: "onBlur",
   });
 
-  const onSubmit = async (data: LoginFormInput) => {
+  const onSubmit = async (data: LoginFormData) => {
     const email = data?.email;
     const password = data?.password;
 
@@ -54,14 +54,14 @@ export default function LoginForm() {
     "
     >
       <div className="flex flex-col gap-y-10">
-        <InputForm<LoginFormInput>
+        <InputForm<LoginFormData>
           label="Email"
           placeholder="Введите ваш email..."
           name="email"
           register={register}
           errors={errors?.email}
         />
-        <InputForm<LoginFormInput>
+        <InputForm<LoginFormData>
           label="Пароль"
           placeholder="Введите ваш пароль..."
           name="password"

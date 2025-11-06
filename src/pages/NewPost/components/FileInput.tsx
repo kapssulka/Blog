@@ -8,16 +8,15 @@ import {
 } from "react-hook-form";
 import FieldError from "../../../features/auth/components/FieldError.js";
 import type { SetState } from "../../../types/utils.types.js";
+import type { FormNewPostFData } from "./FormNewPost.js";
+import type { FileWithPreview } from "../types.js";
 
 interface FileInputProps {
-  control: Control<FormData>;
-  // пока статическая типизация
+  control: Control<FormNewPostFData>;
   name: "file";
   errors: RHFFieldError | undefined;
-  // пока просто any
-  files: any;
-  // пока просто массив
-  setFiles: SetState<[]>;
+  files: FileWithPreview[];
+  setFiles: SetState<FileWithPreview[]>;
 }
 
 export default function FileInput({
@@ -30,15 +29,14 @@ export default function FileInput({
   const {
     field: { onChange },
   } = useController({ name, control });
-  console.log(errors);
 
   useEffect(() => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.preview));
   }, []);
 
-  const onDrop = (acceptedFiles) => {
+  const onDrop = (acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
-      const newFiles = acceptedFiles.map((file) =>
+      const newFiles: FileWithPreview[] = acceptedFiles.map((file) =>
         Object.assign(file, { preview: URL.createObjectURL(file) })
       );
       setFiles(newFiles);
@@ -54,11 +52,14 @@ export default function FileInput({
     multiple: true,
   });
 
-  const handleRemoveImage = (index) => {
-    URL.revokeObjectURL(files[index].preview);
-    const filteredFiles = files.filter((_, i) => i !== index);
-    setFiles(filteredFiles);
-    onChange(filteredFiles);
+  const handleRemoveImage = (index: number) => {
+    const file = files[index];
+    if (file) {
+      URL.revokeObjectURL(file.preview);
+      const filteredFiles = files.filter((_, i) => i !== index);
+      setFiles(filteredFiles);
+      onChange(filteredFiles);
+    }
   };
 
   return (
@@ -107,7 +108,7 @@ export default function FileInput({
         </div>
       )}
 
-      {errors && (
+      {errors?.message && (
         <FieldError className="self-start mt-5" message={errors?.message} />
       )}
     </div>
