@@ -31,7 +31,7 @@ export interface usersSliceState {
 
 const initialState: usersSliceState = {
   isCurrentUserProfile: false,
-  activeProfileUid: null,
+  activeProfileUid: "",
   users: {},
 };
 

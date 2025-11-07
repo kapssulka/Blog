@@ -12,10 +12,6 @@ import { fetchDeleteAvatar } from "../../redux/slices/currentUserSlice.js";
 import { toast } from "sonner";
 import { removeFromSupabaseStorage } from "../../supabase/services/storageService.js";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks.js";
-import type {
-  CurrentUserArgs,
-  DataChangeAvatar,
-} from "../../redux/types/currentUserSlice.type.js";
 
 export default function EditAvatar() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -25,8 +21,7 @@ export default function EditAvatar() {
     (state) => state.users
   );
 
-  const avatarUrl =
-    activeProfileUid !== null ? users[activeProfileUid]?.avatar_url : null;
+  const avatarUrl = users[activeProfileUid!]?.avatar_url ?? "";
 
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState("");
@@ -61,11 +56,11 @@ export default function EditAvatar() {
 
   const handleDeleteAvatar = async () => {
     const obj = {
-      user_uid: activeProfileUid,
+      user_uid: activeProfileUid as string,
       data: { avatar_url: null, avatar_path: null },
     };
 
-    const avatar_path = users[activeProfileUid]?.avatar_path;
+    const avatar_path = users[activeProfileUid!]?.avatar_path;
     if (!avatar_path) {
       toast.error("Ошибка с удалением!");
       return;
