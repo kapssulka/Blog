@@ -1,13 +1,25 @@
 import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
 import cn from "classnames";
+import type { SetState } from "../types/utils.types.js";
+import type { TailwindHeight, TailwindWidth } from "../types/tailwind.js";
+
+interface DialogModalProps {
+  children: React.ReactNode;
+  isOpen: boolean;
+  setIsOpen?: SetState<boolean>;
+  heightCss?: TailwindHeight;
+  widthCss?: TailwindWidth;
+}
 
 export default function DialogModal({
   children,
   isOpen,
   setIsOpen,
+  // высота через tailwind
   heightCss,
+  // ширина через tailwind
   widthCss,
-}) {
+}: DialogModalProps) {
   return (
     <Dialog
       open={isOpen}

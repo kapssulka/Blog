@@ -72,7 +72,7 @@ export async function uploadAvatarToSupabaseStorage(
 }
 
 export const removeFromSupabaseStorage = async (
-  arrPath: string[],
+  arrPath: string[] | string,
   bucket: string | null = null,
   folder: string = "images"
 ) => {

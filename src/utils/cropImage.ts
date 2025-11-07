@@ -1,4 +1,6 @@
-export const getCroppedImage = (imageSrc, cropPixels) => {
+import type { Area } from "react-easy-crop";
+
+export const getCroppedImage = (imageSrc: string, cropPixels: Area) => {
   return new Promise((resolve, reject) => {
     const image = new Image();
     image.src = imageSrc;
@@ -7,6 +9,8 @@ export const getCroppedImage = (imageSrc, cropPixels) => {
       canvas.width = cropPixels.width;
       canvas.height = cropPixels.height;
       const ctx = canvas.getContext("2d");
+
+      if (!ctx) return;
 
       ctx.drawImage(
         image,

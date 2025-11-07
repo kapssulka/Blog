@@ -1,7 +1,10 @@
-import StatsPanelItem from "./components/StatsPanelItem";
+import StatsPanelItem from "./components/StatsPanelItem.js";
 import cn from "classnames";
+interface StatsPanelProps {
+  className: string;
+}
 
-export default function StatsPanel({ className }) {
+export default function StatsPanel({ className }: StatsPanelProps) {
   return (
     <div className={cn("flex gap-x-10", className)}>
       <StatsPanelItem count={0} text="Публикации" />

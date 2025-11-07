@@ -1,22 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-// @ts-ignore
 import { currentUserSlice } from "./slices/currentUserSlice.js";
-// @ts-ignore
-
 import { postsSlice } from "./slices/postsSlice.js";
-// @ts-ignore
 import { loadingSlice } from "./slices/loadingSlice.js";
-// @ts-ignore
 import { usersSlice } from "./slices/usersSlice.js";
 import { postLikesSlice } from "./slices/postLikesSlice.js";
 import { postBookmarksSlice } from "./slices/postBookmarksSlice.js";
-// @ts-ignore
 import userReducer from "./slices/currentUserSlice.js";
-// @ts-ignore
 import postsReducer from "./slices/postsSlice.js";
-// @ts-ignore
 import loadingReducer from "./slices/loadingSlice.js";
-// @ts-ignore
 import usersReducer from "./slices/usersSlice.js";
 import postLikesReducer from "./slices/postLikesSlice.js";
 import postBookmarksReducer from "./slices/postBookmarksSlice.js";

@@ -1,5 +1,14 @@
 import { IoClose } from "react-icons/io5";
 
+interface CloseButtonProps {
+  onClick: React.MouseEventHandler<HTMLButtonElement>;
+  position?: React.CSSProperties["position"];
+  top?: number;
+  right?: number;
+  bottom?: number;
+  left?: number;
+}
+
 export default function CloseButton({
   onClick,
   position = "absolute",
@@ -7,7 +16,7 @@ export default function CloseButton({
   right,
   bottom,
   left,
-}) {
+}: CloseButtonProps) {
   return (
     <button
       style={{

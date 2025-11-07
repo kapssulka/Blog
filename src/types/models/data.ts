@@ -16,9 +16,9 @@ export interface UserData {
   bio: string;
   name: string;
   user_uid: string;
-  avatar_url: string;
+  avatar_url: string | null;
   created_at: string;
-  avatar_path: string;
+  avatar_path: string | null;
 }
 
 // ---- POST IMAGES ----

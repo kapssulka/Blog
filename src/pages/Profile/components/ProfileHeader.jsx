@@ -4,7 +4,7 @@ import Button from "../../../components/Button/Button";
 import { useState } from "react";
 import EditProfile from "./EditProfile/EditProfile";
 import { useSelector } from "react-redux";
-import EditAvatar from "../../../components/Avatar/EditAvatar";
+import EditAvatar from "../../../components/Avatar/EditAvatar.js";
 
 export default function ProfileHeader() {
   const [isOpen, setIsOpen] = useState(false);

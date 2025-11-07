@@ -1,38 +1,46 @@
 import { useRef, useState } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { MdModeEdit } from "react-icons/md";
-import AvatarIcon from "./AvatarIcon.tsx";
-import EditAvatarButton from "./EditAvatarButton";
-import DialogModal from "../DialogModal";
-import ImageCropperWrapper from "../Crop/ImageCropperWrapper";
-import { useDispatch, useSelector } from "react-redux";
-import ConfirmModal from "../ConfirmModal/ConfirmModal.tsx";
-import ConfirmButton from "../ConfirmModal/ConfirmButton.tsx";
-import CloseButton from "../CloseButton";
-import { fetchDeleteAvatar } from "../../redux/slices/currentUserSlice";
+import AvatarIcon from "./AvatarIcon.js";
+import EditAvatarButton from "./EditAvatarButton.js";
+import DialogModal from "../DialogModal.js";
+import ImageCropperWrapper from "../Crop/ImageCropperWrapper.js";
+import ConfirmModal from "../ConfirmModal/ConfirmModal.js";
+import ConfirmButton from "../ConfirmModal/ConfirmButton.js";
+import CloseButton from "../CloseButton.js";
+import { fetchDeleteAvatar } from "../../redux/slices/currentUserSlice.js";
 import { toast } from "sonner";
-import { removeFromSupabaseStorage } from "../../supabase/services/storageService";
+import { removeFromSupabaseStorage } from "../../supabase/services/storageService.js";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks.js";
+import type {
+  CurrentUserArgs,
+  DataChangeAvatar,
+} from "../../redux/types/currentUserSlice.type.js";
 
 export default function EditAvatar() {
-  const fileInputRef = useRef(null);
-  const dispatch = useDispatch();
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const dispatch = useAppDispatch();
 
-  const { activeProfileUid, users, isCurrentUserProfile } = useSelector(
+  const { activeProfileUid, users, isCurrentUserProfile } = useAppSelector(
     (state) => state.users
   );
-  const avatarUrl = users[activeProfileUid]?.avatar_url || null;
+
+  const avatarUrl =
+    activeProfileUid !== null ? users[activeProfileUid]?.avatar_url : null;
 
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
-  const [avatarPreview, setAvatarPreview] = useState(false);
+  const [avatarPreview, setAvatarPreview] = useState("");
 
   //for add button
-  const handleAddAvatar = (closeConfirmModal) => {
+  const handleAddAvatar = (closeConfirmModal?: boolean) => {
+    console.log("handleAddAvatar");
+
     fileInputRef.current?.click();
 
     if (closeConfirmModal) setOpenConfirmModal(false);
   };
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
 
     if (file) {
       const objectUrl = URL.createObjectURL(file);
@@ -46,7 +54,7 @@ export default function EditAvatar() {
     }
 
     URL.revokeObjectURL(avatarPreview);
-    setAvatarPreview(false);
+    setAvatarPreview("");
   };
 
   // логика удаления аватарки
@@ -89,7 +97,9 @@ export default function EditAvatar() {
             )
           }
           handleClick={
-            avatarUrl ? () => setOpenConfirmModal(true) : handleAddAvatar
+            avatarUrl
+              ? () => setOpenConfirmModal(true)
+              : () => handleAddAvatar()
           }
           handleFileChange={handleFileChange}
         />

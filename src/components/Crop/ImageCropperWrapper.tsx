@@ -1,30 +1,41 @@
-import ConfirmButton from "../ConfirmModal/ConfirmButton";
-import CloseButton from "../CloseButton";
-import ImageCropper from "./ImageCropper";
+import ConfirmButton from "../ConfirmModal/ConfirmButton.js";
+import CloseButton from "../CloseButton.js";
+import ImageCropper from "./ImageCropper.js";
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { getCroppedImage } from "../../utils/cropImage";
-import { useDispatch, useSelector } from "react-redux";
+import { getCroppedImage } from "../../utils/cropImage.js";
 import {
   removeFromSupabaseStorage,
   uploadAvatarToSupabaseStorage,
-} from "../../supabase/services/storageService";
-import { fetchUploadAvatar } from "../../redux/slices/currentUserSlice";
+} from "../../supabase/services/storageService.js";
+import { fetchUploadAvatar } from "../../redux/slices/currentUserSlice.js";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks.js";
+import type { Area, Point } from "react-easy-crop";
 
-export default function ImageCropperWrapper({ image, closeCropImage }) {
-  const contentRef = useRef(null);
+interface ImageCropperWrapperProps {
+  image: string;
+  closeCropImage: () => void;
+}
 
-  const dispatch = useDispatch();
-  const { user_uid } = useSelector((state) => state.user);
-  const { users } = useSelector((state) => state.users);
+export default function ImageCropperWrapper({
+  image,
+  closeCropImage,
+}: ImageCropperWrapperProps) {
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  const [crop, setCrop] = useState({ x: 0, y: 0 });
+  const dispatch = useAppDispatch();
+  const { user_uid } = useAppSelector((state) => state.user);
+  const { users } = useAppSelector((state) => state.users);
+
+  const [crop, setCrop] = useState<Point>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
-  const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
+  const [croppedAreaPixels, setCroppedAreaPixels] = useState<Area | null>(null);
 
   useEffect(() => {
-    const handleClick = (e) => {
-      if (!contentRef.current.contains(e.target))
+    const handleClick = (e: MouseEvent) => {
+      const el = contentRef.current;
+
+      if (el && e.target instanceof Node && !el.contains(e.target))
         toast.info("Завершите редактирование!");
     };
 
@@ -34,7 +45,7 @@ export default function ImageCropperWrapper({ image, closeCropImage }) {
   }, [contentRef]);
 
   // будет срабатывать, после окончания кропа
-  const handleCropComplete = (croppedPixels) => {
+  const handleCropComplete = (croppedPixels: Area) => {
     setCroppedAreaPixels(croppedPixels);
   };
 
@@ -42,9 +53,15 @@ export default function ImageCropperWrapper({ image, closeCropImage }) {
   const handleAdd = async () => {
     if (!croppedAreaPixels) return;
     // если кроп был, то с помощью Canvas (getCroppedImage) обрезаем и создаем изображение
+
     try {
       const file = await getCroppedImage(image, croppedAreaPixels);
-      const currentAvatarPath = users[user_uid].avatar_path;
+
+      if (!(file instanceof File)) return;
+
+      const currenUser = users[user_uid];
+      if (!currenUser) return;
+      const currentAvatarPath = currenUser.avatar_path;
 
       // Загрузка нового файла
       const { path, publicUrl } = await uploadAvatarToSupabaseStorage(
