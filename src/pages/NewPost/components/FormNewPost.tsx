@@ -85,7 +85,7 @@ export default function FormNewPost() {
         action=""
         className="flex flex-col mt-5"
       >
-        <TextareaForm
+        <TextareaForm<NewPostFormData>
           placeholder="Введите описание..."
           className="mb-3"
           register={register}

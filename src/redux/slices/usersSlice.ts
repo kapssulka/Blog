@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
 import type { UserData } from "../../types/models/data.js";
 
-export const fetchUserById = createAsyncThunk(
+export const fetchUserById = createAsyncThunk<UserData, string>(
   "users/fetchUserById",
   async (uid, { rejectWithValue }) => {
     try {
@@ -14,7 +14,7 @@ export const fetchUserById = createAsyncThunk(
       if (!response.ok) throw new Error("Error getting user");
       const data = await response.json();
 
-      return data;
+      return data[0];
     } catch (error: unknown) {
       if (error instanceof Error) {
         return rejectWithValue(error.message);
@@ -79,7 +79,7 @@ export const usersSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder.addCase(fetchUserById.fulfilled, (state, action) => {
-      const user = action.payload[0];
+      const user = action.payload;
       state.users[user.user_uid] = user;
     });
   },

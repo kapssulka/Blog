@@ -1,7 +1,7 @@
 import StatsPanelItem from "./components/StatsPanelItem.js";
 import cn from "classnames";
 interface StatsPanelProps {
-  className: string;
+  className?: string;
 }
 
 export default function StatsPanel({ className }: StatsPanelProps) {

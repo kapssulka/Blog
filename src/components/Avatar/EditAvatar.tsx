@@ -28,8 +28,6 @@ export default function EditAvatar() {
 
   //for add button
   const handleAddAvatar = (closeConfirmModal?: boolean) => {
-    console.log("handleAddAvatar");
-
     fileInputRef.current?.click();
 
     if (closeConfirmModal) setOpenConfirmModal(false);

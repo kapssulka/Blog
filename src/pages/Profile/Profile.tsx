@@ -1,6 +1,5 @@
-import { useEffect, useMemo, useState } from "react";
-import ProfileHeader from "./components/ProfileHeader";
-import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useMemo } from "react";
+import ProfileHeader from "./components/ProfileHeader.js";
 import { useParams } from "react-router-dom";
 import {
   fetchUserById,
@@ -8,15 +7,18 @@ import {
   setIsCurrentUserProfile,
 } from "../../redux/slices/usersSlice.js";
 import PostsSwitcher from "../../components/PostsSwitcher.js";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks.js";
 
 export default function Profile() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const { id } = useParams();
 
-  const { users, isCurrentUserProfile } = useSelector((state) => state.users);
+  const { users, isCurrentUserProfile } = useAppSelector(
+    (state) => state.users
+  );
 
-  const { posts } = useSelector((state) => state.posts);
-  const { user_uid: currentUserUid } = useSelector((state) => state.user);
+  const { posts } = useAppSelector((state) => state.posts);
+  const { user_uid: currentUserUid } = useAppSelector((state) => state.user);
 
   const postCurrentUser = useMemo(
     () => posts.filter((post) => post?.user_uid === id),
@@ -26,7 +28,7 @@ export default function Profile() {
   useEffect(() => {
     dispatch(setActiveProfileUid(id));
 
-    if (!users[id]) dispatch(fetchUserById(id));
+    if (id && !users[id]) dispatch(fetchUserById(id));
 
     if (id === currentUserUid) dispatch(setIsCurrentUserProfile(true));
     else dispatch(setIsCurrentUserProfile(false));

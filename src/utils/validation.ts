@@ -45,7 +45,17 @@ export const schemaNewPost = yup.object().shape({
   description: yup.string().required("Описание не может быть пустым"),
 });
 
+export const schemaEditProfile = yup.object().shape({
+  name: yup
+    .string()
+    .required("Имя обязательно!")
+    .min(2, "Минимум 2 символа!")
+    .max(50, "Максимум 50 символов!"),
+  bio: yup.string().default(""),
+});
+
 // типы форм
 export type RegisterFormData = yup.InferType<typeof registerSchema>;
 export type LoginFormData = yup.InferType<typeof loginSchema>;
 export type NewPostFormData = yup.InferType<typeof schemaNewPost>;
+export type EditProfileFormData = yup.InferType<typeof schemaEditProfile>;

@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
 import Message from "../pages/Message/Message";
 import Layout from "../pages/Layout.js";
-import Profile from "../pages/Profile/Profile";
+import Profile from "../pages/Profile/Profile.js";
 import ChatAllUsers from "../features/chat/ChatAllUsers/ChatAllUsers";
 import ChatSingleUser from "../features/chat/ChatSingleUser/ChatSingleUser";
 import Register from "../pages/Register";

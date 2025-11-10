@@ -1,23 +1,23 @@
 import cn from "classnames";
 import FieldError from "./FieldError.js";
 import type {
+  FieldValues,
   Path,
   FieldError as RHFFieldError,
   UseFormRegister,
 } from "react-hook-form";
-import type { NewPostFormData } from "../../../utils/validation.js";
 
-interface TextareaFormProps {
+interface TextareaFormProps<T extends FieldValues> {
   label?: string;
-  name: Path<NewPostFormData>;
-  placeholder: string;
+  name: Path<T>;
+  placeholder?: string;
   id?: string;
-  register: UseFormRegister<NewPostFormData>;
-  errors: RHFFieldError | undefined;
-  className: string;
+  register: UseFormRegister<T>;
+  errors?: RHFFieldError | undefined;
+  className?: string;
 }
 
-export default function TextareaForm({
+export default function TextareaForm<T extends FieldValues>({
   label,
   name,
   placeholder = "",
@@ -25,7 +25,7 @@ export default function TextareaForm({
   register,
   errors,
   className,
-}: TextareaFormProps) {
+}: TextareaFormProps<T>) {
   const textareaId = id || name;
 
   return (

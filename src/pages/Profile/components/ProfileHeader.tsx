@@ -1,14 +1,14 @@
-import StatsPanel from "../../../features/StatsPanel/StatsPanel";
-import UserBio from "./UserBio/UserBio";
-import Button from "../../../components/Button/Button";
+import StatsPanel from "../../../features/StatsPanel/StatsPanel.js";
+import UserBio from "./UserBio/UserBio.js";
+import Button from "../../../components/Button/Button.js";
 import { useState } from "react";
-import EditProfile from "./EditProfile/EditProfile";
-import { useSelector } from "react-redux";
+import EditProfile from "./EditProfile/EditProfile.js";
 import EditAvatar from "../../../components/Avatar/EditAvatar.js";
+import { useAppSelector } from "../../../hooks/reduxHooks.js";
 
 export default function ProfileHeader() {
-  const [isOpen, setIsOpen] = useState(false);
-  const { isCurrentUserProfile } = useSelector((state) => state.users);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const { isCurrentUserProfile } = useAppSelector((state) => state.users);
 
   return (
     <div className="px-15 ">
