@@ -10,8 +10,8 @@ import Login from "../pages/Login.js";
 import NotFound from "../pages/NotFound";
 
 import { ROUTES } from "../constants/routes";
-import PrivateRoute from "../components/routes/PrivateRoute";
-import PublicRoute from "../components/routes/PublicRoute";
+import PrivateRoute from "../components/routes/PrivateRoute.js";
+import PublicRoute from "../components/routes/PublicRoute.js";
 import { toast, Toaster } from "sonner";
 import NewPost from "../pages/NewPost/NewPost.js";
 import { useDispatch, useSelector } from "react-redux";
