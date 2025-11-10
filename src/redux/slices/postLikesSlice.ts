@@ -106,7 +106,7 @@ export const addLike = createAsyncThunk<LikeResponse, LikeArgs>(
 // GET ALL
 export const getLikes = createAsyncThunk<
   Record<number, LikesObject>,
-  string,
+  string | undefined,
   { state: RootState }
 >("postLikes/getLikes", async (user_uid, { rejectWithValue, getState }) => {
   try {

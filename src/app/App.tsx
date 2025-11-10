@@ -1,30 +1,30 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
+import Home from "../pages/Home.js";
 import Message from "../pages/Message/Message.js";
 import Layout from "../pages/Layout.js";
 import Profile from "../pages/Profile/Profile.js";
 import ChatAllUsers from "../features/chat/ChatAllUsers/ChatAllUsers.js";
 import ChatSingleUser from "../features/chat/ChatSingleUser/ChatSingleUser.js";
-import Register from "../pages/Register";
+import Register from "../pages/Register.js";
 import Login from "../pages/Login.js";
-import NotFound from "../pages/NotFound";
+import NotFound from "../pages/NotFound.js";
 
-import { ROUTES } from "../constants/routes";
+import { ROUTES } from "../constants/routes.js";
 import PrivateRoute from "../components/routes/PrivateRoute.js";
 import PublicRoute from "../components/routes/PublicRoute.js";
 import { toast, Toaster } from "sonner";
 import NewPost from "../pages/NewPost/NewPost.js";
-import { useDispatch, useSelector } from "react-redux";
-import Loader from "../components/Loader";
+import Loader from "../components/Loader.js";
 import { useEffect } from "react";
-import { setHasVisited } from "../redux/slices/currentUserSlice";
+import { setHasVisited } from "../redux/slices/currentUserSlice.js";
 import LikedPosts from "../pages/LikedPosts.js";
 import BookmarksPosts from "../pages/BookmarksPosts.js";
+import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks.js";
 
 export default function App() {
-  const { loadingCount } = useSelector((state) => state.loading);
-  const { user_uid, name, hasVisited } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  const { loadingCount } = useAppSelector((state) => state.loading);
+  const { user_uid, name, hasVisited } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (!hasVisited) return;

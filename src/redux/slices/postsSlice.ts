@@ -70,7 +70,7 @@ export const createPost = createAsyncThunk<
 
 // GET
 
-export const getPosts = createAsyncThunk<PostData[], string | null>(
+export const getPosts = createAsyncThunk<PostData[], string | null | undefined>(
   "posts/getPosts",
   async (uid = null, { rejectWithValue }) => {
     // стоит переписать, чтобы images как и users сразу подгружались одним запросом

@@ -1,15 +1,15 @@
-import { useDispatch } from "react-redux";
-import { useAuthUser } from "../hooks/useAuthUser";
-import App from "./App";
-import { fetchGetDataUser } from "../redux/slices/currentUserSlice";
+import { useAuthUser } from "../hooks/useAuthUser.js";
+import App from "./App.js";
+import { fetchGetDataUser } from "../redux/slices/currentUserSlice.js";
 import { useEffect } from "react";
-import { getPosts } from "../redux/slices/postsSlice";
-import { getLikes } from "../redux/slices/postLikesSlice";
-import { getBookmarks } from "../redux/slices/postBookmarksSlice";
+import { getPosts } from "../redux/slices/postsSlice.js";
+import { getLikes } from "../redux/slices/postLikesSlice.js";
+import { getBookmarks } from "../redux/slices/postBookmarksSlice.js";
+import { useAppDispatch } from "../hooks/reduxHooks.js";
 
 export default function AppInitializer() {
   const user_uid = useAuthUser();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (user_uid) {
