@@ -1,4 +1,4 @@
-import TitlePage from "../../../components/TitlePage";
+import TitlePage from "../../../components/TitlePage.js";
 import { IoIosArrowBack } from "react-icons/io";
 
 export default function ChatSingleUser() {
@@ -6,7 +6,7 @@ export default function ChatSingleUser() {
     <div className="h-full">
       <TitlePage
         text="Вернуться к чатам"
-        linkTo
+        linkTo=""
         iconComponent={<IoIosArrowBack size={30} />}
       />
 

@@ -1,10 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Home from "../pages/Home";
-import Message from "../pages/Message/Message";
+import Message from "../pages/Message/Message.js";
 import Layout from "../pages/Layout.js";
 import Profile from "../pages/Profile/Profile.js";
-import ChatAllUsers from "../features/chat/ChatAllUsers/ChatAllUsers";
-import ChatSingleUser from "../features/chat/ChatSingleUser/ChatSingleUser";
+import ChatAllUsers from "../features/chat/ChatAllUsers/ChatAllUsers.js";
+import ChatSingleUser from "../features/chat/ChatSingleUser/ChatSingleUser.js";
 import Register from "../pages/Register";
 import Login from "../pages/Login.js";
 import NotFound from "../pages/NotFound";

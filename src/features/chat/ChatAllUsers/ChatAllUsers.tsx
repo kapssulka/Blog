@@ -1,7 +1,7 @@
 import { IoMenu } from "react-icons/io5";
-import ProfilePreview from "../../../components/Avatar/ProfilePreview.tsx";
-import TitlePage from "../../../components/TitlePage";
-import ChatUserPreview from "../../../pages/Message/components/ChatUserPreview";
+import ProfilePreview from "../../../components/Avatar/ProfilePreview.js";
+import TitlePage from "../../../components/TitlePage.js";
+import ChatUserPreview from "../../../pages/Message/components/ChatUserPreview.js";
 
 export default function ChatAllUsers() {
   return (

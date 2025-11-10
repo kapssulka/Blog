@@ -7,21 +7,21 @@ import cn from "classnames";
 import type { ElementType } from "react";
 
 interface ProfilePreviewProps {
-  className: string;
+  className?: string;
   chatMessageEl?: React.ReactNode;
   linkTo?: string;
-  avtor: string;
-  create_at: string;
-  avatar_url: string;
+  avtor?: string;
+  create_at?: string;
+  avatar_url?: string;
 }
 
 export default function ProfilePreview({
   className,
   chatMessageEl = false,
   linkTo,
-  avtor,
-  create_at,
-  avatar_url,
+  avtor = "",
+  create_at = "",
+  avatar_url = "",
 }: ProfilePreviewProps) {
   const Wrapper = (linkTo ? Link : "div") as ElementType;
   const wrapperProps = linkTo ? { to: linkTo } : {};
