@@ -1,4 +1,8 @@
-import { configureStore } from "@reduxjs/toolkit";
+import {
+  configureStore,
+  type AnyAction,
+  type Middleware,
+} from "@reduxjs/toolkit";
 import { currentUserSlice } from "./slices/currentUserSlice.js";
 import { postsSlice } from "./slices/postsSlice.js";
 import { loadingSlice } from "./slices/loadingSlice.js";
@@ -11,21 +15,30 @@ import loadingReducer from "./slices/loadingSlice.js";
 import usersReducer from "./slices/usersSlice.js";
 import postLikesReducer from "./slices/postLikesSlice.js";
 import postBookmarksReducer from "./slices/postBookmarksSlice.js";
-// @ts-ignore
 import { listenerMiddleware } from "./listeners.js";
 
-// @ts-ignore
-const loadingMiddleware = (store) => (next) => (action) => {
-  if (action.type.endsWith("/pending")) {
-    store.dispatch({ type: "loading/increment" });
-  } else if (
-    action.type.endsWith("/fulfilled") ||
-    action.type.endsWith("/rejected")
-  ) {
-    store.dispatch({ type: "loading/decrement" });
-  }
-  return next(action);
-};
+function isActionWithType(action: unknown): action is { type: string } {
+  return (
+    typeof action === "object" &&
+    action !== null &&
+    typeof (action as any).type === "string"
+  );
+}
+
+const loadingMiddleware: Middleware<{}, any, any> =
+  (store) => (next) => (action) => {
+    if (isActionWithType(action)) {
+      if (action.type.endsWith("/pending")) {
+        store.dispatch({ type: "loading/increment" });
+      } else if (
+        action.type.endsWith("/fulfilled") ||
+        action.type.endsWith("/rejected")
+      ) {
+        store.dispatch({ type: "loading/decrement" });
+      }
+    }
+    return next(action);
+  };
 
 const store = configureStore({
   reducer: {

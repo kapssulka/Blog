@@ -3,12 +3,12 @@ import {
   fetchDeleteAvatar,
   fetchPatchDataUser,
   fetchUploadAvatar,
-} from "./slices/currentUserSlice";
+} from "./slices/currentUserSlice.js";
 import {
   changeBioAndNameForPosts,
   uploadAvatarForPosts,
-} from "./slices/postsSlice";
-import { changeBioAndName, uploadAvatarForUsers } from "./slices/usersSlice";
+} from "./slices/postsSlice.js";
+import { changeBioAndName, uploadAvatarForUsers } from "./slices/usersSlice.js";
 
 export const listenerMiddleware = createListenerMiddleware();
 

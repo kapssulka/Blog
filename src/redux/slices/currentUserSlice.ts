@@ -190,7 +190,6 @@ export const currentUserSlice = createSlice({
         const { name, bio } = action.payload;
 
         state.name = name;
-        // @ts-ignore
         state.bio = bio;
       })
       .addCase(fetchUploadAvatar.fulfilled, (state, action) => {
