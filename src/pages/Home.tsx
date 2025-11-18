@@ -6,7 +6,7 @@ export default function Home() {
   const posts = useAppSelector((state) => state.posts.posts);
   const { loadingCount } = useAppSelector((state) => state.loading);
   return (
-    <>
+    <div>
       {loadingCount === 0 && posts.length < 1 && (
         <EmptyPosts
           showCreatePost
@@ -14,6 +14,6 @@ export default function Home() {
         />
       )}
       <VerticalPosts posts={posts} />
-    </>
+    </div>
   );
 }
