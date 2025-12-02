@@ -29,12 +29,12 @@ const loadingMiddleware: Middleware<{}, any, any> =
   (store) => (next) => (action) => {
     if (isActionWithType(action)) {
       if (action.type.endsWith("/pending")) {
-        store.dispatch({ type: "loading/increment" });
+        store.dispatch({ type: "loading/incrementGlobal" });
       } else if (
         action.type.endsWith("/fulfilled") ||
         action.type.endsWith("/rejected")
       ) {
-        store.dispatch({ type: "loading/decrement" });
+        store.dispatch({ type: "loading/decrementGlobal" });
       }
     }
     return next(action);

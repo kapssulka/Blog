@@ -22,7 +22,7 @@ import BookmarksPosts from "../pages/BookmarksPosts.js";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks.js";
 
 export default function App() {
-  const { loadingCount } = useAppSelector((state) => state.loading);
+  const { global } = useAppSelector((state) => state.loading);
   const { user_uid, name, hasVisited } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
@@ -50,7 +50,7 @@ export default function App() {
           },
         }}
       />
-      {loadingCount > 0 && <Loader />}
+      {global > 0 && <Loader />}
 
       <Routes>
         <Route

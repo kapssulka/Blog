@@ -1,25 +1,36 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+import type { LoadingKey } from "../../types/models/loading.js";
 
 export interface LoadingState {
-  loadingCount: number;
+  global: number;
+
+  byKey: Record<string, boolean>;
 }
 
 const initialState: LoadingState = {
-  loadingCount: 0,
+  global: 0,
+  byKey: {},
 };
 
 export const loadingSlice = createSlice({
   name: "loading",
   initialState,
   reducers: {
-    increment: (state) => {
-      state.loadingCount++;
+    incrementGlobal: (state) => {
+      state.global++;
     },
-    decrement: (state) => {
-      state.loadingCount--;
+    decrementGlobal: (state) => {
+      state.global--;
+    },
+    start: (state, action: PayloadAction<LoadingKey>) => {
+      state.byKey[action.payload] = true;
+    },
+    finish: (state, action: PayloadAction<LoadingKey>) => {
+      state.byKey[action.payload] = false;
     },
   },
 });
 
 export default loadingSlice.reducer;
-export const { increment, decrement } = loadingSlice.actions;
+export const { incrementGlobal, decrementGlobal, start, finish } =
+  loadingSlice.actions;

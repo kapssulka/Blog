@@ -9,11 +9,11 @@ interface VerticalPostsProps {
   refPosts?: React.RefObject<Record<string, HTMLDivElement | null>>;
 }
 export default function VerticalPosts({ posts, refPosts }: VerticalPostsProps) {
-  const { loadingCount } = useAppSelector((state) => state.loading);
+  const { global } = useAppSelector((state) => state.loading);
 
   return (
     <div className="flex flex-col gap-10">
-      {loadingCount ? (
+      {global ? (
         <PostSkeleton />
       ) : (
         posts.map((post) => {

@@ -1,6 +1,9 @@
 import imageCompression from "browser-image-compression";
 import { supabase } from "../supabase.js";
-import { decrement, increment } from "../../redux/slices/loadingSlice.js";
+import {
+  decrementGlobal,
+  incrementGlobal,
+} from "../../redux/slices/loadingSlice.js";
 import type { AppDispatch } from "../../redux/store.js";
 
 interface ReturnUrl {
@@ -12,7 +15,7 @@ export const uploadToSupabaseStorage = async (
   files: File[],
   dispatch: AppDispatch
 ): Promise<ReturnUrl[]> => {
-  dispatch(increment());
+  dispatch(incrementGlobal());
 
   const urls = [];
   for (const file of files) {
@@ -41,7 +44,7 @@ export const uploadToSupabaseStorage = async (
 
     urls.push({ publicUrl, path });
   }
-  dispatch(decrement());
+  dispatch(decrementGlobal());
 
   return urls;
 };
@@ -50,7 +53,7 @@ export async function uploadAvatarToSupabaseStorage(
   file: File,
   dispatch: AppDispatch
 ): Promise<ReturnUrl> {
-  dispatch(increment());
+  dispatch(incrementGlobal());
 
   const fileName = `${crypto.randomUUID()}.webp`;
 
@@ -66,7 +69,7 @@ export async function uploadAvatarToSupabaseStorage(
     data: { publicUrl },
   } = supabase.storage.from("avatars").getPublicUrl(path);
 
-  dispatch(decrement());
+  dispatch(decrementGlobal());
 
   return { publicUrl, path };
 }
