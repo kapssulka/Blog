@@ -15,7 +15,7 @@ export const uploadToSupabaseStorage = async (
   files: File[],
   dispatch: AppDispatch
 ): Promise<ReturnUrl[]> => {
-  dispatch(incrementGlobal());
+  // dispatch(incrementGlobal());
 
   const urls = [];
   for (const file of files) {
@@ -44,7 +44,7 @@ export const uploadToSupabaseStorage = async (
 
     urls.push({ publicUrl, path });
   }
-  dispatch(decrementGlobal());
+  // dispatch(decrementGlobal());
 
   return urls;
 };

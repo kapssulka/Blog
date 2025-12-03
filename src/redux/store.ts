@@ -5,7 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import { currentUserSlice } from "./slices/currentUserSlice.js";
 import { postsSlice } from "./slices/postsSlice.js";
-import { loadingSlice } from "./slices/loadingSlice.js";
+import { finish, loadingSlice, start } from "./slices/loadingSlice.js";
 import { usersSlice } from "./slices/usersSlice.js";
 import { postLikesSlice } from "./slices/postLikesSlice.js";
 import { postBookmarksSlice } from "./slices/postBookmarksSlice.js";
@@ -28,13 +28,13 @@ function isActionWithType(action: unknown): action is { type: string } {
 const loadingMiddleware: Middleware<{}, any, any> =
   (store) => (next) => (action) => {
     if (isActionWithType(action)) {
-      if (action.type.endsWith("/pending")) {
-        store.dispatch({ type: "loading/incrementGlobal" });
+      if (action.type === "posts/getPosts/pending") {
+        store.dispatch(start("posts"));
       } else if (
-        action.type.endsWith("/fulfilled") ||
-        action.type.endsWith("/rejected")
+        action.type.endsWith("posts/getPosts/fulfilled") ||
+        action.type.endsWith("posts/getPosts/rejected")
       ) {
-        store.dispatch({ type: "loading/decrementGlobal" });
+        store.dispatch(finish("posts"));
       }
     }
     return next(action);

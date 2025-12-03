@@ -4,10 +4,10 @@ import { useAppSelector } from "../hooks/reduxHooks.js";
 
 export default function Home() {
   const posts = useAppSelector((state) => state.posts.posts);
-  const { global } = useAppSelector((state) => state.loading);
+  const { byKey } = useAppSelector((state) => state.loading);
   return (
     <div>
-      {global === 0 && posts.length < 1 && (
+      {!byKey.posts && posts.length < 1 && (
         <EmptyPosts
           showCreatePost
           title="Будь первым, кто поделится чем-то интересным!"

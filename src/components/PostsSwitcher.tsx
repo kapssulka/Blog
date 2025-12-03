@@ -5,6 +5,7 @@ import VerticalPosts from "./VerticalPosts.js";
 import EmptyPosts from "./EmptyPosts.js";
 import type { PostData } from "../types/models/data.js";
 import type { PostsViewMode } from "../types/ui/view.js";
+import { useAppSelector } from "../hooks/reduxHooks.js";
 
 interface PostsSwitcherProps {
   posts: PostData[];
@@ -17,6 +18,8 @@ export default function PostsSwitcher({
   topContent,
   showCreatePost = false,
 }: PostsSwitcherProps) {
+  const { byKey } = useAppSelector((state) => state.loading);
+
   const [activeBlock, setActiveBlock] = useState<PostsViewMode>("grid");
 
   const refPosts = useRef<{ [key: number]: HTMLDivElement | null }>({});
@@ -53,7 +56,7 @@ export default function PostsSwitcher({
         <VerticalPosts posts={posts} refPosts={refPosts} />
       )}
 
-      {posts.length < 1 && (
+      {!byKey.posts && posts.length < 1 && (
         <EmptyPosts
           title="У вас пока нет сохраненных постов"
           showCreatePost={showCreatePost}

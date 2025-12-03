@@ -10,11 +10,11 @@ interface GridPosts {
 }
 
 export default function GridPosts({ posts, scrollToPost }: GridPosts) {
-  const { global } = useAppSelector((state) => state.loading);
+  const { byKey } = useAppSelector((state) => state.loading);
 
   return (
     <>
-      {global ? (
+      {byKey.posts ? (
         <GridPostsSkeleton />
       ) : (
         <div className="grid grid-cols-3 gap-3">

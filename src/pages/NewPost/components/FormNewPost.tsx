@@ -19,6 +19,10 @@ import {
   schemaNewPost,
   type NewPostFormData,
 } from "../../../utils/validation.js";
+import {
+  decrementGlobal,
+  incrementGlobal,
+} from "../../../redux/slices/loadingSlice.js";
 
 export default function FormNewPost() {
   const [files, setFiles] = useState<FileWithPreview[]>([]);
@@ -38,6 +42,7 @@ export default function FormNewPost() {
 
   const onSubmit: SubmitHandler<NewPostFormData> = async (data) => {
     try {
+      dispatch(incrementGlobal());
       const text = data.description;
       const files = data.file;
 
@@ -63,9 +68,12 @@ export default function FormNewPost() {
         await dispatch(uploadImages(imageRow)).unwrap();
       }
       dispatch(addLastPost());
+      dispatch(decrementGlobal());
 
       toast.success("Пост успешно добавлен!");
     } catch (error) {
+      dispatch(decrementGlobal());
+
       const message =
         error instanceof Error ? error.message : "Неизвестная ошибка";
 
