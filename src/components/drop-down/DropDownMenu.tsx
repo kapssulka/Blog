@@ -13,6 +13,10 @@ import { deleteAllBookmarks } from "../../redux/slices/postBookmarksSlice.js";
 import ConfirmButton from "../ConfirmModal/ConfirmButton.js";
 import type { ImageData } from "../../types/models/data.js";
 import { useAppDispatch } from "../../hooks/reduxHooks.js";
+import {
+  decrementGlobal,
+  incrementGlobal,
+} from "../../redux/slices/loadingSlice.js";
 
 interface DropDownMenuProps {
   className: string;
@@ -60,6 +64,7 @@ export default function DropDownMenu({
 
   const handleRemovePost = async (post_id: number, images: ImageData[]) => {
     try {
+      dispatch(incrementGlobal());
       const pathArr = images.map((item) => item.path);
 
       const { data, error } = await removeFromSupabaseStorage(pathArr, "posts");
@@ -69,8 +74,10 @@ export default function DropDownMenu({
       await dispatch(deleteAllBookmarks(post_id)).unwrap();
       await dispatch(removePost(post_id)).unwrap();
 
+      dispatch(decrementGlobal());
       toast.success("Пост успешно удалён!");
     } catch (error) {
+      dispatch(decrementGlobal());
       toast.error("Ошибка с удалением поста!");
       if (error instanceof Error) {
         console.error(error.message);

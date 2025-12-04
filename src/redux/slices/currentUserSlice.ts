@@ -133,7 +133,7 @@ export const fetchDeleteAvatar = createAsyncThunk<
 
     const data = await response.json();
 
-    return data;
+    return data[0];
   } catch (error: unknown) {
     if (error instanceof Error) {
       return rejectWithValue(error.message);
