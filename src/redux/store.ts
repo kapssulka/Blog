@@ -36,6 +36,15 @@ const loadingMiddleware: Middleware<{}, any, any> =
       ) {
         store.dispatch(finish("posts"));
       }
+
+      if (action.type === "users/fetchUserById/pending") {
+        store.dispatch(start("profile"));
+      } else if (
+        action.type.endsWith("users/fetchUserById/fulfilled") ||
+        action.type.endsWith("users/fetchUserById/rejected")
+      ) {
+        store.dispatch(finish("profile"));
+      }
     }
     return next(action);
   };

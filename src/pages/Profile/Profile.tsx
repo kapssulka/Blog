@@ -8,10 +8,13 @@ import {
 } from "../../redux/slices/usersSlice.js";
 import PostsSwitcher from "../../components/PostsSwitcher.js";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks.js";
+import ProfileSkeleton from "../../components/skeleton/Profile/ProfileSkeleton.js";
 
 export default function Profile() {
   const dispatch = useAppDispatch();
   const { id } = useParams();
+
+  const { byKey } = useAppSelector((state) => state.loading);
 
   const { users, isCurrentUserProfile } = useAppSelector(
     (state) => state.users
@@ -36,11 +39,15 @@ export default function Profile() {
 
   return (
     <div className="flex flex-col gap-y-5  h-full  ">
-      <PostsSwitcher
-        posts={postCurrentUser}
-        topContent={<ProfileHeader />}
-        showCreatePost={isCurrentUserProfile}
-      />
+      {byKey.posts || byKey.profile ? (
+        <ProfileSkeleton />
+      ) : (
+        <PostsSwitcher
+          posts={postCurrentUser}
+          topContent={<ProfileHeader />}
+          showCreatePost={isCurrentUserProfile}
+        />
+      )}
     </div>
   );
 }
