@@ -9,7 +9,9 @@ export default function Layout() {
       <Header />
 
       <MainWrapper isTwoColums>
-        <Outlet />
+        <div>
+          <Outlet />
+        </div>
         <Aside />
       </MainWrapper>
     </>
