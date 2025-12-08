@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
 import type { PostInteractionData } from "../../types/models/data.js";
 import type { LikeArgs, LikeResponse } from "../types/postLikes.type.js";
@@ -167,35 +171,56 @@ const initialState: LikesState = {
 export const postLikesSlice = createSlice({
   name: "postLikes",
   initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(getLikes.fulfilled, (state, action) => {
-        state.likes = { ...state.likes, ...action.payload };
-      })
-      .addCase(addLike.fulfilled, (state, action) => {
-        const current = state.likes[action.payload.post_id];
+  reducers: {
+    toggleLikeLocally: (state, action: PayloadAction<{ post_id: number }>) => {
+      const current = state.likes[action.payload.post_id];
 
-        let likesCount = current ? current.likesCount + 1 : 1;
-        state.likes[action.payload.post_id] = {
-          likedByCurrentUser: true,
-          likesCount,
-        };
-      })
-      .addCase(deleteLike.fulfilled, (state, action) => {
-        const current: LikesObject = state.likes[action.payload.post_id]!;
-
-        if (current.likesCount === 1) {
+      if (current) {
+        if (current.likesCount === 1 && current.likedByCurrentUser) {
           delete state.likes[action.payload.post_id];
         } else {
-          let likesCount = current.likesCount - 1;
           state.likes[action.payload.post_id] = {
-            likedByCurrentUser: false,
-            likesCount,
+            likedByCurrentUser: !current.likedByCurrentUser,
+            likesCount: current.likedByCurrentUser
+              ? current.likesCount - 1
+              : current.likesCount + 1,
           };
         }
-      });
+      } else {
+        state.likes[action.payload.post_id] = {
+          likedByCurrentUser: true,
+          likesCount: 1,
+        };
+      }
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(getLikes.fulfilled, (state, action) => {
+      state.likes = { ...state.likes, ...action.payload };
+    });
+    // .addCase(addLike.fulfilled, (state, action) => {
+    //   const current = state.likes[action.payload.post_id];
+
+    //   let likesCount = current ? current.likesCount + 1 : 1;
+    //   state.likes[action.payload.post_id] = {
+    //     likedByCurrentUser: true,
+    //     likesCount,
+    //   };
+    // })
+    // .addCase(deleteLike.fulfilled, (state, action) => {
+    //   const current: LikesObject = state.likes[action.payload.post_id]!;
+
+    //   if (current.likesCount === 1) {
+    //     delete state.likes[action.payload.post_id];
+    //   } else {
+    //     let likesCount = current.likesCount - 1;
+    //     state.likes[action.payload.post_id] = {
+    //       likedByCurrentUser: false,
+    //       likesCount,
+    //     };
+    //   }
+    // });
   },
 });
-
+export const { toggleLikeLocally } = postLikesSlice.actions;
 export default postLikesSlice.reducer;

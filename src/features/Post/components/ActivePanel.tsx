@@ -6,6 +6,7 @@ import {
   addLike,
   checkLike,
   deleteLike,
+  toggleLikeLocally,
 } from "../../../redux/slices/postLikesSlice.js";
 import {
   addBookmark,
@@ -32,6 +33,7 @@ export default function ActivePanel({
   const isBookMarks = bookmarks.includes(Number(post_id));
 
   const onLikeClik = async (e: React.MouseEvent<SVGElement>) => {
+    dispatch(toggleLikeLocally({ post_id }));
     const likeObj = { post_id, user_uid };
 
     const res = await dispatch(checkLike(likeObj)).unwrap();
