@@ -198,28 +198,6 @@ export const postLikesSlice = createSlice({
     builder.addCase(getLikes.fulfilled, (state, action) => {
       state.likes = { ...state.likes, ...action.payload };
     });
-    // .addCase(addLike.fulfilled, (state, action) => {
-    //   const current = state.likes[action.payload.post_id];
-
-    //   let likesCount = current ? current.likesCount + 1 : 1;
-    //   state.likes[action.payload.post_id] = {
-    //     likedByCurrentUser: true,
-    //     likesCount,
-    //   };
-    // })
-    // .addCase(deleteLike.fulfilled, (state, action) => {
-    //   const current: LikesObject = state.likes[action.payload.post_id]!;
-
-    //   if (current.likesCount === 1) {
-    //     delete state.likes[action.payload.post_id];
-    //   } else {
-    //     let likesCount = current.likesCount - 1;
-    //     state.likes[action.payload.post_id] = {
-    //       likedByCurrentUser: false,
-    //       likesCount,
-    //     };
-    //   }
-    // });
   },
 });
 export const { toggleLikeLocally } = postLikesSlice.actions;

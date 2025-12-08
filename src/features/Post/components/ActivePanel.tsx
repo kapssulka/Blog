@@ -12,6 +12,7 @@ import {
   addBookmark,
   deleteBookmark,
   getBookmark,
+  toggleBookmarkLocally,
 } from "../../../redux/slices/postBookmarksSlice.js";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks.js";
 
@@ -43,6 +44,7 @@ export default function ActivePanel({
   };
 
   const onBoolmarkClik = async (e: React.MouseEvent<SVGElement>) => {
+    dispatch(toggleBookmarkLocally({ post_id }));
     const bookmarkObj = { post_id, user_uid };
 
     const res = await dispatch(getBookmark(bookmarkObj)).unwrap();

@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
 import type { BookmarksArgs } from "../types/postBookmarks.type.js";
 import type { PostInteractionData } from "../../types/models/data.js";
@@ -132,25 +136,29 @@ export const postBookmarksSlice = createSlice({
     resetAllBookmarks: (state, action) => {
       state.bookmarks = [];
     },
+    toggleBookmarkLocally: (
+      state,
+      action: PayloadAction<{ post_id: number }>
+    ) => {
+      const id = action.payload.post_id;
+      const current = state.bookmarks.includes(id);
+
+      if (current) {
+        state.bookmarks = state.bookmarks.filter((post_id) => post_id !== id);
+      } else {
+        state.bookmarks.push(id);
+      }
+    },
   },
   extraReducers: (builder) => {
-    builder
-      .addCase(addBookmark.fulfilled, (state, action) => {
-        state.bookmarks.push(action.payload);
-      })
-      .addCase(deleteBookmark.fulfilled, (state, action) => {
-        state.bookmarks = state.bookmarks.filter(
-          (post_id) => post_id !== action.payload
-        );
-      })
-
-      .addCase(getBookmarks.fulfilled, (state, action) => {
-        action.payload.forEach((bookmark) => {
-          state.bookmarks.push(bookmark.post_id);
-        });
+    builder.addCase(getBookmarks.fulfilled, (state, action) => {
+      action.payload.forEach((bookmark) => {
+        state.bookmarks.push(bookmark.post_id);
       });
+    });
   },
 });
 
-export const { resetAllBookmarks } = postBookmarksSlice.actions;
+export const { resetAllBookmarks, toggleBookmarkLocally } =
+  postBookmarksSlice.actions;
 export default postBookmarksSlice.reducer;
