@@ -9,7 +9,9 @@ export interface LoadingState {
 
 const initialState: LoadingState = {
   global: 0,
-  byKey: {},
+  byKey: {
+    posts: true,
+  },
 };
 
 export const loadingSlice = createSlice({

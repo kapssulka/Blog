@@ -1,5 +1,6 @@
 import Skeleton from "react-loading-skeleton";
 import { colorsSeleton } from "../../../constants/colors.js";
+import SwitchSkeleton from "../SwitchSkeleton.js";
 
 interface ProfileHeaderSkeletonProps {
   className?: string;
@@ -42,7 +43,7 @@ export default function ProfileHeaderSkeleton({
         </div>
       </div>
 
-      <div className="mt-5 flex flex-col gap-y-5">
+      <div className="mt-5 mb-8 flex flex-col gap-y-5">
         <div>
           <Skeleton
             width="120px"
@@ -62,21 +63,7 @@ export default function ProfileHeaderSkeleton({
           highlightColor={colorsSeleton.highlightColor}
         />
       </div>
-
-      <div className="flex justify-center items-center gap-4 mt-7 ">
-        <Skeleton
-          width="97px"
-          height="36px"
-          baseColor={colorsSeleton.base}
-          highlightColor={colorsSeleton.highlightColor}
-        />
-        <Skeleton
-          width="97px"
-          height="36px"
-          baseColor={colorsSeleton.base}
-          highlightColor={colorsSeleton.highlightColor}
-        />
-      </div>
+      <SwitchSkeleton />
     </div>
   );
 }

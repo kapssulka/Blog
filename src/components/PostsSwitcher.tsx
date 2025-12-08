@@ -56,7 +56,7 @@ export default function PostsSwitcher({
         <VerticalPosts posts={posts} refPosts={refPosts} />
       )}
 
-      {!byKey.posts && posts.length < 1 && (
+      {byKey.posts && posts.length < 1 && (
         <EmptyPosts
           title="У вас пока нет сохраненных постов"
           showCreatePost={showCreatePost}
