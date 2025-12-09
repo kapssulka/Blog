@@ -108,22 +108,21 @@ export default function DropDownMenu({
         </DropDownList>
       )}
 
-      {openConfirmModal && (
-        <ConfirmModal
-          setOpenConfirmModal={setOpenConfirmModal}
-          confirmText="Вы действительно хотите удалить пост?"
-        >
-          <ConfirmButton
-            onClick={() => handleRemovePost(post_id, images)}
-            isRed
-            text="Удалить"
-          />
-          <ConfirmButton
-            onClick={() => setOpenConfirmModal(false)}
-            text="Отмена"
-          />
-        </ConfirmModal>
-      )}
+      <ConfirmModal
+        isOpen={openConfirmModal}
+        setOpenConfirmModal={setOpenConfirmModal}
+        confirmText="Вы действительно хотите удалить пост?"
+      >
+        <ConfirmButton
+          onClick={() => handleRemovePost(post_id, images)}
+          isRed
+          text="Удалить"
+        />
+        <ConfirmButton
+          onClick={() => setOpenConfirmModal(false)}
+          text="Отмена"
+        />
+      </ConfirmModal>
     </div>
   );
 }

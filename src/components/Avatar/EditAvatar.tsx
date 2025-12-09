@@ -98,31 +98,30 @@ export default function EditAvatar() {
         />
       )}
 
-      {openConfirmModal && (
-        <ConfirmModal
-          setOpenConfirmModal={setOpenConfirmModal}
-          confirmText="Изменить аватарку"
-        >
-          <div className="flex flex-col w-full gap-3">
-            <ConfirmButton
-              isGreen
-              text="Добавить новую"
-              onClick={() => handleAddAvatar(true)}
-            />
-            <ConfirmButton
-              isRed
-              text="Удалить аватарку"
-              onClick={() => handleDeleteAvatar()}
-            />
-          </div>
-
-          <CloseButton
-            right={10}
-            top={10}
-            onClick={() => setOpenConfirmModal(false)}
+      <ConfirmModal
+        isOpen={openConfirmModal}
+        setOpenConfirmModal={setOpenConfirmModal}
+        confirmText="Изменить аватарку"
+      >
+        <div className="flex flex-col w-full gap-3">
+          <ConfirmButton
+            isGreen
+            text="Добавить новую"
+            onClick={() => handleAddAvatar(true)}
           />
-        </ConfirmModal>
-      )}
+          <ConfirmButton
+            isRed
+            text="Удалить аватарку"
+            onClick={() => handleDeleteAvatar()}
+          />
+        </div>
+
+        <CloseButton
+          right={10}
+          top={10}
+          onClick={() => setOpenConfirmModal(false)}
+        />
+      </ConfirmModal>
 
       <DialogModal isOpen={Boolean(avatarPreview)} widthCss="max-w-[50%]">
         {avatarPreview && (

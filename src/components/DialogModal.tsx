@@ -1,7 +1,12 @@
-import { Dialog, DialogBackdrop, DialogPanel } from "@headlessui/react";
+import { Dialog, DialogPanel } from "@headlessui/react";
 import cn from "classnames";
 import type { SetState } from "../types/utils.types.js";
 import type { TailwindHeight, TailwindWidth } from "../types/tailwind.js";
+import { AnimatePresence, motion } from "motion/react";
+import {
+  modalTransition,
+  modalVariants,
+} from "../animations/modalAnimations.js";
 
 interface DialogModalProps {
   children: React.ReactNode;
@@ -21,21 +26,40 @@ export default function DialogModal({
   widthCss,
 }: DialogModalProps) {
   return (
-    <Dialog
-      open={isOpen}
-      onClose={() => setIsOpen?.(false)}
-      className="relative z-40 "
-    >
-      <DialogBackdrop className="fixed inset-0 bg-zinc-900/70" />
-      <DialogPanel
-        className={cn(
-          "fixed inset-0  m-auto  w-full border-2 border-amber-50 rounded-2xl text-amber-50 bg-zinc-900 ",
-          heightCss ? heightCss : "h-max",
-          widthCss ? widthCss : "max-w-lg"
-        )}
-      >
-        {children}
-      </DialogPanel>
-    </Dialog>
+    <AnimatePresence>
+      {isOpen && (
+        <Dialog
+          open={isOpen}
+          onClose={() => setIsOpen?.(false)}
+          className="relative z-40 "
+        >
+          <motion.div
+            key="overlay"
+            variants={modalVariants}
+            initial="bgClose"
+            animate="bgOpen"
+            exit="bgClose"
+            transition={modalTransition}
+            className="fixed inset-0 bg-zinc-900/70"
+          />
+          <motion.div
+            variants={modalVariants}
+            initial="close"
+            animate="open"
+            exit="close"
+            transition={modalTransition}
+            className={cn(
+              "fixed inset-0 m-auto bg-zinc-900 rounded-2xl shadow-lg ",
+              widthCss ?? "max-w-lg",
+              heightCss ?? "h-max"
+            )}
+          >
+            <DialogPanel className="w-full h-full text-white border-2 border-amber-50  rounded-2xl">
+              {children}
+            </DialogPanel>
+          </motion.div>
+        </Dialog>
+      )}
+    </AnimatePresence>
   );
 }
