@@ -35,23 +35,29 @@ export default function BottomNavigation() {
   ];
 
   return (
-    <nav
+    <div
       className="
         fixed bottom-0 left-0 right-0 z-50
         h-20
         bg-zinc-900/95 backdrop-blur
         border-t border-white/10
-        grid grid-cols-5 gap-x-3
         px-4 py-4
-
-        md:hidden
+        flex flex-col items-center
+        lg:hidden
       "
     >
-      {links.map((item, index) => {
-        return (
-          <Item key={index} to={item.path} text={item.text} icon={item.icon} />
-        );
-      })}
-    </nav>
+      <nav className="grid grid-cols-5 gap-x-3 max-w-[600px] w-full">
+        {links.map((item, index) => {
+          return (
+            <Item
+              key={index}
+              to={item.path}
+              text={item.text}
+              icon={item.icon}
+            />
+          );
+        })}
+      </nav>
+    </div>
   );
 }

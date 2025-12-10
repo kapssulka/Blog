@@ -14,10 +14,10 @@ export default function MainWrapper({
   return (
     <main
       className={cn(
-        "mx-auto max-w-[1040px] pt-5 pb-25 px-5 md:pb-10 md:pt-10",
+        "mx-auto max-w-[730px] pt-5 pb-25 px-5 lg:pb-10 lg:pt-10 lg:max-w-[1040px]",
         className,
         {
-          ["md:grid md:grid-cols-[minmax(0,730px)_250px] gap-x-[20px] "]:
+          ["lg:grid lg:grid-cols-[minmax(0,730px)_250px] gap-x-[20px]"]:
             isTwoColums,
         }
       )}
