@@ -77,7 +77,10 @@ export default function EditAvatar() {
 
   return (
     <div className="relative">
-      <AvatarIcon classNameSize="h-30 w-30" src={avatarUrl} />
+      <AvatarIcon
+        classNameSize="h-40 w-40 xs:h-25 xs:w-25 sm:h-30 sm:w-30"
+        src={avatarUrl}
+      />
 
       {isCurrentUserProfile && (
         <EditAvatarButton

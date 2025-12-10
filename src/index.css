@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --breakpoint-xs: 30rem;
+}
+
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar {
     width: 8px;

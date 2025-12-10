@@ -11,15 +11,15 @@ export default function ProfileHeader() {
   const { isCurrentUserProfile } = useAppSelector((state) => state.users);
 
   return (
-    <div className="px-15 ">
+    <div className="sm:px-15">
       <EditProfile isOpen={isOpen} setIsOpen={setIsOpen} />
 
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col items-center justify-around gap-10 xs:gap-5  xs:flex-row sm:justify-between">
         <EditAvatar />
         <StatsPanel />
       </div>
 
-      <div className="mt-5 flex flex-col gap-y-5">
+      <div className="mt-10 xs:mt-5 flex flex-col gap-y-5">
         <UserBio />
         {isCurrentUserProfile && (
           <Button

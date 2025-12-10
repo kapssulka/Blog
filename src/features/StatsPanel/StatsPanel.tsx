@@ -6,7 +6,7 @@ interface StatsPanelProps {
 
 export default function StatsPanel({ className }: StatsPanelProps) {
   return (
-    <div className={cn("flex gap-x-10", className)}>
+    <div className={cn("flex gap-x-5 sm:gap-x-10 ", className)}>
       <StatsPanelItem count={0} text="Публикации" />
       <StatsPanelItem count={0} text="Подписчики" />
       <StatsPanelItem count={0} text="Подписки" />
