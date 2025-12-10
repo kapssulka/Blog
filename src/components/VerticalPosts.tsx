@@ -12,7 +12,7 @@ export default function VerticalPosts({ posts, refPosts }: VerticalPostsProps) {
   const { byKey } = useAppSelector((state) => state.loading);
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-y-5">
       {byKey.posts ? (
         <PostSkeleton />
       ) : (

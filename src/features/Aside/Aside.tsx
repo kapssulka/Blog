@@ -15,8 +15,9 @@ export default function Aside() {
 
   return (
     <aside
-      className="sticky top-4 min-h-80 overflow-y-auto self-start  w-[250px] flex-shrink-0
-    bg-zinc-900 rounded-2xl p-5"
+      className="hidden sticky top-4 min-h-80 overflow-y-auto self-start  w-[250px] flex-shrink-0
+    bg-zinc-900 rounded-2xl p-5 
+    md:block"
     >
       <ul className="flex flex-col gap-2">
         {links &&

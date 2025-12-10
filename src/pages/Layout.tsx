@@ -3,6 +3,7 @@ import Aside from "../features/Aside/Aside.js";
 import Header from "../features/Header/Header.js";
 import MainWrapper from "../components/layout/MainWrapper.js";
 import { AnimatePresence, motion } from "motion/react";
+import BottomNavigation from "../features/BottomNavigation/BottomNavigation.js";
 
 export default function Layout() {
   const location = useLocation();
@@ -12,19 +13,20 @@ export default function Layout() {
       <Header />
 
       <MainWrapper isTwoColums>
-        <div>
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.div
-              key={location.pathname}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.2, ease: "easeOut", delay: 0.2 }}
-            >
-              <Outlet />
-            </motion.div>
-          </AnimatePresence>
-        </div>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.2, ease: "easeOut", delay: 0.2 }}
+          >
+            <Outlet />
+          </motion.div>
+        </AnimatePresence>
+        {/* for PC */}
         <Aside />
+        {/* for Modile */}
+        <BottomNavigation />
       </MainWrapper>
     </>
   );
