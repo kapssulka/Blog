@@ -14,7 +14,7 @@ export default function MainWrapper({
   return (
     <main
       className={cn(
-        "mx-auto max-w-[730px] pt-5 pb-25 px-5 lg:pb-10 lg:pt-10 lg:max-w-[1040px]",
+        "mx-auto max-w-[730px] pt-5 pb-25 px-3 lg:pb-10 lg:pt-10 lg:max-w-[1040px]",
         className,
         {
           ["lg:grid lg:grid-cols-[minmax(0,730px)_250px] gap-x-[20px]"]:
