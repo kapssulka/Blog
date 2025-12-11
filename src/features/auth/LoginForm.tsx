@@ -52,6 +52,7 @@ export default function LoginForm() {
           label="Email"
           placeholder="Введите ваш email..."
           name="email"
+          type="email"
           register={register}
           errors={errors?.email}
         />
@@ -59,6 +60,7 @@ export default function LoginForm() {
           label="Пароль"
           placeholder="Введите ваш пароль..."
           name="password"
+          type="password"
           register={register}
           errors={errors?.password}
         />

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import FieldError from "./FieldError.js";
 import type {
   FieldValues,
@@ -5,6 +6,7 @@ import type {
   FieldError as RHFFieldError,
   UseFormRegister,
 } from "react-hook-form";
+import ShowPassword from "../../showPassword/ShowPassword.js";
 
 interface InputFormProps<T extends FieldValues> {
   label: string;
@@ -27,6 +29,10 @@ export default function InputForm<T extends FieldValues>({
 }: InputFormProps<T>) {
   const inputId = id || name;
 
+  const [showPassword, setShowPassword] = useState<"password" | "text">(
+    "password"
+  );
+
   return (
     <div className="flex flex-col relative">
       <label htmlFor={inputId} className="text-xl mb-2 xs:text-2xl ">
@@ -36,10 +42,17 @@ export default function InputForm<T extends FieldValues>({
         {...register(name)}
         name={name}
         id={inputId}
-        type={type}
+        type={type === "password" ? showPassword : type}
         placeholder={placeholder}
-        className="border border-gray-600 p-3 rounded-[5px]"
+        className="border border-gray-600 p-3 rounded-[5px] outline-none focus:outline-none "
       />
+      {type === "password" && (
+        <ShowPassword
+          showPassword={showPassword}
+          setShowPassword={setShowPassword}
+          className="absolute right-5 bottom-2"
+        />
+      )}
 
       {errors?.message && (
         <FieldError

@@ -32,6 +32,7 @@ export default function RegisterUI({
           label="Email"
           placeholder="Введите ваш email..."
           name="email"
+          type="email"
           errors={errors?.email}
         />
 
@@ -39,6 +40,7 @@ export default function RegisterUI({
           register={register}
           label="Пароль"
           placeholder="Придумайте пароль..."
+          type="password"
           name="password"
           errors={errors?.password}
         />
