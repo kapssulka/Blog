@@ -37,7 +37,7 @@ export default function BottomNavigation() {
   return (
     <div
       className="
-        fixed bottom-0 left-0 right-0 z-50
+        fixed bottom-0 left-0 right-0 z-30
         h-20
         bg-zinc-900/95 backdrop-blur
         border-t border-white/10

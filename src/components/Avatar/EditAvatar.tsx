@@ -126,7 +126,7 @@ export default function EditAvatar() {
         />
       </ConfirmModal>
 
-      <DialogModal isOpen={Boolean(avatarPreview)} widthCss="max-w-[50%]">
+      <DialogModal isOpen={Boolean(avatarPreview)}>
         {avatarPreview && (
           <ImageCropperWrapper
             image={avatarPreview}

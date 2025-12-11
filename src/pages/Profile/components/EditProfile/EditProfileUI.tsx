@@ -23,7 +23,10 @@ export default function EditProfileUI({
 }: EditProfileUIProps) {
   return (
     <DialogModal isOpen={isOpen} setIsOpen={setIsOpen}>
-      <form onSubmit={onSubmit} className="flex flex-col gap-y-10 p-10">
+      <form
+        onSubmit={onSubmit}
+        className="flex flex-col gap-y-10 px-5 py-10 xs:p-10"
+      >
         <InputForm<EditProfileFormData>
           register={register}
           label="Имя"

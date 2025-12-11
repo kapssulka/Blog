@@ -1,7 +1,11 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 import cn from "classnames";
 import type { SetState } from "../types/utils.types.js";
-import type { TailwindHeight, TailwindWidth } from "../types/tailwind.js";
+import type {
+  TailwindClass,
+  TailwindHeight,
+  TailwindWidth,
+} from "../types/tailwind.js";
 import { AnimatePresence, motion } from "motion/react";
 import {
   modalTransition,
@@ -12,8 +16,8 @@ interface DialogModalProps {
   children: React.ReactNode;
   isOpen: boolean;
   setIsOpen?: SetState<boolean>;
-  heightCss?: TailwindHeight;
-  widthCss?: TailwindWidth;
+  heightCss?: TailwindClass<TailwindHeight>;
+  widthCss?: TailwindClass<TailwindWidth>;
 }
 
 export default function DialogModal({
@@ -49,7 +53,7 @@ export default function DialogModal({
             exit="close"
             transition={modalTransition}
             className={cn(
-              "fixed inset-0 m-auto bg-zinc-900 rounded-2xl shadow-lg ",
+              "fixed inset-0 m-auto bg-zinc-900 rounded-2xl shadow-lg",
               widthCss ?? "max-w-lg",
               heightCss ?? "h-max"
             )}

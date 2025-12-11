@@ -19,7 +19,7 @@ export default function ImageCropper({
   handleCropComplete,
 }: ImageCropperProps) {
   return (
-    <div className="relative w-full h-[600px] bg-zinc-900 rounded-2xl overflow-hidden">
+    <div className="relative w-full h-[300px] aspect-square bg-zinc-900 rounded-2xl overflow-hidden">
       {/* @ts-ignore  - тут проблема с пакетом, TS считает его именовонным, хотя он дефолтный*/}
       <Cropper
         image={image}

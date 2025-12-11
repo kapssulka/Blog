@@ -9,16 +9,28 @@ export type PositionClassObject = {
   left?: `left-${number | "auto" | `[${number | string}]`}`;
 };
 
-export type TailwindHeight =
+export type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl" | "2xl";
+
+export type TailwindClass<T> = T | T[];
+
+export type BaseTailwindHeight =
   | `h-${number}`
   | `h-[${string}]`
   | `max-h-[${string | number}]`
   | `max-h-${string | number}`
   | `h-${"screen" | "full" | "min" | "max"}`;
 
-export type TailwindWidth =
+export type BaseTailwindWidth =
   | `w-${number}`
   | `w-[${string}]`
   | `max-w-[${string | number}]`
   | `max-w-${string | number}`
   | `w-${"screen" | "full" | "min" | "max"}`;
+
+export type TailwindHeight =
+  | BaseTailwindHeight
+  | `${Breakpoint}:${BaseTailwindHeight}`;
+
+export type TailwindWidth =
+  | BaseTailwindWidth
+  | `${Breakpoint}:${BaseTailwindWidth}`;
