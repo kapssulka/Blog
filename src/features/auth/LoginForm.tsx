@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { setHasVisited } from "../../redux/slices/currentUserSlice.js";
 import ButtonOrange from "../../components/orangeButton/ButtonOrange.js";
+import FormWrapper from "./FormWrapper.js";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -45,14 +46,7 @@ export default function LoginForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="
-    flex flex-col
-    p-10 bg-zinc-900 h-auto rounded-2xl
-    max-w-[800px] w-full
-    "
-    >
+    <FormWrapper onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-y-10">
         <InputForm<LoginFormData>
           label="Email"
@@ -80,8 +74,8 @@ export default function LoginForm() {
         message="Ещё нет аккаунта? Самое время"
         textLink="зарегестрироваться!"
         to="/register"
-        className="mt-10"
+        className="mt-5 xs:mt-10"
       />
-    </form>
+    </FormWrapper>
   );
 }

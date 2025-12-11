@@ -18,7 +18,7 @@ export default function ButtonOrange({
       type={typeButton}
       className={cn(
         `flex text-center items-center justify-center cursor-pointer font-medium 
-        opacity-80 px-2 py-1 border rounded-[10px]
+        opacity-80 px-2 py-3 border rounded-[10px]
         border-gray-600 hover:border-amber-400 transition-border duration-300`,
         className
       )}

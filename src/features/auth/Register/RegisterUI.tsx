@@ -3,6 +3,7 @@ import InputForm from "../components/InputForm.js";
 import AuthRedirectMessage from "../components/AuthRedirectMessage.js";
 import ButtonOrange from "../../../components/orangeButton/ButtonOrange.js";
 import type { RegisterFormData } from "../../../utils/validation.js";
+import FormWrapper from "../FormWrapper.js";
 
 interface RegisterUIProps {
   onSubmit: any;
@@ -16,14 +17,7 @@ export default function RegisterUI({
   errors,
 }: RegisterUIProps) {
   return (
-    <form
-      onSubmit={onSubmit}
-      className="
-    flex flex-col
-    p-10 bg-zinc-900 h-auto rounded-2xl
-    max-w-[800px] w-full
-    "
-    >
+    <FormWrapper onSubmit={onSubmit}>
       <div className="flex flex-col gap-y-10">
         <InputForm<RegisterFormData>
           register={register}
@@ -62,6 +56,6 @@ export default function RegisterUI({
         to="/login"
         className="mt-10"
       />
-    </form>
+    </FormWrapper>
   );
 }

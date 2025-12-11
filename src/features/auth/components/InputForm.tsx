@@ -29,7 +29,7 @@ export default function InputForm<T extends FieldValues>({
 
   return (
     <div className="flex flex-col relative">
-      <label htmlFor={inputId} className="text-2xl mb-2">
+      <label htmlFor={inputId} className="text-xl mb-2 xs:text-2xl ">
         {label}
       </label>
       <input
