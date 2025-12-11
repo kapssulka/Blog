@@ -11,7 +11,7 @@ export default function GridPostsSkeleton({
   const skeletonCount = Array.from({ length: itemsCount });
 
   return (
-    <div className="grid grid-cols-3 gap-3 w-full">
+    <div className="grid grid-cols-2 xs:grid-cols-3 gap-3">
       {skeletonCount.map((_, index) => (
         <Skeleton
           key={index}

@@ -11,21 +11,31 @@ export default function ProfileHeaderSkeleton({
 }: ProfileHeaderSkeletonProps) {
   const countPanelSkeletons = Array.from({ length: 3 });
 
+  const avatarSkeletonConfig = [
+    { size: "120px", class: "hidden sm:block" },
+    { size: "100px", class: "hidden xs:block sm:hidden" },
+    { size: "160px", class: "block xs:hidden" },
+  ];
+
   return (
     <div
-      className={`w-full  bg-zinc-900 rounded-2xl py-6 px-21 aspect-[2/1] ${className}`}
+      className={`w-full bg-zinc-900 rounded-2xl py-6 px-5 aspect-[2/1] sm:px-21 ${className}`}
     >
-      <div className="flex items-center justify-between">
-        <Skeleton
-          width="120px"
-          height="120px"
-          circle
-          baseColor={colorsSeleton.base}
-          highlightColor={colorsSeleton.highlightColor}
-          borderRadius="0.75rem"
-        />
+      <div className="flex flex-col items-center justify-around gap-10 xs:gap-5  xs:flex-row sm:justify-between">
+        {avatarSkeletonConfig.map((item, index) => (
+          <div className={item.class} key={index}>
+            <Skeleton
+              width={item.size}
+              height={item.size}
+              circle
+              baseColor={colorsSeleton.base}
+              highlightColor={colorsSeleton.highlightColor}
+              borderRadius="0.75rem"
+            />
+          </div>
+        ))}
 
-        <div className="flex gap-x-10">
+        <div className="flex  gap-x-5 sm:gap-x-10">
           {countPanelSkeletons.map((_, index) => (
             <div key={index} className="flex flex-col items-center">
               <Skeleton
@@ -43,7 +53,7 @@ export default function ProfileHeaderSkeleton({
         </div>
       </div>
 
-      <div className="mt-5 mb-8 flex flex-col gap-y-5">
+      <div className="mt-10 xs:mt-5 mb-8 flex flex-col gap-y-5">
         <div>
           <Skeleton
             width="120px"
