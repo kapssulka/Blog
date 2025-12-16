@@ -17,8 +17,8 @@ export default forwardRef(function DropDownOpenButton(
     <button
       ref={ref}
       onClick={() => setOpenDropDown((prev) => !prev)}
-      className={`cursor-pointer p-2 rounded-[10px] hover:bg-zinc-700 duration-300 focus:outline-none focus:ring-0 ${
-        openDropDown && "bg-zinc-700"
+      className={`cursor-pointer p-2 rounded-[10px] hover:bg-accent-grey duration-300 focus:outline-none focus:ring-0 ${
+        openDropDown && "bg-accent-grey"
       }`}
     >
       {icon}

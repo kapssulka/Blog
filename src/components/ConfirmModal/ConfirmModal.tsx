@@ -44,7 +44,7 @@ export default function ConfirmModal({
             animate="open"
             exit="close"
             transition={modalTransition}
-            className="relative bg-zinc-900 text-white rounded-lg shadow-lg p-6 w-full max-w-80"
+            className="relative bg-bg-secondary text-white rounded-lg shadow-lg p-6 w-full max-w-80"
           >
             <div className="text-lg font-semibold mb-4">{confirmText}</div>
 

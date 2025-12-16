@@ -27,7 +27,7 @@ export default function CloseButton({
         left: left !== undefined ? `${left}px` : undefined,
       }}
       className={
-        "cursor-pointer p-1 bg-red-600 hover:bg-red-700 rounded-[10px] duration-200"
+        "cursor-pointer z-20 p-1 bg-error hover:bg-error-hover rounded-[10px] duration-200"
       }
       onClick={onClick}
     >

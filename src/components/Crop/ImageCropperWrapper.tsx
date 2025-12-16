@@ -95,8 +95,7 @@ export default function ImageCropperWrapper({
   };
 
   return (
-    <div ref={contentRef} className="flex flex-col p-10">
-      <CloseButton top={10} right={10} onClick={closeCropImage} />
+    <div ref={contentRef} className="flex flex-col p-5 ">
       <ImageCropper
         image={image}
         crop={crop}
@@ -105,12 +104,10 @@ export default function ImageCropperWrapper({
         setZoom={setZoom}
         handleCropComplete={handleCropComplete}
       />
-      <ConfirmButton
-        isGreen
-        text="Добавить"
-        className="mt-5"
-        onClick={handleAdd}
-      />
+      <div className="flex gap-5 mt-5">
+        <ConfirmButton isGreen text="Добавить" onClick={handleAdd} />
+        <ConfirmButton isRed text="Отмена" onClick={closeCropImage} />
+      </div>
     </div>
   );
 }

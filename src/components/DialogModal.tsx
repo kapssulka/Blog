@@ -53,12 +53,12 @@ export default function DialogModal({
             exit="close"
             transition={modalTransition}
             className={cn(
-              "fixed inset-0 m-auto bg-zinc-900 rounded-2xl shadow-lg",
+              "fixed inset-0 m-auto bg-bg-secondary rounded-2xl shadow-lg",
               widthCss ?? "max-w-lg",
               heightCss ?? "h-max"
             )}
           >
-            <DialogPanel className="w-full h-full text-white border-2 border-amber-50  rounded-2xl">
+            <DialogPanel className="w-full h-full text-white border-2 border-bg-main  rounded-2xl">
               {children}
             </DialogPanel>
           </motion.div>

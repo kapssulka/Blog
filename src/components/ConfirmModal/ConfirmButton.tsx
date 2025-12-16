@@ -23,9 +23,9 @@ export default function ConfirmButton({
       className={cn(
         "cursor-pointer flex-1  text-white px-4 py-2 rounded transition",
         className,
-        isRed && "bg-red-600 hover:bg-red-700",
-        isGreen && "bg-green-600 hover:bg-green-700",
-        !isRed && !isGreen && "bg-zinc-700 hover:bg-zinc-600"
+        isRed && "bg-error hover:bg-error-hover",
+        isGreen && "bg-success hover:bg-success-hover",
+        !isRed && !isGreen && "bg-accent-grey hover:bg-accent-grey-hover"
       )}
     >
       {text}

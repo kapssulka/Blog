@@ -15,12 +15,17 @@
   --color-accent: var(--accent);
   --color-accent-hover: var(--accent-hover);
 
+  --color-accent-grey: var(--color-zinc-700);
+  --color-accent-grey-hover: var(--color-zinc-600);
+
   /* -------------------------
      STATUS COLORS
      ------------------------- */
   --color-success: var(--success);
+  --color-success-hover: var(--color-green-700);
   --color-warning: var(--warning);
-  --color-error: var(--error);
+  --color-error: var(--color-red-600);
+  --color-error-hover: var(--color-red-700);
   --color-info: var(--info);
 }
 
