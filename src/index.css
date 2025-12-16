@@ -21,10 +21,10 @@
   /* -------------------------
      STATUS COLORS
      ------------------------- */
-  --color-success: var(--success);
-  --color-success-hover: var(--color-green-700);
+  --color-success: var(--accent);
+  --color-success-hover: var(--accent-hover);
   --color-warning: var(--warning);
-  --color-error: var(--color-red-600);
+  --color-error: var(--error);
   --color-error-hover: var(--color-red-700);
   --color-info: var(--info);
 }
