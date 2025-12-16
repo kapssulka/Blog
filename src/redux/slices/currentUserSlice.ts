@@ -156,7 +156,7 @@ export const currentUserSlice = createSlice({
       state.hasVisited = action.payload;
     },
 
-    resetDataUser: (state, action) => {
+    resetDataUser: (state) => {
       state.user_uid = "";
       state.name = "";
       // state.bio = "";

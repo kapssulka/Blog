@@ -33,8 +33,8 @@ export default function ViewSwitcher({
           className={`cursor-pointer flex items-center gap-2 px-4 py-2 rounded-lg transition-colors duration-200
             ${
               activeView === id
-                ? "bg-zinc-800 text-white"
-                : "text-zinc-400 hover:text-white hover:bg-zinc-800"
+                ? "bg-accent text-white"
+                : "text-zinc-400 hover:text-white hover:bg-accent-hover"
             }`}
         >
           <Icon />

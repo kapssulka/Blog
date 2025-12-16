@@ -9,7 +9,7 @@ import { auth } from "../../firebase/firebase.js";
 import { toast } from "sonner";
 import { useDispatch } from "react-redux";
 import { setHasVisited } from "../../redux/slices/currentUserSlice.js";
-import ButtonOrange from "../../components/orangeButton/ButtonOrange.js";
+import ButtonAccent from "../../components/accentButton/ButtonAccent.js";
 import FormWrapper from "./FormWrapper.js";
 
 export default function LoginForm() {
@@ -52,7 +52,6 @@ export default function LoginForm() {
           label="Email"
           placeholder="Введите ваш email..."
           name="email"
-          type="email"
           register={register}
           errors={errors?.email}
         />
@@ -66,7 +65,7 @@ export default function LoginForm() {
         />
       </div>
 
-      <ButtonOrange
+      <ButtonAccent
         text="Войти"
         className="max-w-[500px] w-full self-center mt-12"
         typeButton="submit"

@@ -1,7 +1,7 @@
 import InputForm from "../components/InputForm.js";
 
 import AuthRedirectMessage from "../components/AuthRedirectMessage.js";
-import ButtonOrange from "../../../components/orangeButton/ButtonOrange.js";
+import ButtonAccent from "../../../components/accentButton/ButtonAccent.js";
 import type { RegisterFormData } from "../../../utils/validation.js";
 import FormWrapper from "../FormWrapper.js";
 
@@ -32,7 +32,6 @@ export default function RegisterUI({
           label="Email"
           placeholder="Введите ваш email..."
           name="email"
-          type="email"
           errors={errors?.email}
         />
 
@@ -46,7 +45,7 @@ export default function RegisterUI({
         />
       </div>
 
-      <ButtonOrange
+      <ButtonAccent
         typeButton="submit"
         text="Зарегестрироваться"
         className="max-w-[500px] w-full self-center mt-12"

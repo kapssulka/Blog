@@ -2,7 +2,7 @@ import InputForm from "../../../../features/auth/components/InputForm.js";
 import TextareaForm from "../../../../features/auth/components/TextareaForm.js";
 import DialogModal from "../../../../components/DialogModal.js";
 import type { EditProfileFormData } from "../../../../utils/validation.js";
-import ButtonOrange from "../../../../components/orangeButton/ButtonOrange.js";
+import ButtonAccent from "../../../../components/accentButton/ButtonAccent.js";
 import type { FieldErrors, UseFormRegister } from "react-hook-form";
 import type { SetState } from "../../../../types/utils.types.js";
 
@@ -41,7 +41,7 @@ export default function EditProfileUI({
           name="bio"
         />
         <div className="flex justify-center  w-full">
-          <ButtonOrange
+          <ButtonAccent
             typeButton="submit"
             text="Изменить"
             className="justify-self-center w-max-[500px] w-full"

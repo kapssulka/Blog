@@ -1,7 +1,7 @@
 import { useForm, type FieldError, type SubmitHandler } from "react-hook-form";
 import TitlePage from "../../../components/TitlePage.js";
 import TextareaForm from "../../../features/auth/components/TextareaForm.js";
-import ButtonOrange from "../../../components/orangeButton/ButtonOrange.js";
+import ButtonAccent from "../../../components/accentButton/ButtonAccent.js";
 import FileInput from "./FileInput.js";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -107,7 +107,7 @@ export default function FormNewPost() {
           files={files}
           setFiles={setFiles}
         />
-        <ButtonOrange
+        <ButtonAccent
           typeButton="submit"
           text="Добавить пост"
           className="max-w-[400px] w-full self-center"

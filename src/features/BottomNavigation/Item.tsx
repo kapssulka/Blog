@@ -18,13 +18,13 @@ export default function Item({ text, to, icon, ...props }: ItemProps) {
         className={({ isActive }) =>
           cn(
             "flex flex-col items-center justify-center gap-1 text-[13px] transition-colors duration-200",
-            isActive ? "text-amber-400" : "text-gray-500"
+            isActive ? "text-accent font-medium" : "text-gray-100"
           )
         }
       >
         {({ isActive }) => (
           <div className="flex flex-col items-center justify-center gap-1">
-            <div className={cn(isActive ? "text-amber-400" : "text-gray-400")}>
+            <div className={cn(isActive ? "text-accent" : "text-gray-100")}>
               {icon}
             </div>
             <span>{text}</span>

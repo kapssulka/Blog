@@ -1,4 +1,4 @@
-import NavLinkOrange from "./orangeButton/NavLinkOrange.js";
+import NavLinkAccent from "./accentButton/NavLinkAccent.js";
 
 interface ItemListProps {
   index: string | number;
@@ -13,7 +13,7 @@ export default function ItemList({
 }: ItemListProps) {
   return (
     <li key={index} className="">
-      <NavLinkOrange text={text} to={to} />
+      <NavLinkAccent text={text} to={to} />
     </li>
   );
 }

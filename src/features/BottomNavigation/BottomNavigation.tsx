@@ -37,13 +37,14 @@ export default function BottomNavigation() {
   return (
     <div
       className="
-        fixed bottom-0 left-0 right-0 z-30
-        h-20
-        bg-zinc-900/95 backdrop-blur
-        border-t border-white/10
-        px-4 py-4
-        flex flex-col items-center
-        lg:hidden
+      fixed bottom-0 left-0 right-0 z-30
+      h-20
+      bg-bg-main/95 backdrop-blur-sm
+      border-t border-white/10
+      shadow-[0_-4px_12px_rgba(0,0,0,0.3)]
+      px-4 py-4
+      flex flex-col items-center
+      lg:hidden
       "
     >
       <nav className="grid grid-cols-5 gap-x-3 max-w-[600px] w-full">

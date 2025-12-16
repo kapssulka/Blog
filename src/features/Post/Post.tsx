@@ -37,7 +37,7 @@ export default forwardRef(function Post(
   const isCurrentUser = user_uid === currenUserUid;
 
   return (
-    <div ref={ref} className="relative rounded-2xl p-5 bg-zinc-900">
+    <div ref={ref} className="relative rounded-2xl p-5 bg-bg-secondary">
       <ProfilePreview
         className="mb-5"
         avtor={avtor}

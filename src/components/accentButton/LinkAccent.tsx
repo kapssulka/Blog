@@ -1,18 +1,18 @@
 import { Link, type LinkProps } from "react-router-dom";
 import cn from "classnames";
 
-interface LinkOrangeProps extends LinkProps {
+interface LinkAccentProps extends LinkProps {
   text: string;
   to: string;
   className?: string;
 }
 
-export default function LinkOrange({
+export default function LinkAccent({
   text = "",
   to = "#",
   className = "",
   ...props
-}: LinkOrangeProps) {
+}: LinkAccentProps) {
   return (
     <>
       <Link

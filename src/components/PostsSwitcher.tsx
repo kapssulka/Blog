@@ -37,7 +37,7 @@ export default function PostsSwitcher({
 
   return (
     <div>
-      <div className="mb-5 bg-zinc-900 backdrop-blur-sm rounded-2xl p-6 transition-colors">
+      <div className="mb-5 bg-bg-secondary backdrop-blur-sm rounded-2xl p-6 transition-colors">
         {topContent}
 
         {posts.length > 0 && (

@@ -68,7 +68,7 @@ export default function FileInput({
         {...getRootProps({
           className: cn(
             `w-full h-48 border-2 border-dashed rounded-lg 
-            flex items-center justify-center transition-colors cursor-pointer bg-zinc-900 `,
+            flex items-center justify-center transition-colors cursor-pointer bg-bg-main `,
             {
               "border-gray-300 text-gray-500 hover:border-blue-400 hover:text-blue-500":
                 !isDragActive,

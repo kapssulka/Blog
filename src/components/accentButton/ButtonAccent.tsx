@@ -1,17 +1,17 @@
 import cn from "classnames";
 
-interface ButtonOrangeProps extends React.HTMLProps<HTMLButtonElement> {
+interface ButtonAccentProps extends React.HTMLProps<HTMLButtonElement> {
   text: string;
   className: string;
   typeButton?: React.ButtonHTMLAttributes<HTMLButtonElement>["type"];
 }
 
-export default function ButtonOrange({
+export default function ButtonAccent({
   text = "",
   className = "",
   typeButton = "button",
   ...props
-}: ButtonOrangeProps) {
+}: ButtonAccentProps) {
   return (
     <button
       {...props}

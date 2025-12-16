@@ -133,7 +133,7 @@ export const postBookmarksSlice = createSlice({
   name: "bookmarks",
   initialState,
   reducers: {
-    resetAllBookmarks: (state, action) => {
+    resetAllBookmarks: (state) => {
       state.bookmarks = [];
     },
     toggleBookmarkLocally: (

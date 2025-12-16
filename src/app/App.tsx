@@ -23,7 +23,7 @@ export default function App() {
   }, [hasVisited, name, dispatch]);
 
   return (
-    <div className=" min-h-screen  bg-zinc-950 text-zinc-100">
+    <div className=" min-h-screen bg-bg-main text-zinc-100">
       <Toaster
         richColors
         position="top-center"

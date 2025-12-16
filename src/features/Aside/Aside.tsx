@@ -16,7 +16,7 @@ export default function Aside() {
   return (
     <aside
       className="hidden sticky top-4 min-h-80 overflow-y-auto self-start  w-[250px] flex-shrink-0
-    bg-zinc-900 rounded-2xl p-5 
+    bg-bg-secondary rounded-2xl p-5 
     lg:block"
     >
       <ul className="flex flex-col gap-2">

@@ -1,7 +1,27 @@
 @import "tailwindcss";
+@import "./base.css";
 
 @theme {
   --breakpoint-xs: 30rem;
+
+  /* colors */
+  /* -------------------------
+     BACKGROUNDS
+     ------------------------- */
+
+  --color-bg-main: var(--bg-main);
+  --color-bg-secondary: var(--bg-secondary);
+
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+
+  /* -------------------------
+     STATUS COLORS
+     ------------------------- */
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
+  --color-info: var(--info);
 }
 
 @layer utilities {
@@ -46,7 +66,7 @@ input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 1000px #121212 inset !important;
+  -webkit-box-shadow: 0 0 0 1000px var(--bg-secondary) inset !important;
   -webkit-text-fill-color: #ffffff !important;
   caret-color: #ffffff;
 }
