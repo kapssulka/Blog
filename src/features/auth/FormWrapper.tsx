@@ -10,7 +10,7 @@ export default function FormWrapper({ children, onSubmit }: FormWrapperProps) {
       className="
         flex flex-col
         px-5 py-10 bg-zinc-900 h-auto rounded-2xl
-        max-w-[800px] w-full
+        max-w-[500px] w-full
         sm:p-10
         "
     >
