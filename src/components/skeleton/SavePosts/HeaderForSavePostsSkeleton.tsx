@@ -9,7 +9,7 @@ export default function HeaderForSavePostsSkeleton({
   className,
 }: HeaderForSavePostsSkeletonProps) {
   return (
-    <div className={`mb-5 bg-zinc-900 p-6 rounded-2xl ${className}`}>
+    <div className={`mb-5 bg-bg-secondary p-6 rounded-2xl ${className}`}>
       <Skeleton
         width="300px"
         height="20px"

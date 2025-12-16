@@ -17,7 +17,7 @@ export default function GridPostsSkeleton({
           key={index}
           className="aspect-square"
           borderRadius="0.75rem"
-          baseColor={colorsSeleton.base}
+          baseColor={colorsSeleton.base2}
           highlightColor={colorsSeleton.highlightColor}
         />
       ))}

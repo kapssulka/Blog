@@ -19,7 +19,7 @@ export default function ProfileHeaderSkeleton({
 
   return (
     <div
-      className={`w-full bg-zinc-900 rounded-2xl py-6 px-5 aspect-[2/1] sm:px-21 ${className}`}
+      className={`w-full bg-bg-secondary rounded-2xl py-6 px-5 aspect-[2/1] sm:px-21 ${className}`}
     >
       <div className="flex flex-col items-center justify-around gap-10 xs:gap-5  xs:flex-row sm:justify-between">
         {avatarSkeletonConfig.map((item, index) => (

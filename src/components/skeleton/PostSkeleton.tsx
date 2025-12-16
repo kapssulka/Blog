@@ -3,7 +3,7 @@ import { colorsSeleton } from "../../constants/colors.js";
 
 export default function PostSkeleton() {
   return (
-    <div className="w-full max-h-[740px] bg-zinc-900 rounded-2xl p-5 pb-[95px]">
+    <div className="w-full max-h-[740px] bg-bg-secondary rounded-2xl p-5 pb-[95px]">
       <div className="flex items-center mb-5">
         <Skeleton
           circle

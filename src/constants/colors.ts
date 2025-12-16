@@ -1,4 +1,5 @@
 export const colorsSeleton = {
-  base: "#27272a",
-  highlightColor: "#3f3f46",
+  base: "#192a3c",
+  base2: "#223546",
+  highlightColor: "#1c5764",
 } as const;
