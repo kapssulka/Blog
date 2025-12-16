@@ -50,7 +50,7 @@ export default function InputForm<T extends FieldValues>({
         <ShowPassword
           showPassword={showPassword}
           setShowPassword={setShowPassword}
-          className="absolute right-5 bottom-2"
+          className="absolute right-2 bottom-2"
         />
       )}
 
