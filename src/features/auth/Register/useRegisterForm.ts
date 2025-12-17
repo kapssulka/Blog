@@ -9,7 +9,10 @@ import {
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../../firebase/firebase.js";
 import { toast } from "sonner";
-import { fetchPostDataUsers } from "../../../redux/slices/currentUserSlice.js";
+import {
+  fetchPostDataUsers,
+  setUserFromRegistration,
+} from "../../../redux/slices/currentUserSlice.js";
 import { useAppDispatch } from "../../../hooks/reduxHooks.js";
 import { FirebaseError } from "firebase/app";
 import {
@@ -44,7 +47,8 @@ export const useRegisterForm = () => {
       const user_uid = userCredential.user.uid;
 
       await dispatch(fetchPostDataUsers({ name, user_uid })).unwrap();
-
+      // setUserFromRegistration - только для регистрации, ибо потом, при GET не вмсегда успевает получить данные
+      dispatch(setUserFromRegistration({ name, user_uid }));
       setTimeout(() => {
         toast.success(`${name}, регистрация прошла успешно!`);
       }, 600);
@@ -59,6 +63,8 @@ export const useRegisterForm = () => {
         }
       } else if (error instanceof Error) {
         toast.error("Ошибка регистрации: " + error.message);
+      } else {
+        toast.error("Ошибка регистрации, попробуйте позже");
       }
     }
   };

@@ -1,4 +1,8 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {
+  createAsyncThunk,
+  createSlice,
+  type PayloadAction,
+} from "@reduxjs/toolkit";
 import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
 import type { UserData } from "../../types/models/data.js";
 import type {
@@ -19,7 +23,6 @@ export const fetchGetDataUser = createAsyncThunk<UserData, string>(
 
       if (!response.ok) throw new Error("Ошибка с запросом");
       const data = await response.json();
-      console.log(data);
 
       return data[0];
     } catch (error: unknown) {
@@ -141,17 +144,41 @@ export const fetchDeleteAvatar = createAsyncThunk<
   }
 });
 
+export interface userSlice {
+  user_uid: string | null;
+  name: string;
+  bio: string;
+  // created_at: string,
+  hasVisited: boolean;
+  // user_avatar: string,
+}
+
+interface RegistrationPayload {
+  user_uid: string;
+  name: string;
+}
+
+const initialState: userSlice = {
+  user_uid: "",
+  name: "",
+  bio: "",
+  // created_at: "",
+  hasVisited: false,
+  // user_avatar: "",
+};
+
 export const currentUserSlice = createSlice({
   name: "user",
-  initialState: {
-    user_uid: "",
-    name: "",
-    bio: "",
-    // created_at: "",
-    hasVisited: false,
-    // user_avatar: "",
-  },
+  initialState: initialState,
   reducers: {
+    setUserFromRegistration: (
+      state,
+      action: PayloadAction<RegistrationPayload>
+    ) => {
+      const { user_uid, name } = action.payload;
+      state.user_uid = user_uid;
+      state.name = name;
+    },
     setHasVisited: (state, action) => {
       state.hasVisited = action.payload;
     },
@@ -169,7 +196,7 @@ export const currentUserSlice = createSlice({
     buider
       .addCase(fetchGetDataUser.fulfilled, (state, action) => {
         if (!action.payload?.user_uid) {
-          console.log("ошибка получения данных", action.payload);
+          console.warn("Пользовательский GET ещё не готов", action.payload);
           return;
         }
         const { user_uid, name, bio, created_at, avatar_url, avatar_path } =
@@ -204,5 +231,6 @@ export const currentUserSlice = createSlice({
       });
   },
 });
-export const { setHasVisited, resetDataUser } = currentUserSlice.actions;
+export const { setHasVisited, resetDataUser, setUserFromRegistration } =
+  currentUserSlice.actions;
 export default currentUserSlice.reducer;
