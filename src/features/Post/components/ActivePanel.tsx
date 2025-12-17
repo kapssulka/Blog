@@ -15,6 +15,7 @@ import {
   toggleBookmarkLocally,
 } from "../../../redux/slices/postBookmarksSlice.js";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks.js";
+import { toast } from "sonner";
 
 interface ActivePanelProps {
   post_id: number;
@@ -34,24 +35,34 @@ export default function ActivePanel({
   const isBookMarks = bookmarks.includes(Number(post_id));
 
   const onLikeClik = async (e: React.MouseEvent<SVGElement>) => {
-    dispatch(toggleLikeLocally({ post_id }));
-    const likeObj = { post_id, user_uid };
+    try {
+      dispatch(toggleLikeLocally({ post_id }));
+      const likeObj = { post_id, user_uid };
 
-    const res = await dispatch(checkLike(likeObj)).unwrap();
-    await dispatch(
-      res.length > 0 ? deleteLike(likeObj) : addLike(likeObj)
-    ).unwrap();
+      const res = await dispatch(checkLike(likeObj)).unwrap();
+      await dispatch(
+        res.length > 0 ? deleteLike(likeObj) : addLike(likeObj)
+      ).unwrap();
+    } catch (error) {
+      dispatch(toggleLikeLocally({ post_id }));
+      toast.error("Не удалось поставить лайк, попробуйте позже");
+    }
   };
 
   const onBoolmarkClik = async (e: React.MouseEvent<SVGElement>) => {
-    dispatch(toggleBookmarkLocally({ post_id }));
-    const bookmarkObj = { post_id, user_uid };
+    try {
+      dispatch(toggleBookmarkLocally({ post_id }));
+      const bookmarkObj = { post_id, user_uid };
 
-    const res = await dispatch(getBookmark(bookmarkObj)).unwrap();
+      const res = await dispatch(getBookmark(bookmarkObj)).unwrap();
 
-    await dispatch(
-      res.length > 0 ? deleteBookmark(bookmarkObj) : addBookmark(bookmarkObj)
-    ).unwrap();
+      await dispatch(
+        res.length > 0 ? deleteBookmark(bookmarkObj) : addBookmark(bookmarkObj)
+      ).unwrap();
+    } catch (error) {
+      dispatch(toggleBookmarkLocally({ post_id }));
+      toast.error("Не удалось сохранить пост, попробуйте позже");
+    }
   };
 
   return (

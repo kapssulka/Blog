@@ -145,7 +145,7 @@ export const fetchDeleteAvatar = createAsyncThunk<
 });
 
 export interface userSlice {
-  user_uid: string | null;
+  user_uid: string;
   name: string;
   bio: string;
   // created_at: string,
