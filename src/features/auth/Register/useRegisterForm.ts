@@ -12,6 +12,10 @@ import { toast } from "sonner";
 import { fetchPostDataUsers } from "../../../redux/slices/currentUserSlice.js";
 import { useAppDispatch } from "../../../hooks/reduxHooks.js";
 import { FirebaseError } from "firebase/app";
+import {
+  decrementGlobal,
+  incrementGlobal,
+} from "../../../redux/slices/loadingSlice.js";
 
 export const useRegisterForm = () => {
   const dispatch = useAppDispatch();
@@ -27,8 +31,9 @@ export const useRegisterForm = () => {
   });
 
   const onSubmit: SubmitHandler<RegisterFormData> = async (data) => {
-    const { email, password, name } = data;
+    dispatch(incrementGlobal());
 
+    const { email, password, name } = data;
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -45,7 +50,9 @@ export const useRegisterForm = () => {
       }, 600);
 
       reset();
+      dispatch(decrementGlobal());
     } catch (error: unknown) {
+      dispatch(decrementGlobal());
       if (error instanceof FirebaseError) {
         if (error.code === "auth/email-already-in-use") {
           toast.error("Пользователь с таким email уже зарегистрирован");

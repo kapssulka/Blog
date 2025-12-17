@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-// @ts-ignore
 import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
 import type { UserData } from "../../types/models/data.js";
 import type {
@@ -20,6 +19,7 @@ export const fetchGetDataUser = createAsyncThunk<UserData, string>(
 
       if (!response.ok) throw new Error("Ошибка с запросом");
       const data = await response.json();
+      console.log(data);
 
       return data[0];
     } catch (error: unknown) {
@@ -168,6 +168,10 @@ export const currentUserSlice = createSlice({
   extraReducers: (buider) => {
     buider
       .addCase(fetchGetDataUser.fulfilled, (state, action) => {
+        if (!action.payload?.user_uid) {
+          console.log("ошибка получения данных", action.payload);
+          return;
+        }
         const { user_uid, name, bio, created_at, avatar_url, avatar_path } =
           action.payload;
 

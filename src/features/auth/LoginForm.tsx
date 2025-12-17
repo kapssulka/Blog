@@ -11,6 +11,10 @@ import { useDispatch } from "react-redux";
 import { setHasVisited } from "../../redux/slices/currentUserSlice.js";
 import ButtonAccent from "../../components/accentButton/ButtonAccent.js";
 import FormWrapper from "./FormWrapper.js";
+import {
+  decrementGlobal,
+  incrementGlobal,
+} from "../../redux/slices/loadingSlice.js";
 
 export default function LoginForm() {
   const dispatch = useDispatch();
@@ -26,6 +30,8 @@ export default function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
+    dispatch(incrementGlobal());
+
     const email = data?.email;
     const password = data?.password;
 
@@ -39,7 +45,9 @@ export default function LoginForm() {
       dispatch(setHasVisited(true));
 
       reset();
+      dispatch(decrementGlobal());
     } catch (error) {
+      dispatch(decrementGlobal());
       toast.error("Неправильный логин или парль!");
       reset();
     }
