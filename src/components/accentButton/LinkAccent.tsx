@@ -20,8 +20,8 @@ export default function LinkAccent({
         to={to}
         className={cn(
           `flex text-center items-center justify-center cursor-pointer font-medium 
-          opacity-80 px-2 py-1 border rounded-[10px]
-         border-gray-600 hover:border-amber-400 transition-border duration-300`,
+        opacity-80 px-2 py-3 rounded-[10px]
+        bg-accent hover:bg-accent-hover duration-300`,
           className
         )}
       >

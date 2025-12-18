@@ -6,6 +6,7 @@ interface FormWrapperProps {
 export default function FormWrapper({ children, onSubmit }: FormWrapperProps) {
   return (
     <form
+      noValidate
       onSubmit={onSubmit}
       className="
         flex flex-col

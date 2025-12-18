@@ -8,15 +8,16 @@ import type {
 } from "react-hook-form";
 import ShowPassword from "../../showPassword/ShowPassword.js";
 
-interface InputFormProps<T extends FieldValues> {
-  label: string;
-  name: Path<T>;
-  placeholder: string;
-  type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
-  id?: string;
-  errors: RHFFieldError | undefined;
-  register: UseFormRegister<T>;
-}
+type InputFormProps<T extends FieldValues> =
+  React.InputHTMLAttributes<HTMLInputElement> & {
+    label: string;
+    name: Path<T>;
+    placeholder: string;
+    type?: React.InputHTMLAttributes<HTMLInputElement>["type"];
+    id?: string;
+    errors: RHFFieldError | undefined;
+    register: UseFormRegister<T>;
+  };
 
 export default function InputForm<T extends FieldValues>({
   label,
@@ -26,6 +27,7 @@ export default function InputForm<T extends FieldValues>({
   id,
   register,
   errors,
+  ...props
 }: InputFormProps<T>) {
   const inputId = id || name;
 
@@ -39,6 +41,7 @@ export default function InputForm<T extends FieldValues>({
         {label}
       </label>
       <input
+        {...props}
         {...register(name)}
         name={name}
         id={inputId}

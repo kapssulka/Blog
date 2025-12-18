@@ -60,6 +60,8 @@ export default function LoginForm() {
           label="Email"
           placeholder="Введите ваш email..."
           name="email"
+          type="email"
+          autoComplete="email"
           register={register}
           errors={errors?.email}
         />

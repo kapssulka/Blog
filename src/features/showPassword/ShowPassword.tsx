@@ -16,7 +16,7 @@ export default function ShowPassword({
   return (
     <div
       className={`flex items-center justify-center w-8 h-8 cursor-pointer 
-      rounded-md p-1 bg-zinc-900 hover:bg-amber-400/60
+      rounded-md p-1 bg-accent-grey hover:bg-accent-grey-hover
        hover:text-white transition-all duration-200 ${className}`}
     >
       {showPassword === "password" && (

@@ -32,6 +32,8 @@ export default function RegisterUI({
           label="Email"
           placeholder="Введите ваш email..."
           name="email"
+          type="email"
+          autoComplete="email"
           errors={errors?.email}
         />
 
