@@ -37,7 +37,10 @@ export default forwardRef(function Post(
   const isCurrentUser = user_uid === currenUserUid;
 
   return (
-    <div ref={ref} className="relative rounded-2xl p-5 bg-bg-secondary">
+    <div
+      ref={ref}
+      className="relative rounded-2xl px-3 py-5 xs:px-5 bg-bg-secondary"
+    >
       <ProfilePreview
         className="mb-5"
         avtor={avtor}
@@ -50,7 +53,7 @@ export default forwardRef(function Post(
         <DropDownMenu
           post_id={post_id}
           images={images}
-          className="top-5 right-5"
+          className="top-5 right-3 xs:right-5"
         />
       )}
 

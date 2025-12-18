@@ -39,7 +39,7 @@ export default function Content({
             swiper.params.navigation.nextEl = nextRef.current!;
           }
         }}
-        className=" aspect-[4/3]"
+        className="aspect-[5/3] rounded-2xl"
       >
         {images.map((image) => (
           <SwiperSlide key={image.id}>

@@ -3,7 +3,7 @@ import { colorsSeleton } from "../../constants/colors.js";
 
 export default function PostSkeleton() {
   return (
-    <div className="w-full max-h-[740px] bg-bg-secondary rounded-2xl p-5 pb-[95px]">
+    <div className="w-full max-h-[740px] bg-bg-secondary rounded-2xl px-3 py-5 xs:px-5 pb-[95px]">
       <div className="flex items-center mb-5">
         <Skeleton
           circle
@@ -33,7 +33,7 @@ export default function PostSkeleton() {
         width="100%"
         baseColor={colorsSeleton.base}
         highlightColor={colorsSeleton.highlightColor}
-        className="aspect-[4/3]"
+        className="aspect-[5/3]"
         borderRadius="0.75rem"
       />
     </div>

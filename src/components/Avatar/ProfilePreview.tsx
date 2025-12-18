@@ -28,7 +28,7 @@ export default function ProfilePreview({
 
   return (
     <Wrapper
-      className={cn("inline-flex items-center", className)}
+      className={cn("flex items-center min-w-0 w-full pr-10", className)}
       {...wrapperProps}
     >
       <AvatarIcon className="mr-5" src={avatar_url} />

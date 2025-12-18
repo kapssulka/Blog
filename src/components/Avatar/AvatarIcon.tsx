@@ -19,7 +19,7 @@ export default function AvatarIcon({
   return (
     <div
       className={cn(
-        "relative overflow-hidden rounded-full",
+        "relative overflow-hidden rounded-full shrink-0",
         !classNameSize && "w-15 h-15",
         classNameSize,
         className
