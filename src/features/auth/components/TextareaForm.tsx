@@ -15,6 +15,7 @@ interface TextareaFormProps<T extends FieldValues> {
   register: UseFormRegister<T>;
   errors?: RHFFieldError | undefined;
   className?: string;
+  height?: string;
 }
 
 export default function TextareaForm<T extends FieldValues>({
@@ -25,6 +26,7 @@ export default function TextareaForm<T extends FieldValues>({
   register,
   errors,
   className,
+  height,
 }: TextareaFormProps<T>) {
   const textareaId = id || name;
 
@@ -38,7 +40,10 @@ export default function TextareaForm<T extends FieldValues>({
         name={name}
         id={textareaId}
         placeholder={placeholder}
-        className="border border-gray-600 p-3 rounded-[5px] resize-none"
+        className={cn(
+          "border border-gray-600 p-3 rounded-[5px] resize-none outline-none focus:outline-none",
+          height || "h-[150px]"
+        )}
       />
 
       {errors?.message && (
