@@ -1,7 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import { ROUTES } from "../constants/routes.js";
 import PrivateRoute from "../components/routes/PrivateRoute.js";
-import Layout from "../pages/Layout.js";
+import Layout from "../pages/Layout/Layout.js";
 import Home from "../pages/Home.js";
 import NewPost from "../pages/NewPost/NewPost.js";
 import LikedPosts from "../pages/LikedPosts.js";
