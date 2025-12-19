@@ -12,13 +12,14 @@ export default function BurgerNavWrapper({ open }: BurgerNavWrapperProps) {
       y: 0,
     },
     close: {
-      y: "calc(-85vh + 100px)",
+      y: "-100%",
     },
   };
   const variantsBg: Variants = {
     open: {
       opacity: 1,
       visibility: "visible",
+      transition: { duration: 0.2, delay: 0.2 },
     },
     close: {
       opacity: 0,
@@ -31,22 +32,23 @@ export default function BurgerNavWrapper({ open }: BurgerNavWrapperProps) {
       <motion.div
         variants={variantsBg}
         animate={open ? "open" : "close"}
-        className="absolute left-0 top-0 bg-zinc-900/70 w-screen h-screen"
+        className="absolute -z-10 left-0 top-0 bg-zinc-900/70 w-screen h-screen"
       ></motion.div>
       <motion.div
         variants={variants}
         animate={open ? "open" : "close"}
         initial="close"
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.4 }}
         className="
             absolute 
+            -z-10
             left-0 top-0
             w-screen h-[85vh]
             bg-bg-secondary 
-            shadow-[0_4px_16px_rgba(0,0,0,0.3)]
             rounded-b-2xl 
-            px-10 py-3 pt-[100px]
-            backdrop-blur-sm"
+            px-10  pt-[100px] pb-5
+            overflow-y-auto
+            "
       >
         <BurgerNav />
       </motion.div>

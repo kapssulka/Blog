@@ -51,9 +51,9 @@ export default function BurgerIcon({ open, setOpen }: BurgerIconProps) {
   return (
     <div
       onClick={handleClick}
-      className="flex flex-col justify-center w-12 h-12"
+      className="flex flex-col justify-center w-12 h-12 bg-bg-secondary"
     >
-      <div className="relative z-10">
+      <div className="relative">
         <motion.div
           animate={lineTop}
           className={cn(lineStyle, "absolute top-4")}

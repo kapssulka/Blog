@@ -16,11 +16,11 @@ export default function Logout() {
       onClick={handleClick}
       className="px-4 py-2 rounded-lg
                 cursor-pointer
-                 bg-accent
-                 hover:bg-accent-hover
+                 bg-error
+                 hover:bg-error-hover
                  text-white font-medium transition-colors duration-300"
     >
-      Logout
+      Выйти
     </button>
   );
 }
