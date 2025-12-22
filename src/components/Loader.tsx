@@ -9,7 +9,7 @@ interface LoaderProps {
 export default function Loader({
   size = 30,
   margin = 20,
-  color = "#f59e0b",
+  color = "#1abc9c",
 }: LoaderProps) {
   return (
     <div className="fixed inset-0 z-50  flex items-center justify-center h-screen  bg-[rgba(24,24,27,0.5)]">

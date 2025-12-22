@@ -62,6 +62,7 @@ export default function BurgerIcon({ open, setOpen }: BurgerIconProps) {
     >
       <div className="relative">
         <motion.div
+          transition={{ duration: 0.2 }}
           animate={lineTop}
           className={cn(lineStyle, "absolute top-4")}
         ></motion.div>
@@ -69,6 +70,7 @@ export default function BurgerIcon({ open, setOpen }: BurgerIconProps) {
         <motion.div animate={lineCenter} className={cn(lineStyle)}></motion.div>
 
         <motion.div
+          transition={{ duration: 0.2 }}
           animate={lineBottom}
           className={cn(lineStyle, "absolute bottom-4")}
         ></motion.div>

@@ -34,7 +34,6 @@ export default function App() {
         }}
       />
       {global > 0 && <Loader />}
-
       <AppRoutes />
     </div>
   );

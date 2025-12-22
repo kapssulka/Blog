@@ -45,7 +45,7 @@ export default function BurgerNavWrapper({
         variants={variants}
         animate={open ? "open" : "close"}
         initial="close"
-        transition={{ duration: 0.4 }}
+        transition={{ duration: 0.2 }}
         className="
             absolute 
             -z-10
