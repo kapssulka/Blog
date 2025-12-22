@@ -1,4 +1,4 @@
-import Logout from "../../components/Logout/Logout.js";
+import LogoutButton from "../../components/Logout/LogoutButton.js";
 import BurgerMenu from "../burgerMenu/BurgerMenu.js";
 
 export default function Header() {
@@ -14,7 +14,7 @@ export default function Header() {
       {/* Для PC */}
       <nav className="hidden items-center gap-7 md:flex">
         {/* Кнопки / ссылки */}
-        <Logout />
+        <LogoutButton />
       </nav>
       {/* Для Мобилок */}
       <BurgerMenu />

@@ -1,12 +1,18 @@
 import type { Variants } from "motion/react";
 import { motion } from "motion/react";
-import BurgerNav from "./BurgerNav.js";
+import type { SetState } from "../../types/utils.types.js";
 
 interface BurgerNavWrapperProps {
   open: boolean;
+  setOpen: SetState<boolean>;
+  children: React.ReactNode;
 }
 
-export default function BurgerNavWrapper({ open }: BurgerNavWrapperProps) {
+export default function BurgerNavWrapper({
+  open,
+  children,
+  setOpen,
+}: BurgerNavWrapperProps) {
   const variants: Variants = {
     open: {
       y: 0,
@@ -33,6 +39,7 @@ export default function BurgerNavWrapper({ open }: BurgerNavWrapperProps) {
         variants={variantsBg}
         animate={open ? "open" : "close"}
         className="absolute -z-10 left-0 top-0 bg-zinc-900/70 w-screen h-screen"
+        onClick={() => setOpen(false)}
       ></motion.div>
       <motion.div
         variants={variants}
@@ -50,7 +57,7 @@ export default function BurgerNavWrapper({ open }: BurgerNavWrapperProps) {
             overflow-y-auto
             "
       >
-        <BurgerNav />
+        {children}
       </motion.div>
     </div>
   );
