@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import BurgerIcon from "./BurgerIcon.js";
 import BurgerNavWrapper from "./BurgerNavWrapper.js";
+import BurgerNav from "./BurgerNav.js";
 
 interface BurgerMenuProps {}
 
@@ -18,7 +19,10 @@ export default function BurgerMenu() {
   return (
     <div className="block md:hidden">
       <BurgerIcon open={open} setOpen={setOpen} />
-      <BurgerNavWrapper open={open} />
+
+      <BurgerNavWrapper open={open} setOpen={setOpen}>
+        <BurgerNav setOpen={setOpen} />
+      </BurgerNavWrapper>
     </div>
   );
 }

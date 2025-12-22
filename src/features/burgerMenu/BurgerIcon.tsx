@@ -1,12 +1,7 @@
 import cn from "classnames";
 import type { SetState } from "../../types/utils.types.js";
-import {
-  motion,
-  useAnimation,
-  type TargetAndTransition,
-  type Variants,
-} from "motion/react";
-import { useEffect, useState } from "react";
+import { motion, useAnimation } from "motion/react";
+import { useEffect, useRef } from "react";
 
 interface BurgerIconProps {
   open: boolean;
@@ -35,10 +30,9 @@ export default function BurgerIcon({ open, setOpen }: BurgerIconProps) {
     lineBottom.start({ bottom: 16 });
   };
 
-  const handleClick = () => {
-    if (open) closeAnimate();
-    else openAnimate();
+  const isFirstRender = useRef(true);
 
+  const handleClick = () => {
     setOpen((prev) => !prev);
 
     window.scrollTo({
@@ -48,10 +42,23 @@ export default function BurgerIcon({ open, setOpen }: BurgerIconProps) {
     });
   };
 
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+
+    if (open) {
+      openAnimate();
+    } else {
+      closeAnimate();
+    }
+  }, [open]);
+
   return (
     <div
       onClick={handleClick}
-      className="flex flex-col justify-center w-12 h-12 bg-bg-secondary"
+      className="flex flex-col justify-center w-12 h-12 bg-bg-secondary rounded-[5px]"
     >
       <div className="relative">
         <motion.div
