@@ -4,9 +4,9 @@ import {
   roadmap,
   stackItems,
 } from "../../constants/aboutProject.js";
-import { BulletList } from "../../UI/BulletList.js";
-import TitleAccent from "../../UI/TitleAccent.js";
-import TagList from "../../UI/TagList.js";
+import { BulletList } from "../../components/UI/BulletList.js";
+import TitleAccent from "../../components/UI/TitleAccent.js";
+import TagList from "../../components/UI/TagList.js";
 
 export default function AboutProject() {
   return (
