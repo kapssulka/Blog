@@ -11,4 +11,5 @@ export const ROUTES = {
   NOT_FOUND: "*",
   REGISTER: "/register",
   LOGIN: "/login",
+  ABOUT_PROJECT: "/about-project",
 };

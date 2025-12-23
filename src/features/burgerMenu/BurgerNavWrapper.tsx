@@ -25,7 +25,7 @@ export default function BurgerNavWrapper({
     open: {
       opacity: 1,
       visibility: "visible",
-      transition: { duration: 0.2, delay: 0.2 },
+      transition: { duration: 0.1, delay: 0.1 },
     },
     close: {
       opacity: 0,

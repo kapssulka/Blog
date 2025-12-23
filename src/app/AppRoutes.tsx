@@ -12,6 +12,7 @@ import Register from "../pages/Register.js";
 import Login from "../pages/Login.js";
 import NotFound from "../pages/NotFound.js";
 import { useAppSelector } from "../hooks/reduxHooks.js";
+import AboutProject from "../pages/AboutProject/AboutProject.js";
 
 export default function AppRoutes() {
   const { user_uid } = useAppSelector((state) => state.user);
@@ -42,6 +43,7 @@ export default function AppRoutes() {
         <Route path={ROUTES.NEW_POST} element={<NewPost />} />
         <Route path={ROUTES.LIKED} element={<LikedPosts />} />
         <Route path={ROUTES.BOOKMARKS} element={<BookmarksPosts />} />
+        <Route path={ROUTES.ABOUT_PROJECT} element={<AboutProject />} />
       </Route>
 
       <Route
