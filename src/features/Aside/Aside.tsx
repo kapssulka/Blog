@@ -22,14 +22,7 @@ export default function Aside() {
       <ul className="flex flex-col gap-2">
         {links &&
           links.map((item, index) => {
-            return (
-              <ItemList
-                key={index}
-                to={item.path}
-                index={index}
-                text={item.text}
-              />
-            );
+            return <ItemList key={index} to={item.path} text={item.text} />;
           })}
       </ul>
     </aside>

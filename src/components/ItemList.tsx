@@ -1,18 +1,13 @@
 import NavLinkAccent from "./accentButton/NavLinkAccent.js";
 
 interface ItemListProps {
-  index: string | number;
   text: string;
   to: string;
 }
 
-export default function ItemList({
-  index = "",
-  text = "",
-  to = "#",
-}: ItemListProps) {
+export default function ItemList({ text = "", to = "#" }: ItemListProps) {
   return (
-    <li key={index} className="">
+    <li className="list-none">
       <NavLinkAccent text={text} to={to} />
     </li>
   );

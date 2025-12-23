@@ -21,7 +21,7 @@ export default function BurgerNavItem({
         {...props}
         to={to}
         target={isBlank ? "_blank" : undefined}
-        className="w-full text-left p-2 rounded hover:bg-gray-100"
+        className="w-full text-[20px] text-left p-2 rounded border-b border-accent/50"
       >
         {children}
       </Link>
