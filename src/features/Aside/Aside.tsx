@@ -15,7 +15,7 @@ export default function Aside() {
 
   return (
     <aside
-      className="hidden sticky top-4 min-h-80 overflow-y-auto self-start  w-[250px] flex-shrink-0
+      className="hidden sticky top-4 min-h-80 overflow-y-auto self-start  w-[265px] flex-shrink-0
     bg-bg-secondary rounded-2xl p-5 
     lg:block"
     >
