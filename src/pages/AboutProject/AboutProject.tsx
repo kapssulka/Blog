@@ -1,27 +1,14 @@
+import { TabList } from "@headlessui/react";
+import {
+  coreFeatures,
+  roadmap,
+  stackItems,
+} from "../../constants/aboutProject.js";
+import { BulletList } from "../../UI/BulletList.js";
+import TitleAccent from "../../UI/TitleAccent.js";
+import TagList from "../../UI/TagList.js";
+
 export default function AboutProject() {
-  const stackItems = [
-    "React",
-    "TypeScript",
-    "Redux",
-    "React Router",
-    "Tailwind CSS",
-    "Framer Motion",
-  ];
-
-  const coreFeatures = [
-    "Аутентификация пользователей",
-    "Лента постов и публикация контента",
-    "Профили пользователей",
-    "Лайки и сохранённые посты",
-    "Адаптивный интерфейс",
-  ];
-  const roadmap = [
-    "Индикатор прогресса загрузки постов",
-    "Подписки на пользователей",
-    "Личные сообщения между пользователям",
-    "Расширение социальной логики",
-  ];
-
   return (
     <div className="bg-bg-secondary backdrop-blur-sm rounded-2xl py-10 px-6 md:px-10 transition-colors">
       <div className="mx-auto max-w-3xl space-y-10">
@@ -44,41 +31,21 @@ export default function AboutProject() {
         </div>
 
         <section className="space-y-4">
-          <h2 className="text-lg font-medium text-[#1abc9c]">
-            Стек технологий
-          </h2>
-          <ul className="flex flex-wrap gap-2 text-sm">
-            {stackItems.map((tech) => (
-              <li
-                key={tech}
-                className="rounded-md border border-white/10 px-3 py-1 text-white/80"
-              >
-                {tech}
-              </li>
-            ))}
-          </ul>
+          <TitleAccent variant="h2">Стек технологий</TitleAccent>
+
+          <TagList items={stackItems} />
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-lg font-medium text-[#1abc9c]">
-            Основной функционал
-          </h2>
-          <ul className="space-y-2 text-white/80 text-sm leading-relaxed">
-            {coreFeatures.map((item, index) => (
-              <li key={index}>— {item}</li>
-            ))}
-          </ul>
+          <TitleAccent variant="h2">Основной функционал</TitleAccent>
+
+          <BulletList items={coreFeatures} />
         </section>
 
         <section className="space-y-4">
-          <h2 className="text-lg font-medium text-[#1abc9c]">
-            Планируемое развитие
-          </h2>
-          <ul className="space-y-2 text-white/80 text-sm leading-relaxed">
-            {roadmap.map((item, index) => (
-              <li key={index}>— {item}</li>
-            ))}
-          </ul>
+          <TitleAccent variant="h2">Планируемое развитие</TitleAccent>
+
+          <BulletList items={roadmap} />
         </section>
 
         <div className="pt-6 border-t border-white/10">
