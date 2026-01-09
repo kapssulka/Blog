@@ -114,13 +114,13 @@ export default function DropDownMenu({
         confirmText="Вы действительно хотите удалить пост?"
       >
         <ConfirmButton
+          onClick={() => setOpenConfirmModal(false)}
+          text="Отмена"
+        />
+        <ConfirmButton
           onClick={() => handleRemovePost(post_id, images)}
           isRed
           text="Удалить"
-        />
-        <ConfirmButton
-          onClick={() => setOpenConfirmModal(false)}
-          text="Отмена"
         />
       </ConfirmModal>
     </div>

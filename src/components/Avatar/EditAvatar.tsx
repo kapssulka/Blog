@@ -24,6 +24,7 @@ export default function EditAvatar() {
   const avatarUrl = users[activeProfileUid!]?.avatar_url ?? "";
 
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [openConfirmModal2, setOpenConfirmModal2] = useState(false);
   const [avatarPreview, setAvatarPreview] = useState("");
 
   //for add button
@@ -71,8 +72,13 @@ export default function EditAvatar() {
     if (error) throw new Error(`Ошибка: ${error}`);
 
     await dispatch(fetchDeleteAvatar(obj)).unwrap();
-    setOpenConfirmModal(false);
+    setOpenConfirmModal2(false);
     toast.success("Аватарка успешно удалена!");
+  };
+
+  const handleFirstModalClick = () => {
+    setOpenConfirmModal(false);
+    setOpenConfirmModal2(true);
   };
 
   return (
@@ -115,7 +121,7 @@ export default function EditAvatar() {
           <ConfirmButton
             isRed
             text="Удалить аватарку"
-            onClick={() => handleDeleteAvatar()}
+            onClick={handleFirstModalClick}
           />
         </div>
 
@@ -123,6 +129,22 @@ export default function EditAvatar() {
           right={10}
           top={10}
           onClick={() => setOpenConfirmModal(false)}
+        />
+      </ConfirmModal>
+
+      <ConfirmModal
+        isOpen={openConfirmModal2}
+        setOpenConfirmModal={setOpenConfirmModal2}
+        confirmText="Вы действительно хотите удалить аватарку?"
+      >
+        <ConfirmButton
+          onClick={() => setOpenConfirmModal2(false)}
+          text="Отмена"
+        />
+        <ConfirmButton
+          onClick={() => handleDeleteAvatar()}
+          isRed
+          text="Удалить"
         />
       </ConfirmModal>
 
