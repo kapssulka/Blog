@@ -44,7 +44,7 @@ export default function Profile() {
       ) : (
         <PostsSwitcher
           posts={postCurrentUser}
-          topContent={<ProfileHeader />}
+          topContent={<ProfileHeader countPosts={postCurrentUser.length} />}
           showCreatePost={isCurrentUserProfile}
         />
       )}

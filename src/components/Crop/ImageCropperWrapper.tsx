@@ -105,8 +105,8 @@ export default function ImageCropperWrapper({
         handleCropComplete={handleCropComplete}
       />
       <div className="flex gap-5 mt-5">
-        <ConfirmButton isGreen text="Добавить" onClick={handleAdd} />
         <ConfirmButton isRed text="Отмена" onClick={closeCropImage} />
+        <ConfirmButton isGreen text="Добавить" onClick={handleAdd} />
       </div>
     </div>
   );

@@ -50,6 +50,7 @@
 
 body {
   font-family: "Inter";
+  background-color: var(--bg-main);
 }
 
 @keyframes fadeIn {

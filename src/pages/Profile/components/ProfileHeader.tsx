@@ -6,7 +6,11 @@ import EditProfile from "./EditProfile/EditProfile.js";
 import EditAvatar from "../../../components/Avatar/EditAvatar.js";
 import { useAppSelector } from "../../../hooks/reduxHooks.js";
 
-export default function ProfileHeader() {
+interface ProfileHeaderProps {
+  countPosts: number;
+}
+
+export default function ProfileHeader({ countPosts }: ProfileHeaderProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isCurrentUserProfile } = useAppSelector((state) => state.users);
 
@@ -16,7 +20,7 @@ export default function ProfileHeader() {
 
       <div className="flex flex-col items-center justify-around gap-10 xs:gap-5  xs:flex-row sm:justify-between">
         <EditAvatar />
-        <StatsPanel />
+        <StatsPanel countPosts={countPosts} />
       </div>
 
       <div className="mt-10 xs:mt-5 flex flex-col gap-y-5">
