@@ -12,7 +12,7 @@ export default function UserBioItem({ text = "", name }: UserBioItemProps) {
     );
   else
     return (
-      <div className="text-zinc-400 whitespace-pre-wrap break-words max-h-[100px] overflow-auto custom-scrollbar">
+      <div className="text-zinc-400 whitespace-pre-wrap break-words max-h-[100px] overflow-auto custom-scrollbar-accent">
         {text}
       </div>
     );

@@ -39,7 +39,7 @@ export default function Content({
             swiper.params.navigation.nextEl = nextRef.current!;
           }
         }}
-        className="aspect-[5/3] rounded-2xl"
+        className="aspect-[4/3] rounded-2xl"
       >
         {images.map((image) => (
           <SwiperSlide key={image.id}>
@@ -65,7 +65,7 @@ export default function Content({
         </button>
       </Swiper>
 
-      <div className="p-4">
+      <div className="pt-6 pb-4 px-1">
         <p className="text-base whitespace-pre-wrap">{description}</p>
       </div>
     </div>
