@@ -5,6 +5,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useRef } from "react";
 import type { ImageData } from "../../../types/models/data.js";
+import Description from "./Description.js";
 
 interface ContentProps {
   className?: string;
@@ -65,9 +66,7 @@ export default function Content({
         </button>
       </Swiper>
 
-      <div className="pt-6 pb-4 px-1">
-        <p className="text-base whitespace-pre-wrap">{description}</p>
-      </div>
+      <Description description={description} />
     </div>
   );
 }

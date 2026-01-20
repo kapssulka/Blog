@@ -41,8 +41,8 @@ export default function TextareaForm<T extends FieldValues>({
         id={textareaId}
         placeholder={placeholder}
         className={cn(
-          "border border-gray-600 p-3 rounded-[5px] resize-none outline-none focus:outline-none",
-          height || "h-[150px]"
+          "border border-gray-600 p-3 rounded-[5px] resize-none outline-none focus:outline-none custom-scrollbar-accent",
+          height || "h-[150px]",
         )}
       />
 
