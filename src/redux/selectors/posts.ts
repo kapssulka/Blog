@@ -12,10 +12,11 @@ export const selectLikedPosts = createSelector(
     const likedIdPostID = getUserLikedPostId(likes);
 
     return posts.filter((post) => likedIdPostID.includes(post.post_id));
-  }
+  },
 );
 
 export const selectBookmarksPosts = createSelector(
   [selectPosts, selectBookmarks],
-  (posts, bookmarks) => posts.filter((post) => bookmarks.includes(post.post_id))
+  (posts, bookmarks) =>
+    posts.filter((post) => bookmarks.includes(post.post_id)),
 );

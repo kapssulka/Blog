@@ -51,7 +51,7 @@ export const createPost = createAsyncThunk<
         method: "POST",
         headers: fetchHeaders,
         body: JSON.stringify(post),
-      }
+      },
     );
 
     if (!response.ok) {
@@ -98,7 +98,7 @@ export const getPosts = createAsyncThunk<PostData[], string | null | undefined>(
       }));
 
       const sortedPosts = postsWithImages.sort(
-        (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)
+        (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at),
       );
 
       return sortedPosts;
@@ -108,7 +108,7 @@ export const getPosts = createAsyncThunk<PostData[], string | null | undefined>(
       }
       return rejectWithValue("Ошибка с получением постов");
     }
-  }
+  },
 );
 
 // REMOVE
@@ -122,7 +122,7 @@ export const removePost = createAsyncThunk<number, number>(
         {
           method: "DELETE",
           headers: fetchHeaders,
-        }
+        },
       );
 
       if (!responseImagesDelete.ok) throw new Error("Filled remove images");
@@ -132,7 +132,7 @@ export const removePost = createAsyncThunk<number, number>(
         {
           method: "DELETE",
           headers: fetchHeaders,
-        }
+        },
       );
       if (!responsePostDelete.ok) throw new Error("Filled remove post");
 
@@ -143,7 +143,7 @@ export const removePost = createAsyncThunk<number, number>(
       }
       return rejectWithValue("Ошибка с удалением поста");
     }
-  }
+  },
 );
 
 export interface postsSliceState {
@@ -154,6 +154,42 @@ export interface postsSliceState {
 
 const initialState: postsSliceState = {
   posts: [],
+  lastAddedImages: [],
+  lastAddedPost: null,
+};
+
+// getFeedPosts()
+// getUserPosts()
+// getLikedPosts()
+// getBookmarkedPosts()
+
+export interface postsSliceStateNew {
+  posts: {
+    byId: Record<number, PostData>;
+    feedIds: number[];
+  };
+  postIdsByUser: Record<string, number[]>;
+  likedPostIds: number[];
+  bookmarkedPostIds: number[];
+
+  lastAddedImages: ImageData[];
+  lastAddedPost: PostDataWithoutImages | null;
+}
+
+const initialStateNew: postsSliceStateNew = {
+  posts: {
+    byId: {},
+    feedIds: [],
+  },
+
+  postIdsByUser: {
+    user1: [],
+    user2: [],
+  },
+
+  likedPostIds: [],
+  bookmarkedPostIds: [],
+
   lastAddedImages: [],
   lastAddedPost: null,
 };
@@ -223,7 +259,7 @@ export const postsSlice = createSlice({
       })
       .addCase(removePost.fulfilled, (state, action) => {
         state.posts = state.posts.filter(
-          (post) => post.post_id !== action.payload
+          (post) => post.post_id !== action.payload,
         );
       })
       .addCase(removePost.rejected, (state, action) => {
