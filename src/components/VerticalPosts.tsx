@@ -12,13 +12,14 @@ interface VerticalPostsProps {
 export default function VerticalPosts({
   postsId,
   refPosts,
+  loadingKey,
 }: VerticalPostsProps) {
   const { byKey } = useAppSelector((state) => state.loading);
   const postsById = useAppSelector((state) => state.posts.posts.byId);
 
   return (
     <div className="flex flex-col gap-y-5">
-      {byKey.loadingKey ? (
+      {byKey[loadingKey] ? (
         <PostSkeleton />
       ) : (
         postsId.map((id) => {

@@ -10,13 +10,17 @@ interface GridPosts {
   loadingKey: LoadingKey;
 }
 
-export default function GridPosts({ postsId, scrollToPost }: GridPosts) {
+export default function GridPosts({
+  postsId,
+  scrollToPost,
+  loadingKey,
+}: GridPosts) {
   const { byKey } = useAppSelector((state) => state.loading);
   const postsById = useAppSelector((state) => state.posts.posts.byId);
 
   return (
     <>
-      {byKey.loadingKey ? (
+      {byKey[loadingKey] ? (
         <GridPostsSkeleton />
       ) : (
         <div className="grid grid-cols-2 xs:grid-cols-3 gap-3">

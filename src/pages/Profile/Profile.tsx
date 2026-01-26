@@ -37,7 +37,7 @@ export default function Profile() {
 
   return (
     <div className="flex flex-col gap-y-5  h-full  ">
-      {byKey.posts || byKey.profile ? (
+      {byKey.profile ? (
         <ProfileSkeleton />
       ) : (
         <PostsSwitcher

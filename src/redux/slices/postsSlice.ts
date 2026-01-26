@@ -68,49 +68,6 @@ export const createPost = createAsyncThunk<
   }
 });
 
-// GET
-
-// export const getPosts = createAsyncThunk<PostData[], string | null | undefined>(
-//   "posts/getPosts",
-//   async (uid = null, { rejectWithValue }) => {
-//     // стоит переписать, чтобы images как и users сразу подгружались одним запросом
-//     try {
-//       const urlPostDetails = uid
-//         ? `${baseUrl}/posts?user_uid=eq.${uid}&select=*,author:users!posts_user_uid_fkey(*)`
-//         : `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*)`;
-
-//       const urlPostImages = `${baseUrl}/post_images?select=*`;
-
-//       const [postsRes, imagesRes] = await Promise.all([
-//         fetch(urlPostDetails, { headers: fetchHeaders }),
-//         fetch(urlPostImages, { headers: fetchHeaders }),
-//       ]);
-
-//       if (!postsRes.ok) throw new Error("Failed to fetch posts");
-//       if (!imagesRes.ok) throw new Error("Failed to fetch images");
-
-//       const posts: PostDataWithoutImages[] = await postsRes.json();
-//       const images: ImageData[] = await imagesRes.json();
-
-//       const postsWithImages = posts.map((post) => ({
-//         ...post,
-//         images: images.filter((img) => img.post_id === post.post_id),
-//       }));
-
-//       const sortedPosts = postsWithImages.sort(
-//         (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at),
-//       );
-
-//       return sortedPosts;
-//     } catch (error) {
-//       if (error instanceof Error) {
-//         return rejectWithValue(error.message);
-//       }
-//       return rejectWithValue("Ошибка с получением постов");
-//     }
-//   },
-// );
-
 // REMOVE
 
 export const removePost = createAsyncThunk<number, number>(
@@ -203,6 +160,32 @@ export const getUserPosts = createAsyncThunk<
     return rejectWithValue("Ошибка с получением постов");
   }
 });
+
+export const getBookmarksPosts = createAsyncThunk<PostData[], string>(
+  "posts/getBookmarksPosts",
+  async (uid, { rejectWithValue }) => {
+    try {
+      const url = `${baseUrl}/post_bookmarks?select=post:posts(*,author:users!posts_user_uid_fkey(*),images:post_images(*))&user_uid=eq.${uid}&order=created_at.desc`;
+
+      const res = await fetch(url, {
+        headers: fetchHeaders,
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch posts");
+
+      const rows: { post: PostData }[] = await res.json();
+
+      const posts = rows.map((row) => row.post);
+
+      return posts;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue("Ошибка с получением постов");
+    }
+  },
+);
 
 export interface postsSliceState {
   posts: {
@@ -307,6 +290,14 @@ export const postsSlice = createSlice({
       })
       .addCase(getUserPosts.rejected, (state, action) => {
         console.log("Неудача c получением userPosts: ", action);
+      })
+      .addCase(getBookmarksPosts.fulfilled, (state, action) => {
+        action.payload.forEach((item) => {
+          state.posts.byId[item.post_id] = item;
+        });
+      })
+      .addCase(getBookmarksPosts.rejected, (state, action) => {
+        console.log("Неудача c получением bookmarksPosts: ", action);
       })
       .addCase(createPost.fulfilled, (state, action) => {
         // добавляем пост во временный ключ

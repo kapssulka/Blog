@@ -4,13 +4,14 @@ import type { LoadingKey } from "../../types/models/loading.js";
 export interface LoadingState {
   global: number;
 
-  byKey: Record<string, boolean>;
+  byKey: Partial<Record<LoadingKey, boolean>>;
 }
 
 const initialState: LoadingState = {
   global: 0,
   byKey: {
     feedPosts: true,
+    bookmarkPosts: true,
   },
 };
 

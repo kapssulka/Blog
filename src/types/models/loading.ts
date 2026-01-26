@@ -1,1 +1,6 @@
-export type LoadingKey = "feedPosts" | "like" | "profile";
+export type LoadingKey =
+  | "feedPosts"
+  | "like"
+  | "profile"
+  | "profilePosts"
+  | "bookmarkPosts";

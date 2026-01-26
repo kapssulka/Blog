@@ -41,6 +41,15 @@ const loadingMiddleware: Middleware<{}, any, any> =
       ) {
         store.dispatch(finish("profile"));
       }
+
+      if (action.type === "posts/getBookmarksPosts/pending") {
+        store.dispatch(start("bookmarkPosts"));
+      } else if (
+        action.type.endsWith("posts/getBookmarksPosts/fulfilled") ||
+        action.type.endsWith("posts/getBookmarksPosts/rejected")
+      ) {
+        store.dispatch(finish("bookmarkPosts"));
+      }
     }
     return next(action);
   };

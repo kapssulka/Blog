@@ -66,7 +66,7 @@ export default function PostsSwitcher({
         />
       )}
 
-      {!byKey.loadingKey && postsId.length < 1 && (
+      {!byKey[loadingKey] && postsId.length < 1 && (
         <EmptyPosts
           title="У вас ещё нет постов. Начните с нового!"
           showCreatePost={showCreatePost}
