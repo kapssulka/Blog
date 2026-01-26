@@ -1,8 +1,4 @@
-import {
-  configureStore,
-  type AnyAction,
-  type Middleware,
-} from "@reduxjs/toolkit";
+import { configureStore, type Middleware } from "@reduxjs/toolkit";
 import { currentUserSlice } from "./slices/currentUserSlice.js";
 import { postsSlice } from "./slices/postsSlice.js";
 import { finish, loadingSlice, start } from "./slices/loadingSlice.js";
@@ -28,13 +24,13 @@ function isActionWithType(action: unknown): action is { type: string } {
 const loadingMiddleware: Middleware<{}, any, any> =
   (store) => (next) => (action) => {
     if (isActionWithType(action)) {
-      if (action.type === "posts/getPosts/pending") {
-        store.dispatch(start("posts"));
+      if (action.type === "posts/getFeedPosts/pending") {
+        store.dispatch(start("feedPosts"));
       } else if (
-        action.type.endsWith("posts/getPosts/fulfilled") ||
-        action.type.endsWith("posts/getPosts/rejected")
+        action.type.endsWith("posts/getFeedPosts/fulfilled") ||
+        action.type.endsWith("posts/getFeedPosts/rejected")
       ) {
-        store.dispatch(finish("posts"));
+        store.dispatch(finish("feedPosts"));
       }
 
       if (action.type === "users/fetchUserById/pending") {
@@ -61,7 +57,7 @@ const store = configureStore({
   middleware: (defaultMiddleware) =>
     defaultMiddleware().concat(
       loadingMiddleware,
-      listenerMiddleware.middleware
+      listenerMiddleware.middleware,
     ),
 });
 

@@ -10,7 +10,7 @@ export interface LoadingState {
 const initialState: LoadingState = {
   global: 0,
   byKey: {
-    posts: true,
+    feedPosts: true,
   },
 };
 

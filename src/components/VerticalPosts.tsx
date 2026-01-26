@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Post from "../features/Post/Post.js";
 import { useAppSelector } from "../hooks/reduxHooks.js";
 import type { PostData } from "../types/models/data.js";
@@ -5,18 +6,24 @@ import { formatDate } from "../utils/date.js";
 import PostSkeleton from "./skeleton/PostSkeleton.js";
 
 interface VerticalPostsProps {
-  posts: PostData[];
+  posts?: PostData[];
   refPosts?: React.RefObject<Record<string, HTMLDivElement | null>>;
 }
-export default function VerticalPosts({ posts, refPosts }: VerticalPostsProps) {
+export default function VerticalPosts({ refPosts }: VerticalPostsProps) {
   const { byKey } = useAppSelector((state) => state.loading);
+  const postsById = useAppSelector((state) => state.posts.posts.byId);
+  const postsFeedID = useAppSelector((state) => state.posts.posts.feedIds);
 
   return (
     <div className="flex flex-col gap-y-5">
-      {byKey.posts ? (
+      {byKey.feedPosts ? (
         <PostSkeleton />
       ) : (
-        posts.map((post) => {
+        postsFeedID.map((id) => {
+          const post = postsById[id];
+
+          if (!post) return null;
+
           const date = formatDate(post.created_at);
 
           return (

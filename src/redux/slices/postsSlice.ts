@@ -70,46 +70,46 @@ export const createPost = createAsyncThunk<
 
 // GET
 
-export const getPosts = createAsyncThunk<PostData[], string | null | undefined>(
-  "posts/getPosts",
-  async (uid = null, { rejectWithValue }) => {
-    // стоит переписать, чтобы images как и users сразу подгружались одним запросом
-    try {
-      const urlPostDetails = uid
-        ? `${baseUrl}/posts?user_uid=eq.${uid}&select=*,author:users!posts_user_uid_fkey(*)`
-        : `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*)`;
+// export const getPosts = createAsyncThunk<PostData[], string | null | undefined>(
+//   "posts/getPosts",
+//   async (uid = null, { rejectWithValue }) => {
+//     // стоит переписать, чтобы images как и users сразу подгружались одним запросом
+//     try {
+//       const urlPostDetails = uid
+//         ? `${baseUrl}/posts?user_uid=eq.${uid}&select=*,author:users!posts_user_uid_fkey(*)`
+//         : `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*)`;
 
-      const urlPostImages = `${baseUrl}/post_images?select=*`;
+//       const urlPostImages = `${baseUrl}/post_images?select=*`;
 
-      const [postsRes, imagesRes] = await Promise.all([
-        fetch(urlPostDetails, { headers: fetchHeaders }),
-        fetch(urlPostImages, { headers: fetchHeaders }),
-      ]);
+//       const [postsRes, imagesRes] = await Promise.all([
+//         fetch(urlPostDetails, { headers: fetchHeaders }),
+//         fetch(urlPostImages, { headers: fetchHeaders }),
+//       ]);
 
-      if (!postsRes.ok) throw new Error("Failed to fetch posts");
-      if (!imagesRes.ok) throw new Error("Failed to fetch images");
+//       if (!postsRes.ok) throw new Error("Failed to fetch posts");
+//       if (!imagesRes.ok) throw new Error("Failed to fetch images");
 
-      const posts: PostDataWithoutImages[] = await postsRes.json();
-      const images: ImageData[] = await imagesRes.json();
+//       const posts: PostDataWithoutImages[] = await postsRes.json();
+//       const images: ImageData[] = await imagesRes.json();
 
-      const postsWithImages = posts.map((post) => ({
-        ...post,
-        images: images.filter((img) => img.post_id === post.post_id),
-      }));
+//       const postsWithImages = posts.map((post) => ({
+//         ...post,
+//         images: images.filter((img) => img.post_id === post.post_id),
+//       }));
 
-      const sortedPosts = postsWithImages.sort(
-        (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at),
-      );
+//       const sortedPosts = postsWithImages.sort(
+//         (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at),
+//       );
 
-      return sortedPosts;
-    } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      }
-      return rejectWithValue("Ошибка с получением постов");
-    }
-  },
-);
+//       return sortedPosts;
+//     } catch (error) {
+//       if (error instanceof Error) {
+//         return rejectWithValue(error.message);
+//       }
+//       return rejectWithValue("Ошибка с получением постов");
+//     }
+//   },
+// );
 
 // REMOVE
 
@@ -146,24 +146,62 @@ export const removePost = createAsyncThunk<number, number>(
   },
 );
 
+// GET
+
+export const getFeedPosts = createAsyncThunk<
+  PostData[],
+  { limit?: number; page?: number } | undefined
+>("posts/getFeedPosts", async ({ limit, page } = {}, { rejectWithValue }) => {
+  try {
+    let query = `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*),images:post_images(*)&order=created_at.desc`;
+
+    if (limit !== undefined && page !== undefined) {
+      const offset = (page - 1) * limit;
+      query += `&limit=${limit}&offset=${offset}`;
+    }
+
+    const res = await fetch(query, {
+      headers: fetchHeaders,
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch posts");
+
+    const posts: PostData[] = await res.json();
+
+    return posts;
+  } catch (error) {
+    if (error instanceof Error) {
+      return rejectWithValue(error.message);
+    }
+    return rejectWithValue("Ошибка с получением постов");
+  }
+});
+
+export const getUserPosts = createAsyncThunk<PostData[], string>(
+  "posts/getFeedPosts",
+  async (uid, { rejectWithValue }) => {
+    try {
+      const url = `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*),images:post_images(*)&user_uid=eq.${uid}&order=created_at.desc`;
+
+      const res = await fetch(url, {
+        headers: fetchHeaders,
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch posts");
+
+      const posts: PostData[] = await res.json();
+
+      return posts;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue("Ошибка с получением постов");
+    }
+  },
+);
+
 export interface postsSliceState {
-  posts: PostData[];
-  lastAddedImages: ImageData[];
-  lastAddedPost: PostDataWithoutImages | null;
-}
-
-const initialState: postsSliceState = {
-  posts: [],
-  lastAddedImages: [],
-  lastAddedPost: null,
-};
-
-// getFeedPosts()
-// getUserPosts()
-// getLikedPosts()
-// getBookmarkedPosts()
-
-export interface postsSliceStateNew {
   posts: {
     byId: Record<number, PostData>;
     feedIds: number[];
@@ -176,7 +214,7 @@ export interface postsSliceStateNew {
   lastAddedPost: PostDataWithoutImages | null;
 }
 
-const initialStateNew: postsSliceStateNew = {
+const initialState: postsSliceState = {
   posts: {
     byId: {},
     feedIds: [],
@@ -237,11 +275,25 @@ export const postsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getPosts.fulfilled, (state, action) => {
-        state.posts = action.payload;
+      .addCase(getFeedPosts.fulfilled, (state, action) => {
+        const feedIds: number[] = [];
+
+        const objectPost = action.payload.reduce(
+          (acc: Record<number, PostData>, item) => {
+            const id = item.post_id;
+            feedIds.push(id);
+
+            acc[id] = item;
+            return acc;
+          },
+          {},
+        );
+
+        state.posts.byId = objectPost;
+        state.posts.feedIds = feedIds;
       })
-      .addCase(getPosts.rejected, (state, action) => {
-        console.log("Неудача: ", action);
+      .addCase(getFeedPosts.rejected, (state, action) => {
+        console.log("Неудача c получением feedPosts: ", action);
       })
       .addCase(createPost.fulfilled, (state, action) => {
         // добавляем пост во временный ключ
