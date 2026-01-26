@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import ProfileHeader from "./components/ProfileHeader.js";
 import { useParams } from "react-router-dom";
 import {
@@ -9,6 +9,7 @@ import {
 import PostsSwitcher from "../../components/PostsSwitcher.js";
 import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks.js";
 import ProfileSkeleton from "../../components/skeleton/Profile/ProfileSkeleton.js";
+import { getUserPosts } from "../../redux/slices/postsSlice.js";
 
 export default function Profile() {
   const dispatch = useAppDispatch();
@@ -17,19 +18,16 @@ export default function Profile() {
   const { byKey } = useAppSelector((state) => state.loading);
 
   const { users, isCurrentUserProfile } = useAppSelector(
-    (state) => state.users
+    (state) => state.users,
   );
 
-  const { posts } = useAppSelector((state) => state.posts);
+  const postIdsByUser = useAppSelector((state) => state.posts.postIdsByUser);
   const { user_uid: currentUserUid } = useAppSelector((state) => state.user);
-
-  const postCurrentUser = useMemo(
-    () => posts.filter((post) => post?.user_uid === id),
-    [posts, id]
-  );
 
   useEffect(() => {
     dispatch(setActiveProfileUid(id));
+
+    if (id) dispatch(getUserPosts(id));
 
     if (id && !users[id]) dispatch(fetchUserById(id));
 
@@ -43,8 +41,13 @@ export default function Profile() {
         <ProfileSkeleton />
       ) : (
         <PostsSwitcher
-          posts={postCurrentUser}
-          topContent={<ProfileHeader countPosts={postCurrentUser.length} />}
+          loadingKey="profile"
+          postsId={id ? (postIdsByUser[id] ?? []) : []}
+          topContent={
+            <ProfileHeader
+              countPosts={id ? (postIdsByUser[id]?.length ?? 0) : 0}
+            />
+          }
           showCreatePost={isCurrentUserProfile}
         />
       )}

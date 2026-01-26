@@ -3,20 +3,22 @@ import ViewSwitcher from "../pages/Profile/components/ViewSwitcher.js";
 import GridPosts from "../features/GridPosts/GridPosts.js";
 import VerticalPosts from "./VerticalPosts.js";
 import EmptyPosts from "./EmptyPosts.js";
-import type { PostData } from "../types/models/data.js";
 import type { PostsViewMode } from "../types/ui/view.js";
 import { useAppSelector } from "../hooks/reduxHooks.js";
+import type { LoadingKey } from "../types/models/loading.js";
 
 interface PostsSwitcherProps {
-  posts: PostData[];
+  postsId: number[];
   topContent: React.ReactNode;
   showCreatePost?: boolean;
+  loadingKey: LoadingKey;
 }
 
 export default function PostsSwitcher({
-  posts,
+  postsId = [],
   topContent,
   showCreatePost = false,
+  loadingKey,
 }: PostsSwitcherProps) {
   const { byKey } = useAppSelector((state) => state.loading);
 
@@ -40,7 +42,7 @@ export default function PostsSwitcher({
       <div className="mb-5 bg-bg-secondary backdrop-blur-sm rounded-2xl p-6 transition-colors">
         {topContent}
 
-        {posts.length > 0 && (
+        {postsId.length > 0 && (
           <ViewSwitcher
             className="mt-8"
             activeView={activeBlock}
@@ -50,15 +52,23 @@ export default function PostsSwitcher({
       </div>
 
       {activeBlock === "grid" && (
-        <GridPosts posts={posts} scrollToPost={scrollToPost} />
+        <GridPosts
+          postsId={postsId}
+          scrollToPost={scrollToPost}
+          loadingKey={loadingKey}
+        />
       )}
       {activeBlock === "list" && (
-        <VerticalPosts posts={posts} refPosts={refPosts} />
+        <VerticalPosts
+          postsId={postsId}
+          refPosts={refPosts}
+          loadingKey={loadingKey}
+        />
       )}
 
-      {!byKey.posts && posts.length < 1 && (
+      {!byKey.loadingKey && postsId.length < 1 && (
         <EmptyPosts
-          title="У вас пока нет сохраненных постов"
+          title="У вас ещё нет постов. Начните с нового!"
           showCreatePost={showCreatePost}
         />
       )}

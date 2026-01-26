@@ -177,29 +177,32 @@ export const getFeedPosts = createAsyncThunk<
   }
 });
 
-export const getUserPosts = createAsyncThunk<PostData[], string>(
-  "posts/getFeedPosts",
-  async (uid, { rejectWithValue }) => {
-    try {
-      const url = `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*),images:post_images(*)&user_uid=eq.${uid}&order=created_at.desc`;
+export const getUserPosts = createAsyncThunk<
+  { posts: PostData[]; uid: string },
+  string
+>("posts/getUserPosts", async (uid, { rejectWithValue }) => {
+  try {
+    const url = `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*),images:post_images(*)&user_uid=eq.${uid}&order=created_at.desc`;
 
-      const res = await fetch(url, {
-        headers: fetchHeaders,
-      });
+    const res = await fetch(url, {
+      headers: fetchHeaders,
+    });
 
-      if (!res.ok) throw new Error("Failed to fetch posts");
+    if (!res.ok) throw new Error("Failed to fetch posts");
 
-      const posts: PostData[] = await res.json();
+    const posts: PostData[] = await res.json();
 
-      return posts;
-    } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      }
-      return rejectWithValue("Ошибка с получением постов");
+    return {
+      posts,
+      uid,
+    };
+  } catch (error) {
+    if (error instanceof Error) {
+      return rejectWithValue(error.message);
     }
-  },
-);
+    return rejectWithValue("Ошибка с получением постов");
+  }
+});
 
 export interface postsSliceState {
   posts: {
@@ -220,10 +223,7 @@ const initialState: postsSliceState = {
     feedIds: [],
   },
 
-  postIdsByUser: {
-    user1: [],
-    user2: [],
-  },
+  postIdsByUser: {},
 
   likedPostIds: [],
   bookmarkedPostIds: [],
@@ -294,6 +294,19 @@ export const postsSlice = createSlice({
       })
       .addCase(getFeedPosts.rejected, (state, action) => {
         console.log("Неудача c получением feedPosts: ", action);
+      })
+      .addCase(getUserPosts.fulfilled, (state, action) => {
+        const { posts, uid } = action.payload;
+
+        const userPostsId = posts.map((item) => {
+          state.posts.byId[item.post_id] = item;
+          return item.post_id;
+        });
+
+        state.postIdsByUser[uid] = userPostsId;
+      })
+      .addCase(getUserPosts.rejected, (state, action) => {
+        console.log("Неудача c получением userPosts: ", action);
       })
       .addCase(createPost.fulfilled, (state, action) => {
         // добавляем пост во временный ключ

@@ -22,7 +22,7 @@ export default function Home() {
           title="Будь первым, кто поделится чем-то интересным!"
         />
       )}
-      <VerticalPosts />
+      <VerticalPosts postsId={postsFeedID} loadingKey="feedPosts" />
     </div>
   );
 }
