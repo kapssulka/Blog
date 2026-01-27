@@ -221,7 +221,6 @@ export interface postsSliceState {
   };
   postIdsByUser: Record<string, number[]>;
   likedPostIds: number[];
-  bookmarkedPostIds: number[];
 
   lastAddedImages: ImageData[];
   lastAddedPost: PostDataWithoutImages | null;
@@ -234,12 +233,22 @@ const initialState: postsSliceState = {
   },
 
   postIdsByUser: {},
-
   likedPostIds: [],
-  bookmarkedPostIds: [],
 
   lastAddedImages: [],
   lastAddedPost: null,
+};
+
+type PostsIdsName =
+  | "likedPostIds"
+  | "bookmarkedPostIds"
+  | "feedIds"
+  | "postIdsByUser";
+
+type AddPostIdPayload = {
+  postsIdsName: PostsIdsName;
+  postID: number;
+  user_uid?: string;
 };
 
 export const postsSlice = createSlice({
@@ -255,6 +264,15 @@ export const postsSlice = createSlice({
       state.posts.unshift(postsWithImages as PostData);
       state.lastAddedImages = [];
       state.lastAddedPost = null;
+    },
+
+    addLikedPostsId: (state, action: PayloadAction<number>) => {
+      state.likedPostIds.unshift(action.payload);
+    },
+    deleteLikedPostsId: (state, action: PayloadAction<number>) => {
+      state.likedPostIds = state.likedPostIds.filter(
+        (item) => item !== action.payload,
+      );
     },
 
     // обновление аватарки в постах, при обновлении аватарки
@@ -363,6 +381,11 @@ export const postsSlice = createSlice({
       });
   },
 });
-export const { addLastPost, uploadAvatarForPosts, changeBioAndNameForPosts } =
-  postsSlice.actions;
+export const {
+  addLastPost,
+  uploadAvatarForPosts,
+  changeBioAndNameForPosts,
+  addLikedPostsId,
+  deleteLikedPostsId,
+} = postsSlice.actions;
 export default postsSlice.reducer;

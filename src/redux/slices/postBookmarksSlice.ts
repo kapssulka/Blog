@@ -15,7 +15,7 @@ export const getBookmarks = createAsyncThunk<PostInteractionData[], string>(
         `${baseUrl}/post_bookmarks?user_uid=eq.${user_uid}`,
         {
           headers: fetchHeaders,
-        }
+        },
       );
 
       if (!response.ok) throw new Error("Ошибка с ДОБАВЛЕНИЕМ лайков");
@@ -29,7 +29,7 @@ export const getBookmarks = createAsyncThunk<PostInteractionData[], string>(
 
       return rejectWithValue("Ошибка с получением закладок");
     }
-  }
+  },
 );
 export const getBookmark = createAsyncThunk<PostInteractionData, BookmarksArgs>(
   "bookmarks/getBookmark",
@@ -39,7 +39,7 @@ export const getBookmark = createAsyncThunk<PostInteractionData, BookmarksArgs>(
         `${baseUrl}/post_bookmarks?post_id=eq.${bookmarkObj.post_id}&user_uid=eq.${bookmarkObj.user_uid}`,
         {
           headers: fetchHeaders,
-        }
+        },
       );
 
       if (!response.ok) throw new Error("Ошибка с ДОБАВЛЕНИЕМ лайков");
@@ -53,7 +53,7 @@ export const getBookmark = createAsyncThunk<PostInteractionData, BookmarksArgs>(
 
       return rejectWithValue("Ошибка с получением 1 закладки");
     }
-  }
+  },
 );
 export const addBookmark = createAsyncThunk<number, BookmarksArgs>(
   "bookmarks/addBookmark",
@@ -73,7 +73,7 @@ export const addBookmark = createAsyncThunk<number, BookmarksArgs>(
       }
       return rejectWithValue("Ошибка с добавлением закладки");
     }
-  }
+  },
 );
 export const deleteBookmark = createAsyncThunk<number, BookmarksArgs>(
   "bookmarks/deleteBookmark",
@@ -84,7 +84,7 @@ export const deleteBookmark = createAsyncThunk<number, BookmarksArgs>(
         {
           method: "DELETE",
           headers: fetchHeaders,
-        }
+        },
       );
 
       if (!response.ok) throw new Error("Ошибка с ДОБАВЛЕНИЕМ лайков");
@@ -95,7 +95,7 @@ export const deleteBookmark = createAsyncThunk<number, BookmarksArgs>(
       }
       return rejectWithValue("Ошибка с удалением закладки");
     }
-  }
+  },
 );
 export const deleteAllBookmarks = createAsyncThunk<
   PostInteractionData[],
@@ -107,7 +107,7 @@ export const deleteAllBookmarks = createAsyncThunk<
       {
         method: "DELETE",
         headers: fetchHeaders,
-      }
+      },
     );
 
     if (!response.ok) throw new Error("Ошибка с ДОБАВЛЕНИЕМ лайков");
@@ -138,7 +138,7 @@ export const postBookmarksSlice = createSlice({
     },
     toggleBookmarkLocally: (
       state,
-      action: PayloadAction<{ post_id: number }>
+      action: PayloadAction<{ post_id: number }>,
     ) => {
       const id = action.payload.post_id;
       const current = state.bookmarks.includes(id);

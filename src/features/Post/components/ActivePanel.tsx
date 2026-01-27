@@ -16,6 +16,10 @@ import {
 } from "../../../redux/slices/postBookmarksSlice.js";
 import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks.js";
 import { toast } from "sonner";
+import {
+  addLikedPostsId,
+  deleteLikedPostsId,
+} from "../../../redux/slices/postsSlice.js";
 
 interface ActivePanelProps {
   post_id: number;
@@ -40,9 +44,13 @@ export default function ActivePanel({
       const likeObj = { post_id, user_uid };
 
       const res = await dispatch(checkLike(likeObj)).unwrap();
-      await dispatch(
-        res.length > 0 ? deleteLike(likeObj) : addLike(likeObj)
-      ).unwrap();
+      if (res.length > 0) {
+        await dispatch(deleteLike(likeObj)).unwrap();
+        dispatch(deleteLikedPostsId(post_id));
+      } else {
+        await dispatch(addLike(likeObj)).unwrap();
+        dispatch(addLikedPostsId(post_id));
+      }
     } catch (error) {
       dispatch(toggleLikeLocally({ post_id }));
       toast.error("Не удалось поставить лайк, попробуйте позже");
@@ -57,7 +65,7 @@ export default function ActivePanel({
       const res = await dispatch(getBookmark(bookmarkObj)).unwrap();
 
       await dispatch(
-        res.length > 0 ? deleteBookmark(bookmarkObj) : addBookmark(bookmarkObj)
+        res.length > 0 ? deleteBookmark(bookmarkObj) : addBookmark(bookmarkObj),
       ).unwrap();
     } catch (error) {
       dispatch(toggleBookmarkLocally({ post_id }));
