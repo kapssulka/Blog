@@ -50,6 +50,15 @@ const loadingMiddleware: Middleware<{}, any, any> =
       ) {
         store.dispatch(finish("bookmarkPosts"));
       }
+
+      if (action.type === "posts/getLikedPosts/pending") {
+        store.dispatch(start("likedPosts"));
+      } else if (
+        action.type.endsWith("posts/getLikedPosts/fulfilled") ||
+        action.type.endsWith("posts/getLikedPosts/rejected")
+      ) {
+        store.dispatch(finish("likedPosts"));
+      }
     }
     return next(action);
   };

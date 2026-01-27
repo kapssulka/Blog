@@ -3,4 +3,5 @@ export type LoadingKey =
   | "like"
   | "profile"
   | "profilePosts"
-  | "bookmarkPosts";
+  | "bookmarkPosts"
+  | "likedPosts";

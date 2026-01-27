@@ -12,6 +12,7 @@ const initialState: LoadingState = {
   byKey: {
     feedPosts: true,
     bookmarkPosts: true,
+    likedPosts: true,
   },
 };
 

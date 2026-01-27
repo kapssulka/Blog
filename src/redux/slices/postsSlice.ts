@@ -3,6 +3,7 @@ import {
   createSlice,
   current,
   original,
+  type PayloadAction,
 } from "@reduxjs/toolkit";
 import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
 import type { ImageData, PostData } from "../../types/models/data.js";
@@ -187,6 +188,32 @@ export const getBookmarksPosts = createAsyncThunk<PostData[], string>(
   },
 );
 
+export const getLikedPosts = createAsyncThunk<PostData[], string>(
+  "posts/getLikedPosts",
+  async (uid, { rejectWithValue }) => {
+    try {
+      const url = `${baseUrl}/post_likes?select=post:posts(*,author:users!posts_user_uid_fkey(*),images:post_images(*))&user_uid=eq.${uid}&order=created_at.desc`;
+
+      const res = await fetch(url, {
+        headers: fetchHeaders,
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch posts");
+
+      const rows: { post: PostData }[] = await res.json();
+
+      const posts = rows.map((row) => row.post);
+
+      return posts;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue("Ошибка с получением постов");
+    }
+  },
+);
+
 export interface postsSliceState {
   posts: {
     byId: Record<number, PostData>;
@@ -298,6 +325,19 @@ export const postsSlice = createSlice({
       })
       .addCase(getBookmarksPosts.rejected, (state, action) => {
         console.log("Неудача c получением bookmarksPosts: ", action);
+      })
+      .addCase(getLikedPosts.fulfilled, (state, action) => {
+        const likedPostIds: number[] = [];
+
+        action.payload.forEach((item) => {
+          likedPostIds.push(item.post_id);
+          state.posts.byId[item.post_id] = item;
+        });
+
+        state.likedPostIds = likedPostIds;
+      })
+      .addCase(getLikedPosts.rejected, (state, action) => {
+        console.log("Неудача c получением likedPosts: ", action);
       })
       .addCase(createPost.fulfilled, (state, action) => {
         // добавляем пост во временный ключ
