@@ -6,7 +6,7 @@ export interface PostData {
   created_at: string;
   text: string;
   author: UserData;
-  images: ImageData[];
+  images: PostImage[];
 }
 
 // ---- USERS ----
@@ -23,7 +23,7 @@ export interface UserData {
 
 // ---- POST IMAGES ----
 
-export interface ImageData {
+export interface PostImage {
   id: number;
   post_id: number;
   url: string;

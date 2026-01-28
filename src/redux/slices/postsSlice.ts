@@ -2,16 +2,15 @@ import {
   createAsyncThunk,
   createSlice,
   current,
-  original,
   type PayloadAction,
 } from "@reduxjs/toolkit";
 import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
-import type { ImageData, PostData } from "../../types/models/data.js";
+import type { PostImage, PostData } from "../../types/models/data.js";
 
 //  POST
 export const uploadImages = createAsyncThunk<
-  ImageData[],
-  Omit<ImageData, "id">
+  PostImage[],
+  Omit<PostImage, "id">
 >("posts/uploadImages", async (files, { rejectWithValue }) => {
   try {
     const response = await fetch(`${baseUrl}/post_images`, {
@@ -221,9 +220,6 @@ export interface postsSliceState {
   };
   postIdsByUser: Record<string, number[]>;
   likedPostIds: number[];
-
-  lastAddedImages: ImageData[];
-  lastAddedPost: PostDataWithoutImages | null;
 }
 
 const initialState: postsSliceState = {
@@ -234,36 +230,28 @@ const initialState: postsSliceState = {
 
   postIdsByUser: {},
   likedPostIds: [],
-
-  lastAddedImages: [],
-  lastAddedPost: null,
-};
-
-type PostsIdsName =
-  | "likedPostIds"
-  | "bookmarkedPostIds"
-  | "feedIds"
-  | "postIdsByUser";
-
-type AddPostIdPayload = {
-  postsIdsName: PostsIdsName;
-  postID: number;
-  user_uid?: string;
 };
 
 export const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    addLastPost: (state) => {
-      const postsWithImages = {
-        ...state.lastAddedPost,
-        images: state.lastAddedImages,
-      };
+    addNewPostLocal: (state, action: PayloadAction<PostData>) => {
+      const limitFeeds = 5;
+      const newPost = action.payload;
+      state.posts.byId[newPost.post_id] = newPost;
 
-      state.posts.unshift(postsWithImages as PostData);
-      state.lastAddedImages = [];
-      state.lastAddedPost = null;
+      state.posts.feedIds?.unshift(newPost.post_id);
+
+      if (state.posts.feedIds && state.posts.feedIds.length > limitFeeds) {
+        state.posts.feedIds?.pop();
+      }
+
+      if (!state.postIdsByUser[newPost.user_uid]) {
+        state.postIdsByUser[newPost.user_uid] = [];
+      }
+
+      state.postIdsByUser[newPost.user_uid]?.unshift(newPost.post_id);
     },
 
     addLikedPostsId: (state, action: PayloadAction<number>) => {
@@ -357,19 +345,11 @@ export const postsSlice = createSlice({
       .addCase(getLikedPosts.rejected, (state, action) => {
         console.log("Неудача c получением likedPosts: ", action);
       })
-      .addCase(createPost.fulfilled, (state, action) => {
-        // добавляем пост во временный ключ
-        state.lastAddedPost = action.payload[0] as PostDataWithoutImages;
-      })
       .addCase(createPost.rejected, (state, action) => {
-        console.log("Неудача: ", action);
-      })
-      .addCase(uploadImages.fulfilled, (state, action) => {
-        // добавляем картинки во временный ключ
-        state.lastAddedImages.push(action.payload[0] as ImageData);
+        console.log("Неудача с созданием поста: ", action);
       })
       .addCase(uploadImages.rejected, (state, action) => {
-        console.log("Неудача: ", action);
+        console.log("Неудача с загрузкой изображений поста: ", action);
       })
       .addCase(removePost.fulfilled, (state, action) => {
         state.posts = state.posts.filter(
@@ -382,7 +362,7 @@ export const postsSlice = createSlice({
   },
 });
 export const {
-  addLastPost,
+  addNewPostLocal,
   uploadAvatarForPosts,
   changeBioAndNameForPosts,
   addLikedPostsId,

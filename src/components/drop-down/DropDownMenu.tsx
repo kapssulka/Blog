@@ -11,7 +11,7 @@ import ConfirmModal from "../ConfirmModal/ConfirmModal.js";
 import { deleteAllLike } from "../../redux/slices/postLikesSlice.js";
 import { deleteAllBookmarks } from "../../redux/slices/postBookmarksSlice.js";
 import ConfirmButton from "../ConfirmModal/ConfirmButton.js";
-import type { ImageData } from "../../types/models/data.js";
+import type { PostImage } from "../../types/models/data.js";
 import { useAppDispatch } from "../../hooks/reduxHooks.js";
 import {
   decrementGlobal,
@@ -21,7 +21,7 @@ import {
 interface DropDownMenuProps {
   className: string;
   post_id: number;
-  images: ImageData[];
+  images: PostImage[];
 }
 
 export default function DropDownMenu({
@@ -62,7 +62,7 @@ export default function DropDownMenu({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [openDropDown, openConfirmModal]);
 
-  const handleRemovePost = async (post_id: number, images: ImageData[]) => {
+  const handleRemovePost = async (post_id: number, images: PostImage[]) => {
     try {
       dispatch(incrementGlobal());
       const pathArr = images.map((item) => item.path);

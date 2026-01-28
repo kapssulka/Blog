@@ -4,10 +4,10 @@ import ActivePanel from "./components/ActivePanel.js";
 import Content from "./components/Content.js";
 import { forwardRef, type ForwardedRef } from "react";
 import { useAppSelector } from "../../hooks/reduxHooks.js";
-import type { ImageData } from "../../types/models/data.js";
+import type { PostImage } from "../../types/models/data.js";
 
 interface PostProps {
-  images: ImageData[];
+  images: PostImage[];
   description: string;
   avtor: string;
   user_uid: string;
@@ -18,7 +18,7 @@ interface PostProps {
 
 export default forwardRef(function Post(
   props: PostProps,
-  ref: ForwardedRef<HTMLDivElement>
+  ref: ForwardedRef<HTMLDivElement>,
 ) {
   const {
     images = [],
