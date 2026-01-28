@@ -284,24 +284,20 @@ export const postsSlice = createSlice({
       const changedUserObj = action.payload;
       const { user_uid, avatar_url, avatar_path } = changedUserObj;
 
-      state.posts = state.posts.map((post) => {
+      Object.values(state.posts.byId).forEach((post) => {
         if (post.user_uid === user_uid) {
           post.author = { ...post.author, avatar_url, avatar_path };
         }
-
-        return post;
       });
     },
     changeBioAndNameForPosts: (state, action) => {
       const changedUserObj = action.payload;
       const { user_uid, bio, name } = changedUserObj;
 
-      state.posts = state.posts.map((post) => {
+      Object.values(state.posts.byId).forEach((post) => {
         if (post.user_uid === user_uid) {
           post.author = { ...post.author, bio, name };
         }
-
-        return post;
       });
     },
   },
