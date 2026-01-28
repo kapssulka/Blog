@@ -253,6 +253,22 @@ export const postsSlice = createSlice({
 
       state.postIdsByUser[newPost.user_uid]?.unshift(newPost.post_id);
     },
+    removePostLocal: (
+      state,
+      action: PayloadAction<{ post_id: number; user_uid: string }>,
+    ) => {
+      const { post_id, user_uid } = action.payload;
+
+      delete state.posts.byId[post_id];
+
+      state.postIdsByUser[user_uid] = (
+        state.postIdsByUser[user_uid] || []
+      ).filter((item) => item !== post_id);
+
+      state.posts.feedIds = state.posts.feedIds.filter(
+        (item) => item !== post_id,
+      );
+    },
 
     addLikedPostsId: (state, action: PayloadAction<number>) => {
       state.likedPostIds.unshift(action.payload);
@@ -351,18 +367,14 @@ export const postsSlice = createSlice({
       .addCase(uploadImages.rejected, (state, action) => {
         console.log("Неудача с загрузкой изображений поста: ", action);
       })
-      .addCase(removePost.fulfilled, (state, action) => {
-        state.posts = state.posts.filter(
-          (post) => post.post_id !== action.payload,
-        );
-      })
       .addCase(removePost.rejected, (state, action) => {
-        console.log("Неудача: ", action.payload);
+        console.log("Неудача с удалением поста: ", action.payload);
       });
   },
 });
 export const {
   addNewPostLocal,
+  removePostLocal,
   uploadAvatarForPosts,
   changeBioAndNameForPosts,
   addLikedPostsId,
