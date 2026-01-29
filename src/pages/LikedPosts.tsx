@@ -11,10 +11,13 @@ export default function LikedPosts() {
   const { user_uid } = useAppSelector((state) => state.user);
   const { likedPostIds } = useAppSelector((state) => state.posts);
 
+  const hasRequestedLiked = useAppSelector(
+    (state) => state.posts.hasRequestedPage.liked,
+  );
+
   useEffect(() => {
-    if (!user_uid) return;
-    dispatch(getLikedPosts(user_uid));
-  }, [user_uid]);
+    if (user_uid && !hasRequestedLiked) dispatch(getLikedPosts(user_uid));
+  }, [dispatch, user_uid, hasRequestedLiked]);
 
   return (
     <>

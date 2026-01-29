@@ -13,10 +13,14 @@ export default function BookmarksPosts() {
   const bookmarksPosts = useAppSelector((state) => state.bookmarks.bookmarks);
   const { user_uid } = useAppSelector((state) => state.user);
 
+  const hasRequestedBookmarks = useAppSelector(
+    (state) => state.posts.hasRequestedPage.bookmarks,
+  );
+
   useEffect(() => {
-    if (!user_uid) return;
-    dispatch(getBookmarksPosts(user_uid));
-  }, [dispatch, user_uid]);
+    if (user_uid && !hasRequestedBookmarks)
+      dispatch(getBookmarksPosts(user_uid));
+  }, [dispatch, user_uid, hasRequestedBookmarks]);
 
   return (
     <>

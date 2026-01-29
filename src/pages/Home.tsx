@@ -1,7 +1,7 @@
 import VerticalPosts from "../components/VerticalPosts.js";
 import EmptyPosts from "../components/EmptyPosts.js";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks.js";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getFeedPosts } from "../redux/slices/postsSlice.js";
 
 export default function Home() {
@@ -10,9 +10,15 @@ export default function Home() {
   const postsFeedID = useAppSelector((state) => state.posts.posts.feedIds);
   const { byKey } = useAppSelector((state) => state.loading);
 
+  const hasRequestedFeed = useAppSelector(
+    (state) => state.posts.hasRequestedPage.feed,
+  );
+
   useEffect(() => {
+    if (hasRequestedFeed) return;
+
     dispatch(getFeedPosts());
-  }, [dispatch]);
+  }, [dispatch, hasRequestedFeed]);
 
   return (
     <div>

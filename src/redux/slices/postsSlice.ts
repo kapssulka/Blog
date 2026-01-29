@@ -220,6 +220,12 @@ export interface postsSliceState {
   };
   postIdsByUser: Record<string, number[]>;
   likedPostIds: number[];
+  hasRequestedPage: {
+    feed: boolean;
+    bookmarks: boolean;
+    liked: boolean;
+    profile: Record<string, boolean>;
+  };
 }
 
 const initialState: postsSliceState = {
@@ -230,6 +236,13 @@ const initialState: postsSliceState = {
 
   postIdsByUser: {},
   likedPostIds: [],
+
+  hasRequestedPage: {
+    feed: false,
+    bookmarks: false,
+    liked: false,
+    profile: {},
+  },
 };
 
 export const postsSlice = createSlice({
@@ -319,6 +332,8 @@ export const postsSlice = createSlice({
 
         state.posts.byId = objectPost;
         state.posts.feedIds = feedIds;
+
+        state.hasRequestedPage.feed = true;
       })
       .addCase(getFeedPosts.rejected, (state, action) => {
         console.log("Неудача c получением feedPosts: ", action);
@@ -332,6 +347,8 @@ export const postsSlice = createSlice({
         });
 
         state.postIdsByUser[uid] = userPostsId;
+
+        state.hasRequestedPage.profile[uid] = true;
       })
       .addCase(getUserPosts.rejected, (state, action) => {
         console.log("Неудача c получением userPosts: ", action);
@@ -340,6 +357,8 @@ export const postsSlice = createSlice({
         action.payload.forEach((item) => {
           state.posts.byId[item.post_id] = item;
         });
+
+        state.hasRequestedPage.bookmarks = true;
       })
       .addCase(getBookmarksPosts.rejected, (state, action) => {
         console.log("Неудача c получением bookmarksPosts: ", action);
@@ -353,6 +372,8 @@ export const postsSlice = createSlice({
         });
 
         state.likedPostIds = likedPostIds;
+
+        state.hasRequestedPage.liked = true;
       })
       .addCase(getLikedPosts.rejected, (state, action) => {
         console.log("Неудача c получением likedPosts: ", action);

@@ -24,16 +24,23 @@ export default function Profile() {
   const postIdsByUser = useAppSelector((state) => state.posts.postIdsByUser);
   const { user_uid: currentUserUid } = useAppSelector((state) => state.user);
 
+  const hasRequestedProfile = useAppSelector(
+    (state) => !!state.posts.hasRequestedPage.profile[id!],
+  );
+
   useEffect(() => {
     dispatch(setActiveProfileUid(id));
-
-    if (id) dispatch(getUserPosts(id));
 
     if (id && !users[id]) dispatch(fetchUserById(id));
 
     if (id === currentUserUid) dispatch(setIsCurrentUserProfile(true));
     else dispatch(setIsCurrentUserProfile(false));
   }, [id, users, currentUserUid, dispatch]);
+
+  // посты пользователя
+  useEffect(() => {
+    if (id && !hasRequestedProfile) dispatch(getUserPosts(id));
+  }, [dispatch, id, hasRequestedProfile]);
 
   return (
     <div className="flex flex-col gap-y-5  h-full  ">
