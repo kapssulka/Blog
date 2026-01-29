@@ -313,6 +313,23 @@ export const postsSlice = createSlice({
         }
       });
     },
+
+    resetPostState: (state) => {
+      state.posts = {
+        byId: {},
+        feedIds: [],
+      };
+
+      state.postIdsByUser = {};
+      state.likedPostIds = [];
+
+      state.hasRequestedPage = {
+        feed: false,
+        bookmarks: false,
+        liked: false,
+        profile: {},
+      };
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -390,6 +407,7 @@ export const postsSlice = createSlice({
   },
 });
 export const {
+  resetPostState,
   addNewPostLocal,
   removePostLocal,
   uploadAvatarForPosts,
