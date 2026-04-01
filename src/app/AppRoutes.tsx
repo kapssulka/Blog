@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { ROUTES } from "../constants/routes.js";
 import PrivateRoute from "../components/routes/PrivateRoute.js";
 import Layout from "../pages/Layout/Layout.js";
@@ -13,56 +13,76 @@ import Login from "../pages/Login.js";
 import NotFound from "../pages/NotFound.js";
 import { useAppSelector } from "../hooks/reduxHooks.js";
 import AboutProject from "../pages/AboutProject/AboutProject.js";
+import PageTransition from "../animations/PageTransition.js";
+import { AnimatePresence } from "motion/react";
 
 export default function AppRoutes() {
   const { user_uid } = useAppSelector((state) => state.user);
 
-  return (
-    <Routes>
-      <Route
-        path={ROUTES.HOME}
-        element={
-          <PrivateRoute>
-            <Layout />
-          </PrivateRoute>
-        }
-      >
-        <Route index element={<Home />} />
+  const location = useLocation();
 
-        {/* <Route path={ROUTES.MESSAGE.INDEX} element={<Message />}>
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route
+          path={ROUTES.HOME}
+          element={
+            <PrivateRoute>
+              <Layout />
+            </PrivateRoute>
+          }
+        >
+          <Route
+            index
+            element={
+              <PageTransition>
+                <Home />
+              </PageTransition>
+            }
+          />
+
+          {/* <Route path={ROUTES.MESSAGE.INDEX} element={<Message />}>
             <Route index element={<ChatAllUsers />} />
             <Route path=":id" element={<ChatSingleUser />} />
           </Route> */}
 
-        <Route path={ROUTES.PROFILE} element={<Profile />} />
+          <Route
+            path={ROUTES.PROFILE}
+            element={
+              <PageTransition>
+                <Profile />
+              </PageTransition>
+            }
+          />
+          <Route
+            path={"/profile"}
+            element={<Navigate to={`/profile/${user_uid}`} />}
+          />
+
+          <Route path={ROUTES.NEW_POST} element={<NewPost />} />
+          <Route path={ROUTES.LIKED} element={<LikedPosts />} />
+          <Route path={ROUTES.BOOKMARKS} element={<BookmarksPosts />} />
+          <Route path={ROUTES.ABOUT_PROJECT} element={<AboutProject />} />
+        </Route>
+
         <Route
-          path={"/profile"}
-          element={<Navigate to={`/profile/${user_uid}`} />}
+          path={ROUTES.REGISTER}
+          element={
+            <PublicRoute>
+              <Register />
+            </PublicRoute>
+          }
         />
-
-        <Route path={ROUTES.NEW_POST} element={<NewPost />} />
-        <Route path={ROUTES.LIKED} element={<LikedPosts />} />
-        <Route path={ROUTES.BOOKMARKS} element={<BookmarksPosts />} />
-        <Route path={ROUTES.ABOUT_PROJECT} element={<AboutProject />} />
-      </Route>
-
-      <Route
-        path={ROUTES.REGISTER}
-        element={
-          <PublicRoute>
-            <Register />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path={ROUTES.LOGIN}
-        element={
-          <PublicRoute>
-            <Login />
-          </PublicRoute>
-        }
-      />
-      <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
-    </Routes>
+        <Route
+          path={ROUTES.LOGIN}
+          element={
+            <PublicRoute>
+              <Login />
+            </PublicRoute>
+          }
+        />
+        <Route path={ROUTES.NOT_FOUND} element={<NotFound />} />
+      </Routes>
+    </AnimatePresence>
   );
 }
