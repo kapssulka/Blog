@@ -36,18 +36,22 @@ export default function BottomNavigation() {
 
   return (
     <div
-      className="
-      fixed bottom-0 left-0 right-0 z-30
+      className="flex justify-center lg:hidden 
+    fixed bottom-0 left-0 right-0 z-30 
+   px-3  pb-3 w-full rounded-t-4xl"
+    >
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent pointer-events-none" />
+      <nav
+        className="grid grid-cols-5 gap-x-3 max-w-[600px] 
+      rounded-4xl
       h-20
       bg-bg-main/95 backdrop-blur-sm
       border-t border-white/10
       shadow-[0_-4px_12px_rgba(0,0,0,0.3)]
       px-4 py-4
-      flex flex-col items-center
       lg:hidden
       "
-    >
-      <nav className="grid grid-cols-5 gap-x-3 max-w-[600px] w-full">
+      >
         {links.map((item, index) => {
           return (
             <Item
