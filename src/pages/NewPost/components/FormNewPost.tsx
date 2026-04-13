@@ -7,7 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 
 import { uploadToSupabaseStorage } from "../../../supabase/services/storageService.js";
 import {
-  addLastPost,
+  addNewPostLocal,
   createPost,
   uploadImages,
 } from "../../../redux/slices/postsSlice.js";
@@ -23,6 +23,7 @@ import {
   decrementGlobal,
   incrementGlobal,
 } from "../../../redux/slices/loadingSlice.js";
+import type { PostData, PostImage } from "../../../types/models/data.js";
 
 export default function FormNewPost() {
   const [files, setFiles] = useState<FileWithPreview[]>([]);
@@ -49,10 +50,13 @@ export default function FormNewPost() {
       const urls = await uploadToSupabaseStorage(files, dispatch);
 
       const createPostResult = await dispatch(
-        createPost({ user_uid, text })
+        createPost({ user_uid, text }),
       ).unwrap();
 
+      if (!createPostResult[0]) return;
       const post_id = createPostResult[0].post_id;
+
+      let newPostImages: PostImage[] = [];
 
       for (let i = 0; i < urls.length; i++) {
         const urlObj = urls[i];
@@ -65,9 +69,17 @@ export default function FormNewPost() {
           position: i,
           is_main: i === 0,
         };
-        await dispatch(uploadImages(imageRow)).unwrap();
+        const singleImage = await dispatch(uploadImages(imageRow)).unwrap();
+
+        if (singleImage[0]) newPostImages.push(singleImage[0]);
       }
-      dispatch(addLastPost());
+
+      const newPost: PostData = {
+        ...createPostResult[0],
+        images: newPostImages,
+      };
+
+      dispatch(addNewPostLocal(newPost));
       dispatch(decrementGlobal());
 
       toast.success("Пост успешно добавлен!");

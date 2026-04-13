@@ -4,12 +4,12 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { useRef } from "react";
-import type { ImageData } from "../../../types/models/data.js";
+import type { PostImage } from "../../../types/models/data.js";
 import Description from "./Description.js";
 
 interface ContentProps {
   className?: string;
-  images: ImageData[];
+  images: PostImage[];
   description: string;
 }
 

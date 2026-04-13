@@ -5,14 +5,14 @@ import DropDownList from "./DropDownList.js";
 import DropDownItem from "./DropDownItem.js";
 import DropDownOpenButton from "./DropDownOpenButton.js";
 import { removeFromSupabaseStorage } from "../../supabase/services/storageService.js";
-import { removePost } from "../../redux/slices/postsSlice.js";
+import { removePost, removePostLocal } from "../../redux/slices/postsSlice.js";
 import { toast } from "sonner";
 import ConfirmModal from "../ConfirmModal/ConfirmModal.js";
 import { deleteAllLike } from "../../redux/slices/postLikesSlice.js";
 import { deleteAllBookmarks } from "../../redux/slices/postBookmarksSlice.js";
 import ConfirmButton from "../ConfirmModal/ConfirmButton.js";
-import type { ImageData } from "../../types/models/data.js";
-import { useAppDispatch } from "../../hooks/reduxHooks.js";
+import type { PostImage } from "../../types/models/data.js";
+import { useAppDispatch, useAppSelector } from "../../hooks/reduxHooks.js";
 import {
   decrementGlobal,
   incrementGlobal,
@@ -21,7 +21,7 @@ import {
 interface DropDownMenuProps {
   className: string;
   post_id: number;
-  images: ImageData[];
+  images: PostImage[];
 }
 
 export default function DropDownMenu({
@@ -30,6 +30,8 @@ export default function DropDownMenu({
   images = [],
 }: DropDownMenuProps) {
   const dispatch = useAppDispatch();
+
+  const { user_uid } = useAppSelector((state) => state.user);
 
   const [openDropDown, setOpenDropDown] = useState(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
@@ -62,7 +64,7 @@ export default function DropDownMenu({
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [openDropDown, openConfirmModal]);
 
-  const handleRemovePost = async (post_id: number, images: ImageData[]) => {
+  const handleRemovePost = async (post_id: number, images: PostImage[]) => {
     try {
       dispatch(incrementGlobal());
       const pathArr = images.map((item) => item.path);
@@ -73,6 +75,8 @@ export default function DropDownMenu({
       await dispatch(deleteAllLike(post_id)).unwrap();
       await dispatch(deleteAllBookmarks(post_id)).unwrap();
       await dispatch(removePost(post_id)).unwrap();
+
+      dispatch(removePostLocal({ post_id, user_uid }));
 
       dispatch(decrementGlobal());
       toast.success("Пост успешно удалён!");

@@ -6,6 +6,7 @@ import { resetAllBookmarks } from "../../redux/slices/postBookmarksSlice.js";
 import ConfirmModal from "../ConfirmModal/ConfirmModal.js";
 import ConfirmButton from "../ConfirmModal/ConfirmButton.js";
 import { useState } from "react";
+import { resetPostState } from "../../redux/slices/postsSlice.js";
 
 interface LogoutButtonProps {
   maxWidth?: string;
@@ -20,6 +21,8 @@ export default function LogoutButton({ maxWidth }: LogoutButtonProps) {
     signOut(auth);
     dispatch(resetDataUser());
     dispatch(resetAllBookmarks());
+
+    dispatch(resetPostState());
   };
 
   return (

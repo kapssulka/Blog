@@ -2,15 +2,15 @@ import {
   createAsyncThunk,
   createSlice,
   current,
-  original,
+  type PayloadAction,
 } from "@reduxjs/toolkit";
 import { baseUrl, fetchHeaders } from "../../supabase/supabase.js";
-import type { ImageData, PostData } from "../../types/models/data.js";
+import type { PostImage, PostData } from "../../types/models/data.js";
 
 //  POST
 export const uploadImages = createAsyncThunk<
-  ImageData[],
-  Omit<ImageData, "id">
+  PostImage[],
+  Omit<PostImage, "id">
 >("posts/uploadImages", async (files, { rejectWithValue }) => {
   try {
     const response = await fetch(`${baseUrl}/post_images`, {
@@ -51,7 +51,7 @@ export const createPost = createAsyncThunk<
         method: "POST",
         headers: fetchHeaders,
         body: JSON.stringify(post),
-      }
+      },
     );
 
     if (!response.ok) {
@@ -68,49 +68,6 @@ export const createPost = createAsyncThunk<
   }
 });
 
-// GET
-
-export const getPosts = createAsyncThunk<PostData[], string | null | undefined>(
-  "posts/getPosts",
-  async (uid = null, { rejectWithValue }) => {
-    // стоит переписать, чтобы images как и users сразу подгружались одним запросом
-    try {
-      const urlPostDetails = uid
-        ? `${baseUrl}/posts?user_uid=eq.${uid}&select=*,author:users!posts_user_uid_fkey(*)`
-        : `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*)`;
-
-      const urlPostImages = `${baseUrl}/post_images?select=*`;
-
-      const [postsRes, imagesRes] = await Promise.all([
-        fetch(urlPostDetails, { headers: fetchHeaders }),
-        fetch(urlPostImages, { headers: fetchHeaders }),
-      ]);
-
-      if (!postsRes.ok) throw new Error("Failed to fetch posts");
-      if (!imagesRes.ok) throw new Error("Failed to fetch images");
-
-      const posts: PostDataWithoutImages[] = await postsRes.json();
-      const images: ImageData[] = await imagesRes.json();
-
-      const postsWithImages = posts.map((post) => ({
-        ...post,
-        images: images.filter((img) => img.post_id === post.post_id),
-      }));
-
-      const sortedPosts = postsWithImages.sort(
-        (a, b) => Date.parse(b.created_at) - Date.parse(a.created_at)
-      );
-
-      return sortedPosts;
-    } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      }
-      return rejectWithValue("Ошибка с получением постов");
-    }
-  }
-);
-
 // REMOVE
 
 export const removePost = createAsyncThunk<number, number>(
@@ -122,7 +79,7 @@ export const removePost = createAsyncThunk<number, number>(
         {
           method: "DELETE",
           headers: fetchHeaders,
-        }
+        },
       );
 
       if (!responseImagesDelete.ok) throw new Error("Filled remove images");
@@ -132,7 +89,7 @@ export const removePost = createAsyncThunk<number, number>(
         {
           method: "DELETE",
           headers: fetchHeaders,
-        }
+        },
       );
       if (!responsePostDelete.ok) throw new Error("Filled remove post");
 
@@ -143,34 +100,196 @@ export const removePost = createAsyncThunk<number, number>(
       }
       return rejectWithValue("Ошибка с удалением поста");
     }
+  },
+);
+
+// GET
+
+export const getFeedPosts = createAsyncThunk<
+  PostData[],
+  { limit?: number; page?: number } | undefined
+>("posts/getFeedPosts", async ({ limit, page } = {}, { rejectWithValue }) => {
+  try {
+    let query = `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*),images:post_images(*)&order=created_at.desc`;
+
+    if (limit !== undefined && page !== undefined) {
+      const offset = (page - 1) * limit;
+      query += `&limit=${limit}&offset=${offset}`;
+    }
+
+    const res = await fetch(query, {
+      headers: fetchHeaders,
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch posts");
+
+    const posts: PostData[] = await res.json();
+
+    return posts;
+  } catch (error) {
+    if (error instanceof Error) {
+      return rejectWithValue(error.message);
+    }
+    return rejectWithValue("Ошибка с получением постов");
   }
+});
+
+export const getUserPosts = createAsyncThunk<
+  { posts: PostData[]; uid: string },
+  string
+>("posts/getUserPosts", async (uid, { rejectWithValue }) => {
+  try {
+    const url = `${baseUrl}/posts?select=*,author:users!posts_user_uid_fkey(*),images:post_images(*)&user_uid=eq.${uid}&order=created_at.desc`;
+
+    const res = await fetch(url, {
+      headers: fetchHeaders,
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch posts");
+
+    const posts: PostData[] = await res.json();
+
+    return {
+      posts,
+      uid,
+    };
+  } catch (error) {
+    if (error instanceof Error) {
+      return rejectWithValue(error.message);
+    }
+    return rejectWithValue("Ошибка с получением постов");
+  }
+});
+
+export const getBookmarksPosts = createAsyncThunk<PostData[], string>(
+  "posts/getBookmarksPosts",
+  async (uid, { rejectWithValue }) => {
+    try {
+      const url = `${baseUrl}/post_bookmarks?select=post:posts(*,author:users!posts_user_uid_fkey(*),images:post_images(*))&user_uid=eq.${uid}&order=created_at.desc`;
+
+      const res = await fetch(url, {
+        headers: fetchHeaders,
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch posts");
+
+      const rows: { post: PostData }[] = await res.json();
+
+      const posts = rows.map((row) => row.post);
+
+      return posts;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue("Ошибка с получением постов");
+    }
+  },
+);
+
+export const getLikedPosts = createAsyncThunk<PostData[], string>(
+  "posts/getLikedPosts",
+  async (uid, { rejectWithValue }) => {
+    try {
+      const url = `${baseUrl}/post_likes?select=post:posts(*,author:users!posts_user_uid_fkey(*),images:post_images(*))&user_uid=eq.${uid}&order=created_at.desc`;
+
+      const res = await fetch(url, {
+        headers: fetchHeaders,
+      });
+
+      if (!res.ok) throw new Error("Failed to fetch posts");
+
+      const rows: { post: PostData }[] = await res.json();
+
+      const posts = rows.map((row) => row.post);
+
+      return posts;
+    } catch (error) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+      return rejectWithValue("Ошибка с получением постов");
+    }
+  },
 );
 
 export interface postsSliceState {
-  posts: PostData[];
-  lastAddedImages: ImageData[];
-  lastAddedPost: PostDataWithoutImages | null;
+  posts: {
+    byId: Record<number, PostData>;
+    feedIds: number[];
+  };
+  postIdsByUser: Record<string, number[]>;
+  likedPostIds: number[];
+  hasRequestedPage: {
+    feed: boolean;
+    bookmarks: boolean;
+    liked: boolean;
+    profile: Record<string, boolean>;
+  };
 }
 
 const initialState: postsSliceState = {
-  posts: [],
-  lastAddedImages: [],
-  lastAddedPost: null,
+  posts: {
+    byId: {},
+    feedIds: [],
+  },
+
+  postIdsByUser: {},
+  likedPostIds: [],
+
+  hasRequestedPage: {
+    feed: false,
+    bookmarks: false,
+    liked: false,
+    profile: {},
+  },
 };
 
 export const postsSlice = createSlice({
   name: "posts",
   initialState,
   reducers: {
-    addLastPost: (state) => {
-      const postsWithImages = {
-        ...state.lastAddedPost,
-        images: state.lastAddedImages,
-      };
+    addNewPostLocal: (state, action: PayloadAction<PostData>) => {
+      const limitFeeds = 5;
+      const newPost = action.payload;
+      state.posts.byId[newPost.post_id] = newPost;
 
-      state.posts.unshift(postsWithImages as PostData);
-      state.lastAddedImages = [];
-      state.lastAddedPost = null;
+      state.posts.feedIds?.unshift(newPost.post_id);
+
+      if (state.posts.feedIds && state.posts.feedIds.length > limitFeeds) {
+        state.posts.feedIds?.pop();
+      }
+
+      if (!state.postIdsByUser[newPost.user_uid]) {
+        state.postIdsByUser[newPost.user_uid] = [];
+      }
+
+      state.postIdsByUser[newPost.user_uid]?.unshift(newPost.post_id);
+    },
+    removePostLocal: (
+      state,
+      action: PayloadAction<{ post_id: number; user_uid: string }>,
+    ) => {
+      const { post_id, user_uid } = action.payload;
+
+      delete state.posts.byId[post_id];
+
+      state.postIdsByUser[user_uid] = (
+        state.postIdsByUser[user_uid] || []
+      ).filter((item) => item !== post_id);
+
+      state.posts.feedIds = state.posts.feedIds.filter(
+        (item) => item !== post_id,
+      );
+    },
+
+    addLikedPostsId: (state, action: PayloadAction<number>) => {
+      state.likedPostIds.unshift(action.payload);
+    },
+    deleteLikedPostsId: (state, action: PayloadAction<number>) => {
+      state.likedPostIds = state.likedPostIds.filter(
+        (item) => item !== action.payload,
+      );
     },
 
     // обновление аватарки в постах, при обновлении аватарки
@@ -178,59 +297,122 @@ export const postsSlice = createSlice({
       const changedUserObj = action.payload;
       const { user_uid, avatar_url, avatar_path } = changedUserObj;
 
-      state.posts = state.posts.map((post) => {
+      Object.values(state.posts.byId).forEach((post) => {
         if (post.user_uid === user_uid) {
           post.author = { ...post.author, avatar_url, avatar_path };
         }
-
-        return post;
       });
     },
     changeBioAndNameForPosts: (state, action) => {
       const changedUserObj = action.payload;
       const { user_uid, bio, name } = changedUserObj;
 
-      state.posts = state.posts.map((post) => {
+      Object.values(state.posts.byId).forEach((post) => {
         if (post.user_uid === user_uid) {
           post.author = { ...post.author, bio, name };
         }
-
-        return post;
       });
+    },
+
+    resetPostState: (state) => {
+      state.posts = {
+        byId: {},
+        feedIds: [],
+      };
+
+      state.postIdsByUser = {};
+      state.likedPostIds = [];
+
+      state.hasRequestedPage = {
+        feed: false,
+        bookmarks: false,
+        liked: false,
+        profile: {},
+      };
     },
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getPosts.fulfilled, (state, action) => {
-        state.posts = action.payload;
+      .addCase(getFeedPosts.fulfilled, (state, action) => {
+        const feedIds: number[] = [];
+
+        const objectPost = action.payload.reduce(
+          (acc: Record<number, PostData>, item) => {
+            const id = item.post_id;
+            feedIds.push(id);
+
+            acc[id] = item;
+            return acc;
+          },
+          {},
+        );
+
+        state.posts.byId = objectPost;
+        state.posts.feedIds = feedIds;
+
+        state.hasRequestedPage.feed = true;
       })
-      .addCase(getPosts.rejected, (state, action) => {
-        console.log("Неудача: ", action);
+      .addCase(getFeedPosts.rejected, (state, action) => {
+        console.log("Неудача c получением feedPosts: ", action);
       })
-      .addCase(createPost.fulfilled, (state, action) => {
-        // добавляем пост во временный ключ
-        state.lastAddedPost = action.payload[0] as PostDataWithoutImages;
+      .addCase(getUserPosts.fulfilled, (state, action) => {
+        const { posts, uid } = action.payload;
+
+        const userPostsId = posts.map((item) => {
+          state.posts.byId[item.post_id] = item;
+          return item.post_id;
+        });
+
+        state.postIdsByUser[uid] = userPostsId;
+
+        state.hasRequestedPage.profile[uid] = true;
+      })
+      .addCase(getUserPosts.rejected, (state, action) => {
+        console.log("Неудача c получением userPosts: ", action);
+      })
+      .addCase(getBookmarksPosts.fulfilled, (state, action) => {
+        action.payload.forEach((item) => {
+          state.posts.byId[item.post_id] = item;
+        });
+
+        state.hasRequestedPage.bookmarks = true;
+      })
+      .addCase(getBookmarksPosts.rejected, (state, action) => {
+        console.log("Неудача c получением bookmarksPosts: ", action);
+      })
+      .addCase(getLikedPosts.fulfilled, (state, action) => {
+        const likedPostIds: number[] = [];
+
+        action.payload.forEach((item) => {
+          likedPostIds.push(item.post_id);
+          state.posts.byId[item.post_id] = item;
+        });
+
+        state.likedPostIds = likedPostIds;
+
+        state.hasRequestedPage.liked = true;
+      })
+      .addCase(getLikedPosts.rejected, (state, action) => {
+        console.log("Неудача c получением likedPosts: ", action);
       })
       .addCase(createPost.rejected, (state, action) => {
-        console.log("Неудача: ", action);
-      })
-      .addCase(uploadImages.fulfilled, (state, action) => {
-        // добавляем картинки во временный ключ
-        state.lastAddedImages.push(action.payload[0] as ImageData);
+        console.log("Неудача с созданием поста: ", action);
       })
       .addCase(uploadImages.rejected, (state, action) => {
-        console.log("Неудача: ", action);
-      })
-      .addCase(removePost.fulfilled, (state, action) => {
-        state.posts = state.posts.filter(
-          (post) => post.post_id !== action.payload
-        );
+        console.log("Неудача с загрузкой изображений поста: ", action);
       })
       .addCase(removePost.rejected, (state, action) => {
-        console.log("Неудача: ", action.payload);
+        console.log("Неудача с удалением поста: ", action.payload);
       });
   },
 });
-export const { addLastPost, uploadAvatarForPosts, changeBioAndNameForPosts } =
-  postsSlice.actions;
+export const {
+  resetPostState,
+  addNewPostLocal,
+  removePostLocal,
+  uploadAvatarForPosts,
+  changeBioAndNameForPosts,
+  addLikedPostsId,
+  deleteLikedPostsId,
+} = postsSlice.actions;
 export default postsSlice.reducer;

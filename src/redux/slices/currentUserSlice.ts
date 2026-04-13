@@ -30,7 +30,7 @@ export const fetchGetDataUser = createAsyncThunk<UserData, string>(
         return rejectWithValue(error.message);
       }
     }
-  }
+  },
 );
 
 // POST
@@ -75,7 +75,7 @@ export const fetchPatchDataUser = createAsyncThunk<
         method: "PATCH",
         headers: fetchHeaders,
         body: JSON.stringify(obj.data),
-      }
+      },
     );
 
     if (!response.ok) throw new Error("Ошибка с обновлением данных!");
@@ -103,7 +103,7 @@ export const fetchUploadAvatar = createAsyncThunk<
         method: "PATCH",
         headers: fetchHeaders,
         body: JSON.stringify(obj.data),
-      }
+      },
     );
 
     if (!response.ok) throw new Error("Ошибка с обновлением аватарки!");
@@ -129,7 +129,7 @@ export const fetchDeleteAvatar = createAsyncThunk<
         method: "PATCH",
         headers: fetchHeaders,
         body: JSON.stringify(obj.data),
-      }
+      },
     );
 
     if (!response.ok) throw new Error("Ошибка с обновлением аватарки!");
@@ -173,7 +173,7 @@ export const currentUserSlice = createSlice({
   reducers: {
     setUserFromRegistration: (
       state,
-      action: PayloadAction<RegistrationPayload>
+      action: PayloadAction<RegistrationPayload>,
     ) => {
       const { user_uid, name } = action.payload;
       state.user_uid = user_uid;
@@ -186,7 +186,7 @@ export const currentUserSlice = createSlice({
     resetDataUser: (state) => {
       state.user_uid = "";
       state.name = "";
-      // state.bio = "";
+      state.bio = "";
       // state.created_at = "";
       state.hasVisited = false;
       // state.user_avatar = {};
