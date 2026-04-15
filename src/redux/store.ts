@@ -12,6 +12,8 @@ import usersReducer from "./slices/usersSlice.js";
 import postLikesReducer from "./slices/postLikesSlice.js";
 import postBookmarksReducer from "./slices/postBookmarksSlice.js";
 import { listenerMiddleware } from "./listeners.js";
+import { chatSlice } from "../modules/chat/store/chatSlice.js";
+import chatReduser from "../modules/chat/store/chatSlice.js";
 
 function isActionWithType(action: unknown): action is { type: string } {
   return (
@@ -71,6 +73,7 @@ const store = configureStore({
     [loadingSlice.name]: loadingReducer,
     [postLikesSlice.name]: postLikesReducer,
     [postBookmarksSlice.name]: postBookmarksReducer,
+    [chatSlice.name]: chatReduser,
   },
   middleware: (defaultMiddleware) =>
     defaultMiddleware().concat(
