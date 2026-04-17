@@ -29,6 +29,7 @@ type GetOrCreateChatArgs = {
   user_b: string;
 };
 
+// Возврат текущего чата
 export const getOrCreateChat = createAsyncThunk<string, GetOrCreateChatArgs>(
   "chat/getOrCreateChat",
   async ({ user_a, user_b }, { rejectWithValue }) => {
@@ -79,6 +80,26 @@ export const getOrCreateChat = createAsyncThunk<string, GetOrCreateChatArgs>(
   },
 );
 
+// Получение всех чатов (уже готовая форма)
+export const getUserChats = createAsyncThunk<ChatPreview[], string>(
+  "chat/getUserChats",
+  async (userUid, { rejectWithValue }) => {
+    try {
+      const { data, error } = await supabase.rpc("get_user_chats", {
+        p_user: userUid,
+      });
+
+      if (error) throw new Error("Error getting user chats");
+
+      return data;
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        return rejectWithValue(error.message);
+      }
+    }
+  },
+);
+
 export interface chatSliceState {
   chats: ChatPreview[];
   currentChatId: string | null;
@@ -100,9 +121,13 @@ export const chatSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getOrCreateChat.fulfilled, (state, action) => {
-      state.currentChatId = action.payload;
-    });
+    builder
+      .addCase(getOrCreateChat.fulfilled, (state, action) => {
+        state.currentChatId = action.payload;
+      })
+      .addCase(getUserChats.fulfilled, (state, action) => {
+        state.chats = action.payload;
+      });
   },
 });
 
