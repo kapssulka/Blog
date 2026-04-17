@@ -1,13 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import type { ChatPreview } from "../types.js";
 import type { Message } from "yup";
+import { supabase } from "../../../supabase/supabase.js";
 
 // Методы:
 
 //? getOrCreateChat(userA, userB)
-// - ищем чат между A и B
-// - если есть → возвращаем
-// - если нет → создаём
+// Зачада вернуть id текущего чата (или создать и вернуть если его нет)
+
+//? При входе в чат:
+// Сайдбар со всеми чатами: подгрузка под useEffect[]
+// Сообщения справа: подгрузка под useEffect[currentChatId] или "Дефолтное сообщение"
 
 //? sendMessage(chatId, senderId, content)
 // - просто добавляем сообщение
@@ -21,6 +24,61 @@ import type { Message } from "yup";
 //? markAsRead(chatId, userId)
 // - пометить как прочитано (пока не трогаем)
 
+type GetOrCreateChatArgs = {
+  user_a: string;
+  user_b: string;
+};
+
+export const getOrCreateChat = createAsyncThunk<string, GetOrCreateChatArgs>(
+  "chat/getOrCreateChat",
+  async ({ user_a, user_b }, { rejectWithValue }) => {
+    const { data, error } = await supabase.rpc("get_chat_between_users", {
+      user_a,
+      user_b,
+    });
+
+    if (error) return rejectWithValue(error.message);
+
+    // 2. если чат есть — возвращаем
+    if (data) {
+      console.log("Чат есть, вот ID: ", data);
+
+      return data;
+    }
+
+    // 3. создаём новый чат
+    const { data: newChat, error: chatError } = await supabase
+      .from("chats")
+      .insert({})
+      .select()
+      .single();
+
+    if (chatError || !newChat) return rejectWithValue(chatError?.message);
+    console.log("Создали новый чат: ", newChat);
+
+    // 4. создаём участников
+    const { data: participantsData, error: participantsError } = await supabase
+      .from("chat_participants")
+      .insert([
+        {
+          chat_id: newChat.id,
+          user_id: user_a,
+        },
+        {
+          chat_id: newChat.id,
+          user_id: user_b,
+        },
+      ])
+      .select();
+
+    if (participantsError) return rejectWithValue(participantsError.message);
+    console.log("Создали чат между пользователями: ", participantsData);
+
+    // 5. возвращаем новый chat_id
+    return newChat.id;
+  },
+);
+
 export interface chatSliceState {
   chats: ChatPreview[];
   currentChatId: string | null;
@@ -29,16 +87,23 @@ export interface chatSliceState {
   loading: boolean;
 }
 
+const initialState: chatSliceState = {
+  chats: [],
+  currentChatId: null,
+  messages: {},
+  participants: {},
+  loading: false,
+};
+
 export const chatSlice = createSlice({
   name: "chat",
-  initialState: {
-    chats: [],
-    currentChatId: null,
-    messages: {},
-    participants: {},
-    loading: false,
-  },
+  initialState: initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(getOrCreateChat.fulfilled, (state, action) => {
+      state.currentChatId = action.payload;
+    });
+  },
 });
 
 export default chatSlice.reducer;
