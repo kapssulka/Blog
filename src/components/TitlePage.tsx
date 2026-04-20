@@ -7,36 +7,11 @@ interface TitlePageProps {
   linkTo?: string;
 }
 
-export default function TitlePage({
-  text,
-  iconComponent,
-  linkTo,
-}: TitlePageProps) {
-  const navigate = useNavigate();
-  const goToBack = () => {
-    if (!linkTo) {
-      navigate(-1);
-    } else navigate(linkTo);
-  };
-
-  if (isValidElement(iconComponent) && !linkTo) {
-    return (
-      <div className="flex items-center gap-x-2">
-        {iconComponent}
-        <h1 className="text-2xl">{text}</h1>
-      </div>
-    );
-  } else if (isValidElement(iconComponent) && linkTo) {
-    return (
-      <Link
-        to={linkTo}
-        onClick={goToBack}
-        className="inline-flex items-center gap-x-2 
-        hover:underline"
-      >
-        {iconComponent}
-        <h1 className="text-2xl">{text}</h1>
-      </Link>
-    );
-  } else return <h1 className="text-2xl">{text}</h1>;
+export default function TitlePage({ text, iconComponent }: TitlePageProps) {
+  return (
+    <div className="flex items-center gap-x-2">
+      {iconComponent}
+      <h1 className="text-2xl">{text}</h1>
+    </div>
+  );
 }

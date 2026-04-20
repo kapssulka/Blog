@@ -15,6 +15,12 @@ import { useAppSelector } from "../hooks/reduxHooks.js";
 import AboutProject from "../pages/AboutProject/AboutProject.js";
 import PageTransition from "../animations/PageTransition.js";
 import { AnimatePresence } from "motion/react";
+import ChatAllUsers from "../features/chat/ChatAllUsers/ChatAllUsers.js";
+import ChatSingleUser from "../features/chat/ChatSingleUser/ChatSingleUser.js";
+import Message from "../pages/Message/Message.js";
+import Messages from "../modules/chat/components/Messages.js";
+import AllChats from "../modules/chat/components/layouts/AllChats.js";
+import Conversation from "../modules/chat/components/layouts/Conversation.js";
 
 export default function AppRoutes() {
   const { user_uid } = useAppSelector((state) => state.user);
@@ -32,28 +38,9 @@ export default function AppRoutes() {
             </PrivateRoute>
           }
         >
-          <Route
-            index
-            element={
-              <PageTransition>
-                <Home />
-              </PageTransition>
-            }
-          />
+          <Route index element={<Home />} />
 
-          {/* <Route path={ROUTES.MESSAGE.INDEX} element={<Message />}>
-            <Route index element={<ChatAllUsers />} />
-            <Route path=":id" element={<ChatSingleUser />} />
-          </Route> */}
-
-          <Route
-            path={ROUTES.PROFILE}
-            element={
-              <PageTransition>
-                <Profile />
-              </PageTransition>
-            }
-          />
+          <Route path={ROUTES.PROFILE} element={<Profile />} />
           <Route
             path={"/profile"}
             element={<Navigate to={`/profile/${user_uid}`} />}
@@ -63,6 +50,11 @@ export default function AppRoutes() {
           <Route path={ROUTES.LIKED} element={<LikedPosts />} />
           <Route path={ROUTES.BOOKMARKS} element={<BookmarksPosts />} />
           <Route path={ROUTES.ABOUT_PROJECT} element={<AboutProject />} />
+        </Route>
+
+        <Route path={ROUTES.MESSAGE.INDEX} element={<Messages />}>
+          <Route index element={<AllChats />} />
+          <Route path=":id" element={<Conversation />} />
         </Route>
 
         <Route

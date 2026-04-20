@@ -22,7 +22,7 @@ export default function AvatarIcon({
         "relative overflow-hidden rounded-full shrink-0",
         !classNameSize && "w-15 h-15",
         classNameSize,
-        className
+        className,
       )}
     >
       <img
