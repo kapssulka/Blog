@@ -33,55 +33,22 @@ type GetOrCreateChatArgs = {
 };
 
 // Возврат текущего чата
-export const getOrCreateChat = createAsyncThunk<string, GetOrCreateChatArgs>(
-  "chat/getOrCreateChat",
-  async ({ user_a, user_b }, { rejectWithValue }) => {
-    const { data, error } = await supabase.rpc("get_chat_between_users", {
-      user_a,
-      user_b,
-    });
+export const getOrCreateChat = createAsyncThunk<
+  string,
+  GetOrCreateChatArgs,
+  { rejectValue: string }
+>("chat/getOrCreateChat", async ({ user_a, user_b }, { rejectWithValue }) => {
+  const { data, error } = await supabase.rpc("get_or_create_chat", {
+    user_a,
+    user_b,
+  });
 
-    if (error) return rejectWithValue(error.message);
+  if (error) return rejectWithValue(error.message);
 
-    // 2. если чат есть — возвращаем
-    if (data) {
-      console.log("Чат есть, вот ID: ", data);
+  if (!data) return rejectWithValue("Не удалось получить chatId");
 
-      return data;
-    }
-
-    // 3. создаём новый чат
-    const { data: newChat, error: chatError } = await supabase
-      .from("chats")
-      .insert({})
-      .select()
-      .single();
-
-    if (chatError || !newChat) return rejectWithValue(chatError?.message);
-    console.log("Создали новый чат: ", newChat);
-
-    // 4. создаём участников
-    const { data: participantsData, error: participantsError } = await supabase
-      .from("chat_participants")
-      .insert([
-        {
-          chat_id: newChat.id,
-          user_id: user_a,
-        },
-        {
-          chat_id: newChat.id,
-          user_id: user_b,
-        },
-      ])
-      .select();
-
-    if (participantsError) return rejectWithValue(participantsError.message);
-    console.log("Создали чат между пользователями: ", participantsData);
-
-    // 5. возвращаем новый chat_id
-    return newChat.id;
-  },
-);
+  return data;
+});
 
 // Получение всех чатов (уже готовая форма)
 export const getUserChats = createAsyncThunk<ChatPreview[], string>(

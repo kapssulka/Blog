@@ -5,12 +5,17 @@ import { useState } from "react";
 import EditProfile from "./EditProfile/EditProfile.js";
 import EditAvatar from "../../../components/Avatar/EditAvatar.js";
 import { useAppSelector } from "../../../hooks/reduxHooks.js";
+import SendMessageButton from "../../../modules/chat/components/SendMessageButton.js";
 
 interface ProfileHeaderProps {
   countPosts: number;
+  curentUserProfile: string;
 }
 
-export default function ProfileHeader({ countPosts }: ProfileHeaderProps) {
+export default function ProfileHeader({
+  countPosts,
+  curentUserProfile,
+}: ProfileHeaderProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const { isCurrentUserProfile } = useAppSelector((state) => state.users);
 
@@ -31,6 +36,9 @@ export default function ProfileHeader({ countPosts }: ProfileHeaderProps) {
             className="self-center w-full"
             text="Редактирвоать профиль"
           />
+        )}
+        {!isCurrentUserProfile && (
+          <SendMessageButton curentUserProfile={curentUserProfile} />
         )}
       </div>
     </div>

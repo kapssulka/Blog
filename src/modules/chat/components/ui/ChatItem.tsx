@@ -5,10 +5,9 @@ interface ChatItemProps {
   avatar: string;
   name: string;
   lastMessage: string;
-  link: string;
+  to: string;
   time?: string;
   unread?: number;
-  isActive?: boolean;
 }
 
 export default function ChatItem({
@@ -17,12 +16,11 @@ export default function ChatItem({
   lastMessage,
   time,
   unread = 0,
-  isActive = false,
-  link,
+  to,
 }: ChatItemProps) {
   return (
     <Link
-      to={link}
+      to={to}
       className={`
         group
         flex items-center gap-4 p-3 rounded-2xl cursor-pointer
@@ -60,7 +58,9 @@ export default function ChatItem({
 
         {/* Bottom */}
         <div className="flex items-center justify-between gap-2">
-          <p className="text-sm text-zinc-400 truncate">{lastMessage}</p>
+          <p className="text-sm text-zinc-400 truncate">
+            {lastMessage || "Напишите первое сообщение"}
+          </p>
 
           {unread > 0 && (
             <div className="min-w-[20px] h-5 px-1 flex items-center justify-center text-xs rounded-full bg-accent text-black font-medium">

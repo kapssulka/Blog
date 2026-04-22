@@ -1,12 +1,12 @@
 import type { UserData } from "../../types/models/data.js";
 
 export interface ChatPreview {
-  chatId: string;
-  userId: string; // собеседник
-  lastMessage: string;
-  lastMessageAt: string;
-  unreadCount: number;
-  userInfo: UserData;
+  chat_id: string;
+  user_id: string; // собеседник
+  last_message: string;
+  last_message_at: string;
+  unread_count: number;
+  user_info: UserData;
 }
 
 export interface Message {

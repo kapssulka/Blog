@@ -52,6 +52,7 @@ export default function Profile() {
           postsId={id ? (postIdsByUser[id] ?? []) : []}
           topContent={
             <ProfileHeader
+              curentUserProfile={id || ""}
               countPosts={id ? (postIdsByUser[id]?.length ?? 0) : 0}
             />
           }
