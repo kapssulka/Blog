@@ -11,3 +11,10 @@ export const formatDate = (date: string): string => {
 
   return `${day}.${month}.${year}`;
 };
+
+export const formatTime = (iso: string) => {
+  return new Date(iso).toLocaleTimeString("ru-RU", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+};

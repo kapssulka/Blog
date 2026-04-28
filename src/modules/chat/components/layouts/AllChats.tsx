@@ -1,28 +1,24 @@
-import { useEffect } from "react";
+import { useMemo } from "react";
 import TitlePage from "../../../../components/TitlePage.js";
 import ChatItem from "../ui/ChatItem.js";
 import EmptyState from "../ui/EmptyState.js";
-import {
-  useAppDispatch,
-  useAppSelector,
-} from "../../../../hooks/reduxHooks.js";
-import { getUserChats } from "../../store/chatSlice.js";
+import { useAppSelector } from "../../../../hooks/reduxHooks.js";
+import type { ChatPreview } from "../../types.js";
 
 export default function AllChats() {
-  const dispatch = useAppDispatch();
-
-  const { user_uid } = useAppSelector((state) => state.user);
   const { chats } = useAppSelector((state) => state.chat);
 
-  useEffect(() => {
-    if (user_uid) dispatch(getUserChats(user_uid));
-  }, [user_uid]);
+  const chatsArray = useMemo(() => {
+    return chats.allIds
+      .map((id) => chats.byId[id])
+      .filter((chat): chat is ChatPreview => Boolean(chat));
+  }, [chats]);
 
   return (
     <div className="min-h-0 flex-1 flex flex-col">
       <TitlePage text="Чаты" />
 
-      {chats.length < 1 ? (
+      {chatsArray.length < 1 ? (
         <div className="flex flex-1 items-center justify-center">
           <EmptyState />
         </div>
@@ -33,7 +29,7 @@ export default function AllChats() {
         overflow-y-auto min-h-0 overflow-x-hidden
         pb-4 bt-2 mt-2 px-2 custom-scrollbar-accent"
         >
-          {chats.map((item) => (
+          {chatsArray.map((item) => (
             <ChatItem
               avatar={item.user_info.avatar_url || ""}
               key={item.chat_id}

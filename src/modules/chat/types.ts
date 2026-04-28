@@ -9,7 +9,7 @@ export interface ChatPreview {
   user_info: UserData;
 }
 
-export interface Message {
+export interface MessageChat {
   id: string;
   chat_id: string;
   sender_id: string;

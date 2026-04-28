@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import type { ChatPreview } from "../types.js";
+import type { ChatPreview, MessageChat } from "../types.js";
 import type { Message } from "yup";
 import { supabase } from "../../../supabase/supabase.js";
 
@@ -72,7 +72,7 @@ export const getUserChats = createAsyncThunk<ChatPreview[], string>(
 
 // Получение всех сообщений текущего чата
 export const getMessages = createAsyncThunk<
-  { data: Message[]; chatId: string },
+  { data: MessageChat[]; chatId: string },
   string
 >("chat/getMessages", async (chatId, { rejectWithValue }) => {
   try {
@@ -98,14 +98,20 @@ export const getMessages = createAsyncThunk<
 });
 
 export interface chatSliceState {
-  chats: ChatPreview[];
+  chats: {
+    byId: Record<string, ChatPreview>;
+    allIds: string[];
+  };
   currentChatId: string | null;
-  messages: Record<string, Message[]>; // id чата: [сообщения]
+  messages: Record<string, MessageChat[]>; // id чата: [сообщения]
   loading: boolean;
 }
 
 const initialState: chatSliceState = {
-  chats: [],
+  chats: {
+    byId: {},
+    allIds: [],
+  },
   currentChatId: null,
   messages: {},
   loading: false,
@@ -121,7 +127,18 @@ export const chatSlice = createSlice({
         state.currentChatId = action.payload;
       })
       .addCase(getUserChats.fulfilled, (state, action) => {
-        state.chats = action.payload;
+        const byId: Record<string, ChatPreview> = {};
+        const allIds: string[] = [];
+
+        action.payload.forEach((chat) => {
+          byId[chat.chat_id] = chat;
+          allIds.push(chat.chat_id);
+        });
+
+        state.chats = {
+          byId,
+          allIds,
+        };
       })
       .addCase(getMessages.fulfilled, (state, action) => {
         const { chatId, data } = action.payload;

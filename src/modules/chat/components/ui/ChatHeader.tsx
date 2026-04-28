@@ -1,4 +1,11 @@
-export default function ChatHeader() {
+import AvatarIcon from "../../../../components/Avatar/AvatarIcon.js";
+
+interface ChatHeaderProps {
+  url: string;
+  name: string;
+}
+
+export default function ChatHeader({ url, name }: ChatHeaderProps) {
   return (
     <div
       className="
@@ -14,19 +21,18 @@ export default function ChatHeader() {
         {/* Avatar */}
         <div
           className="
-            w-10 h-10 rounded-full
+            w-15 h-15 rounded-full
             bg-white/10
             flex items-center justify-center
             overflow-hidden
           "
         >
-          {/* <AvatarIcon /> */}
-          <span className="text-sm text-white/60">A</span>
+          <AvatarIcon src={url} />
         </div>
 
         {/* Name + Status */}
         <div className="flex flex-col leading-tight">
-          <span className="text-white text-sm font-medium">Username</span>
+          <span className="text-white text-sm font-medium">{name}</span>
 
           <span className="text-xs text-white/40">
             online

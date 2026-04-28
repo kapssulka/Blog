@@ -1,17 +1,27 @@
 import { Outlet, useLocation } from "react-router-dom";
 import Header from "../../../features/Header/Header.js";
-import MainWrapper from "../../../components/layout/MainWrapper.js";
 import PageTransition from "../../../animations/PageTransition.js";
 import ScrollToTop from "../../../pages/Layout/ScrollToTop.js";
 import Aside from "../../../features/Aside/Aside.js";
 import BottomNavigation from "../../../features/BottomNavigation/BottomNavigation.js";
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../../hooks/reduxHooks.js";
+import { getUserChats } from "../store/chatSlice.js";
 
 export default function Messages() {
   const location = useLocation();
 
+  const dispatch = useAppDispatch();
+
+  const { user_uid } = useAppSelector((state) => state.user);
+
   const isChat =
     location.pathname.startsWith("/messages/") &&
     location.pathname !== "/messages";
+
+  useEffect(() => {
+    if (user_uid) dispatch(getUserChats(user_uid));
+  }, [user_uid]);
 
   return (
     <div
