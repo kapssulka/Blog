@@ -71,7 +71,7 @@ export default function Conversation() {
         </div>
 
         <div className="shrink-0">
-          <ChatInput />
+          <ChatInput chatId={id} senderId={user_uid} />
         </div>
       </div>
     </div>

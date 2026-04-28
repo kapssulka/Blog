@@ -97,6 +97,32 @@ export const getMessages = createAsyncThunk<
   }
 });
 
+// Добавление нового сообщения
+type NewMessageType = Omit<MessageChat, "id" | "created_at">;
+
+export const addMessage = createAsyncThunk<MessageChat, NewMessageType>(
+  "chat/addMessage",
+  async (newMessage, { rejectWithValue }) => {
+    try {
+      const { data, error } = await supabase
+        .from("messages")
+        .insert([newMessage])
+        .select()
+        .single();
+
+      if (error) {
+        return rejectWithValue(error.message);
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Unknown error",
+      );
+    }
+  },
+);
+
 export interface chatSliceState {
   chats: {
     byId: Record<string, ChatPreview>;
@@ -143,6 +169,14 @@ export const chatSlice = createSlice({
       .addCase(getMessages.fulfilled, (state, action) => {
         const { chatId, data } = action.payload;
         state.messages[chatId] = data;
+      })
+      .addCase(addMessage.fulfilled, (state, action) => {
+        const message = action.payload;
+
+        const chatId = message.chat_id;
+
+        state.messages[chatId] ??= [];
+        state.messages[chatId].push(message);
       });
   },
 });

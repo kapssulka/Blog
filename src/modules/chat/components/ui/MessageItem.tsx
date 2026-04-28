@@ -28,7 +28,7 @@ export default function MessageItem({
         )}
       >
         {/* TEXT */}
-        <span className="text-sm leading-snug">{text}</span>
+        <span className="text-sm leading-snug whitespace-pre-wrap">{text}</span>
 
         {/* TIME */}
         <span className={cn("text-[10px] opacity-50 self-end")}>{time}</span>
