@@ -3,7 +3,7 @@ import BackLink from "../../../../components/UI/BackLink.js";
 import ChatHeader from "../ui/ChatHeader.js";
 import MessageItem from "../ui/MessageItem.js";
 import ChatInput from "../ui/ChatInput.js";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import {
   useAppDispatch,
@@ -12,16 +12,53 @@ import {
 import { getMessages } from "../../store/chatSlice.js";
 import { formatTime } from "../../../../utils/date.js";
 import EmptyState from "../ui/EmptyState.js";
+import { validate as isUuid } from "uuid";
+import { ChatError } from "../../types.js";
 
 export default function Conversation() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { messages, chats } = useAppSelector((state) => state.chat);
   const { user_uid } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    if (id) dispatch(getMessages(id));
-  }, [id]);
+    const fetchMessages = async () => {
+      if (!id || !user_uid) return;
+
+      if (!isUuid(id)) {
+        navigate("/messages", {
+          replace: true,
+          state: { error: "CHAT_NOT_FOUND" },
+        });
+        return;
+      }
+
+      try {
+        const result = await dispatch(
+          getMessages({ chatId: id, user_uid }),
+        ).unwrap();
+
+        console.log("messages:", result.data);
+      } catch (err: any) {
+        if (err === ChatError.NOT_FOUND) {
+          navigate("/messages", {
+            replace: true,
+            state: { error: "CHAT_NOT_FOUND" },
+          });
+        }
+
+        if (err === ChatError.FORBIDDEN) {
+          navigate("/messages", {
+            replace: true,
+            state: { error: "FORBIDDEN" },
+          });
+        }
+      }
+    };
+
+    fetchMessages();
+  }, [id, user_uid]);
 
   if (!id || !user_uid) return null;
 

@@ -59,23 +59,3 @@ export default function Messages() {
     </div>
   );
 }
-// export default function Messages() {
-//   return (
-//     <>
-//       <Header />
-
-//       <MainWrapper isTwoColums>
-//         <PageTransition>
-//           <div className="flex flex-col gap-y-5 bg-bg-secondary h-full rounded-2xl p-5">
-//             <Outlet />
-//           </div>
-//           <ScrollToTop />
-//         </PageTransition>
-//         {/* for PC */}
-//         <Aside />
-//         {/* for Modile */}
-//         <BottomNavigation />
-//       </MainWrapper>
-//     </>
-//   );
-// }

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { setHasVisited } from "../redux/slices/currentUserSlice.js";
 import { useAppDispatch, useAppSelector } from "../hooks/reduxHooks.js";
 import AppRoutes from "./AppRoutes.js";
+import RouteErrorListener from "./RouteErrorListener.js";
 
 export default function App() {
   const { global } = useAppSelector((state) => state.loading);
@@ -33,6 +34,8 @@ export default function App() {
           },
         }}
       />
+
+      <RouteErrorListener />
       {global > 0 && <Loader />}
       <AppRoutes />
     </div>

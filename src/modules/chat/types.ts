@@ -16,3 +16,10 @@ export interface MessageChat {
   content: string;
   created_at: string;
 }
+
+type ChatError = "NOT_FOUND" | "FORBIDDEN";
+
+export const ChatError = {
+  NOT_FOUND: "CHAT_NOT_FOUND",
+  FORBIDDEN: "FORBIDDEN",
+} as const;

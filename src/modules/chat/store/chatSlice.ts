@@ -73,28 +73,21 @@ export const getUserChats = createAsyncThunk<ChatPreview[], string>(
 // Получение всех сообщений текущего чата
 export const getMessages = createAsyncThunk<
   { data: MessageChat[]; chatId: string },
-  string
->("chat/getMessages", async (chatId, { rejectWithValue }) => {
-  try {
-    const { data, error } = await supabase
-      .from("messages")
-      .select("*")
-      .eq("chat_id", chatId)
-      .order("created_at", { ascending: true });
+  { chatId: string; user_uid: string }
+>("chat/getMessages", async ({ chatId, user_uid }, { rejectWithValue }) => {
+  const { data, error } = await supabase.rpc("get_chat_messages", {
+    p_chat_id: chatId,
+    p_user_id: user_uid,
+  });
 
-    if (error) {
-      return rejectWithValue(error.message);
-    }
-
-    return {
-      data: data ?? [],
-      chatId,
-    };
-  } catch (error) {
-    return rejectWithValue(
-      error instanceof Error ? error.message : "Unknown error",
-    );
+  if (error) {
+    return rejectWithValue(error.message);
   }
+
+  return {
+    data: data ?? [],
+    chatId,
+  };
 });
 
 // Добавление нового сообщения
