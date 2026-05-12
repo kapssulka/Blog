@@ -115,6 +115,29 @@ export const addMessage = createAsyncThunk<MessageChat, NewMessageType>(
     }
   },
 );
+export const deleteMessage = createAsyncThunk<MessageChat, string>(
+  "chat/deleteMessage",
+  async (messageId, { rejectWithValue }) => {
+    try {
+      const { data, error } = await supabase
+        .from("messages")
+        .delete()
+        .eq("id", messageId)
+        .select()
+        .single();
+
+      if (error) {
+        return rejectWithValue(error.message);
+      }
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(
+        error instanceof Error ? error.message : "Unknown error",
+      );
+    }
+  },
+);
 
 export interface chatSliceState {
   chats: {
@@ -170,6 +193,14 @@ export const chatSlice = createSlice({
 
         state.messages[chatId] ??= [];
         state.messages[chatId].push(message);
+      })
+      .addCase(deleteMessage.fulfilled, (state, action) => {
+        const message = action.payload;
+
+        state.messages[message.chat_id] =
+          state.messages[message.chat_id]?.filter(
+            (item) => item.id !== message.id,
+          ) || [];
       });
   },
 });

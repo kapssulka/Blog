@@ -48,7 +48,14 @@ export default function AppRoutes() {
           <Route path={ROUTES.ABOUT_PROJECT} element={<AboutProject />} />
         </Route>
 
-        <Route path={ROUTES.MESSAGE.INDEX} element={<Messages />}>
+        <Route
+          path={ROUTES.MESSAGE.INDEX}
+          element={
+            <PrivateRoute>
+              <Messages />
+            </PrivateRoute>
+          }
+        >
           <Route index element={<AllChats />} />
           <Route path=":id" element={<Conversation />} />
         </Route>
