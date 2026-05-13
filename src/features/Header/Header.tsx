@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import LogoutButton from "../../components/Logout/LogoutButton.js";
 import BurgerMenu from "../burgerMenu/BurgerMenu.js";
 import { ROUTES } from "../../constants/routes.js";

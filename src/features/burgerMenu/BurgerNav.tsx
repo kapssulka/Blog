@@ -1,6 +1,4 @@
-import ItemList from "../../components/ItemList.js";
 import LogoutButton from "../../components/Logout/LogoutButton.js";
-import TitleAccent from "../../components/UI/TitleAccent.js";
 import { ROUTES } from "../../constants/routes.js";
 import { useAppSelector } from "../../hooks/reduxHooks.js";
 import type { SetState } from "../../types/utils.types.js";
@@ -16,7 +14,8 @@ export default function BurgerNav({ setOpen }: BurgerNavProps) {
   const listItems = [
     { name: "Главная", path: ROUTES.HOME, isBlank: false },
     { name: "Профиль", path: `/profile/${user_uid}`, isBlank: false },
-    { name: "О проекте", path: ROUTES.ABOUT_PROJECT, isBlank: false },
+    { name: "Сохраненные посты", path: ROUTES.BOOKMARKS, isBlank: false },
+    { name: "Подронее о проекте", path: ROUTES.ABOUT_PROJECT, isBlank: false },
     {
       name: "Ссылка на Git проекта",
       path: "https://github.com/kapssulka/Blog",

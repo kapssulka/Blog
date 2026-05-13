@@ -4,8 +4,8 @@ import {
   FiHome,
   FiHeart,
   FiPlusSquare,
-  FiBookmark,
   FiUser,
+  FiMessageCircle,
 } from "react-icons/fi";
 import Item from "./Item.js";
 
@@ -23,9 +23,9 @@ export default function BottomNavigation() {
       icon: <FiPlusSquare size={size} />,
     },
     {
-      text: "Закладки",
-      path: ROUTES.BOOKMARKS,
-      icon: <FiBookmark size={size} />,
+      text: "Чаты",
+      path: `/messages`,
+      icon: <FiMessageCircle size={size} />,
     },
     {
       text: "Профиль",

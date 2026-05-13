@@ -27,7 +27,7 @@ export default function AllChats() {
           className="
         flex flex-col gap-2 
         overflow-y-auto min-h-0 overflow-x-hidden
-        pb-4 bt-2 mt-2 px-2 custom-scrollbar-accent"
+        pb-4 bt-2 mt-2 custom-scrollbar-accent"
         >
           {chatsArray.map((item) => (
             <ChatItem

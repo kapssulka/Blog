@@ -44,7 +44,7 @@ export default function Messages() {
           className="
         min-h-0
         flex flex-col gap-y-5 
-        bg-bg-secondary h-full rounded-2xl p-5"
+        bg-bg-secondary h-full rounded-2xl px-3 py-5 md:p-5"
         >
           <PageTransition className="min-h-0 flex flex-col flex-1">
             <Outlet />

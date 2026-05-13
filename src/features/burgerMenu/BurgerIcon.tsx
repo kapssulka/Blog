@@ -26,8 +26,8 @@ export default function BurgerIcon({ open, setOpen }: BurgerIconProps) {
     lineTop.start({ rotate: 0 });
     await lineBottom.start({ rotate: 0 });
     await lineCenter.start({ opacity: 1, transition: { duration: 0 } });
-    lineTop.start({ top: 16 });
-    lineBottom.start({ bottom: 16 });
+    lineTop.start({ top: 14 });
+    lineBottom.start({ bottom: 14 });
   };
 
   const isFirstRender = useRef(true);

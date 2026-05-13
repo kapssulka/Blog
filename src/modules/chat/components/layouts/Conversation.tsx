@@ -1,5 +1,4 @@
 import { IoIosArrowBack } from "react-icons/io";
-import BackLink from "../../../../components/UI/BackLink.js";
 import ChatHeader from "../ui/ChatHeader.js";
 import ChatInput from "../ui/ChatInput.js";
 import { useNavigate, useParams } from "react-router-dom";
@@ -13,6 +12,7 @@ import EmptyState from "../ui/EmptyState.js";
 import { validate as isUuid } from "uuid";
 import { ChatError } from "../../types.js";
 import MessageList from "../MessageList.js";
+import BackLink from "../../../../components/UI/BackLink.js";
 
 export default function Conversation() {
   const { id } = useParams();
@@ -84,16 +84,6 @@ export default function Conversation() {
         </div>
 
         <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar-accent p-4">
-          {/* {chatMessages.map((msg) => (
-            <MessageItem
-              key={msg.id}
-              text={msg.content}
-              time={formatTime(msg.created_at)}
-              isMine={msg.sender_id === user_uid}
-              onDeleteClick={() => console.log("s")}
-            />
-          ))} */}
-
           {chatMessages.length > 0 && (
             <MessageList
               messages={chatMessages}
