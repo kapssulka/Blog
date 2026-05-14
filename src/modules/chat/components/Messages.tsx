@@ -30,7 +30,7 @@ export default function Messages() {
       flex flex-col
   "
     >
-      <Header />
+      <Header className={isChat ? "hidden lg:block" : ""} />
       <main
         className={`
         flex-1 min-h-0

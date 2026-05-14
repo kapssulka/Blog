@@ -4,9 +4,13 @@ import { ROUTES } from "../../constants/routes.js";
 import NavItem from "../../components/UI/NavItem.js";
 import Logo from "../../components/Logo.js";
 
-export default function Header() {
+interface HeaderProps {
+  className?: string;
+}
+
+export default function Header({ className }: HeaderProps) {
   return (
-    <header className="relative z-40 h-[100px]">
+    <header className={`relative z-40 h-[100px] ${className}`}>
       {/* Для PC */}
       <div className="bg-bg-secondary px-10 py-3 h-full">
         <div className="flex gap-7 rounded-b-2xl items-center w-full mx-auto h-full max-w-[1020px] justify-between">
