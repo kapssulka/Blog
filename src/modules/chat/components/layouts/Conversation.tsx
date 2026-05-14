@@ -2,7 +2,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import ChatHeader from "../ui/ChatHeader.js";
 import ChatInput from "../ui/ChatInput.js";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import {
   useAppDispatch,
   useAppSelector,
@@ -13,6 +13,7 @@ import { validate as isUuid } from "uuid";
 import { ChatError } from "../../types.js";
 import MessageList from "../MessageList.js";
 import BackLink from "../../../../components/UI/BackLink.js";
+import { isNearBottom } from "../../utils.js";
 
 export default function Conversation() {
   const { id } = useParams();
@@ -20,6 +21,10 @@ export default function Conversation() {
   const dispatch = useAppDispatch();
   const { messages, chats } = useAppSelector((state) => state.chat);
   const { user_uid } = useAppSelector((state) => state.user);
+
+  // Работа со скроллом
+  const messagesWrapperRef = useRef<HTMLDivElement | null>(null);
+  const isInitialLoadRef = useRef(true);
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -53,7 +58,25 @@ export default function Conversation() {
     };
 
     fetchMessages();
-  }, [id, user_uid]);
+  }, [id, user_uid, dispatch, navigate]);
+
+  useEffect(() => {
+    if (!messagesWrapperRef.current) return;
+
+    // первый заход в чат
+    if (isInitialLoadRef.current) {
+      messagesWrapperRef.current.scrollTop =
+        messagesWrapperRef.current.scrollHeight;
+      isInitialLoadRef.current = false;
+      return;
+    }
+
+    // последующие обновления
+    if (isNearBottom(messagesWrapperRef.current)) {
+      messagesWrapperRef.current.scrollTop =
+        messagesWrapperRef.current.scrollHeight;
+    }
+  }, [messages]);
 
   if (!id || !user_uid) return null;
 
@@ -83,7 +106,10 @@ export default function Conversation() {
           />
         </div>
 
-        <div className="flex-1 min-h-0 overflow-y-auto custom-scrollbar-accent p-4">
+        <div
+          ref={messagesWrapperRef}
+          className="flex-1 min-h-0 overflow-y-auto custom-scrollbar-accent p-4"
+        >
           {chatMessages.length > 0 && (
             <MessageList
               messages={chatMessages}

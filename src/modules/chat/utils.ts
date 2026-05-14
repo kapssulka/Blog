@@ -35,3 +35,9 @@ export const formatTime = (iso: string) => {
 
   return `${time} · ${fullDate}`;
 };
+
+// скролл
+
+export const isNearBottom = (el: HTMLElement) => {
+  return el.scrollHeight - el.scrollTop - el.clientHeight < 100;
+};
