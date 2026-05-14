@@ -26,7 +26,7 @@ export default function Messages() {
   return (
     <div
       className="
-      h-screen overflow-hidden 
+      h-dvh overflow-hidden 
       flex flex-col
   "
     >
